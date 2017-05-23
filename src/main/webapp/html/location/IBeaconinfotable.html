@@ -1,0 +1,141 @@
+<section class="content-header">
+	<h1>IBeacon管理</h1>
+	</section>
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+<!--               <h3 class="box-title">IBeacon信息</h3> -->
+              <p/>
+<!-- 	           	<form class="class="row form-inline""> -->
+<!-- 				  <div class="form-group col-sm-2 col-xs-6"> -->
+<!-- 				    <input type="text" ng-model="ibeacon.minor" class="form-control" placeholder="IBeacon序号"> -->
+<!-- 				  </div> -->
+<!-- 				  <div class="form-group col-sm-2 col-xs-6"> -->
+<!-- 				    <input type="text" ng-model="ibeacon.ele" class="form-control" placeholder="电量"> -->
+<!-- 				  </div> -->
+<!-- 				  <div class="form-group col-sm-4 col-xs-6"> -->
+<!--                   	<b>开始时间: <input type="date" ng-model="ibeacon.startTimeStr"></b> -->
+<!--                   </div> -->
+<!--                   <div class="form-group col-sm-4 col-xs-6"> -->
+<!--                   	<b>结束时间: <input type="date" ng-model="ibeacon.endTimeStr"></b> -->
+<!--                   </div> -->
+<!--                  <div class="input-group-btn" style="float: right;margin-right: 30px"> -->
+<!--                    <button ng-click="getIbeaconInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!--                  </div> -->
+				  
+                  
+<!-- 				 </form> -->
+
+					<form class="form-inline">
+	              		<div class="input-group input-group-sm">
+							<label class="sr-only">IBeacon序号</label>
+							<input type="text" class="form-control" ng-model="ibeacon.minor" placeholder="IBeacon序号">
+						</div>
+						<div class="input-group input-group-sm">
+							<label class="sr-only">电量</label>
+							<input type="text" class="form-control" ng-model="ibeacon.ele" placeholder="电量">
+						</div>
+						<div class="input-group input_group-sm">
+							<input style="height: 29px" ng-model="ibeacon.startTimeStr" id="startTimeStr" class="laydate-icon" placeholder=" 开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+							--
+							<input style="height:29px" ng-model="bind.endTimeStr" id="endTimeStr" class="laydate-icon" placeholder=" 结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						</div>
+<!-- 						<div class="input-group input-group-sm"> -->
+<!-- 							<label class="sr-only">开始时间</label> -->
+<!-- 							<input title="开始时间" type="date" class="form-control" ng-model="ibeacon.startTimeStr"> -->
+<!-- 						</div> -->
+<!-- 						<div class="input-group input-group-sm"> -->
+<!-- 							<label class="sr-only">结束时间</label> -->
+<!-- 							<input title="结束时间" type="date" class="form-control" ng-model="ibeacon.endTimeStr"> -->
+<!-- 						</div> -->
+						<div class="pull-right">
+							<button ng-click="getIbeaconInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+						</div>
+		                 
+	                 	
+		              	
+		              </form>
+<!--               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!--               <a ui-sref="addibeacon" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a> -->
+
+<!--               <div class="box-tools"> -->
+<!--                 <div class="input-group input-group-sm" style="width: 150px;"> -->
+<!--                   <input type="text" ng-model="ibeacon.minor" name="table_search" class="form-control pull-right" placeholder="IBeacon序号"> -->
+<!--                   <input type="text" class="form-control pull-right" placeholder="电量"> -->
+
+<!--                   <div class="input-group-btn"> -->
+<!--                     <button ng-click="getIbeaconInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--               </div> -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding" ng-controller="ibeaconCtrl">
+              <table class="table table-hover table1" style="text-align: center;">
+                <tr>
+                  <th style="border-top: 1px solid #794747"></th>
+<!--                   <th style="border-top: 1px solid #794747;text-align: center;">iBeacon序号</th> -->
+                  <th style="border-top: 1px solid #794747;text-align: center;">iBeacon编号</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">经度</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">纬度</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">电量</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">区域</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">最后使用时间</th>
+<!--                   <th></th> -->
+                </tr>
+                <tr ng-repeat="ibeacon in ibeacons">
+                	<td style="padding: 8px">{{(indexPage-1)*10+$index+1}}</td>
+<!--                 	<td><input ng-model="ibeacon.minor" readonly class="inactive input{{ibeacon.minor}}"></td> -->
+<!--                 	<td style="padding: 8px" ng-bind="ibeacon.minor"></td> -->
+<!--                 	<td>{{x.UUID}}</td> -->
+<!--                 	<td>{{x.Maior}}</td> -->
+<!--                 	<td><input style="width:250px" ng-model="ibeacon.uuid" readonly class="inactive input{{ibeacon.minor}}"></td> -->
+                	<td style="padding: 8px" ng-bind="ibeacon.uuid"></td>
+<!--                 	<td>{{x.Minor}}</td> -->
+<!--                 	<td><input ng-model="ibeacon.log" readonly class="inactive input{{ibeacon.minor}}"></td> -->
+                	<td style="padding: 8px" ng-bind="ibeacon.log"></td>
+<!--                 	<td>{{x.RSSI}}</td> -->
+<!--                 	<td><input ng-model="ibeacon.lat" readonly class="inactive input{{ibeacon.minor}}"></td> -->
+                	<td style="padding: 8px" ng-bind="ibeacon.lat"></td>
+                	<td style="padding: 8px" ng-bind="ibeacon.ele"></td>
+                	<td style="padding: 8px" ng-bind="ibeacon.area"></td>
+                	<td style="padding: 8px" ng-bind="ibeacon.lastUseTimeStr"></td>
+<!--                 	<td>{{x.POWER}}</td> -->
+<!--                 	<td> -->
+<!--                 		<ibeedit class="btn btn-primary" ng-model="ibeacon" ng-show="!isShow"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">编辑</span> -->
+<!-- 				        </ibeedit> -->
+<!-- 				        <ibeupdate class="btn btn-success" ng-show="isShow" ng-model="ibeacon"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">保存</span> -->
+<!-- 				        </ibeupdate> -->
+<!-- 				        <ibecancel class="btn btn-warning" ng-show="isShow" ng-model="ibeacon"> -->
+<!-- 				        	<span class="glyphicon glyphicon-remove">取消</span> -->
+<!-- 				        </ibecancel> -->
+<!-- 				        <ibedelete class="btn btn-danger" ng-model="ibeacon" ng-show="!isShow"> -->
+<!-- 				        	<span class="glyphicon glyphicon-trash">删除</span> -->
+<!-- 				        </ibedelete> -->
+<!--                 	</td> -->
+                </tr>
+                </table>
+            </div>
+            
+            <div class="box-tools pull-left" style="font-family:'黑体'">
+            	<span class="pagination pagination-sm inline">总数:{{count}}</span>
+            	
+            </div>
+<!--             <div class="box-tools pull-right"> -->
+<!--             	<ul class="pagination pagination-sm inline"><li><a ng-click="getIbeaconInfoOfPage(1)">&laquo;</a></li></ul> -->
+<!--                 <ul class="pagination pagination-sm inline" ng-repeat="page in pages"> -->
+<!-- 					<li><a ng-click="getIbeaconInfoOfPage($index+1)">{{$index+1}}</a></li> -->
+<!--                 </ul> -->
+<!--                 <ul class="pagination pagination-sm inline"><li><a ng-click="getIbeaconInfoOfPage(lastPage)">&raquo;</a></li></ul> -->
+<!--               </div> -->
+			<div class="box-tools pull-right">
+				<div id="Pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

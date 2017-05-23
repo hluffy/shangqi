@@ -1,0 +1,128 @@
+<section class="content-header">
+	<h1>添加用户</h1>
+</section>
+<section class="content">
+	<div>
+		<form name="userform" action="" style="text-align: right;padding-top: 70px">
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">用户名:</label>
+			  <div class="col-sm-7">
+			  	<input name="usernmae" style="width: 50%" required ng-model="user.userName" type="text" class="form-control">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">密码:</label>
+			  <div class="col-sm-7">
+			  	<input required ng-model="user.password" style="width:50%" type="password" class="form-control" id="inputWarning1">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left:250px">确认密码:</label>
+				<div class="col-sm-7">
+					<input required ng-model="user.confirmpassword" style="width:50%" type="password" class="form-control">
+				</div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left:250px">电话号码:</label>
+			  <div class="col-sm-7">
+			  	<input type="number" name="number" ng-model="user.phoneNum" style="width:50%" class="form-control" id="inputError1">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left: 250px">电子邮箱:</label>
+				<div class="col-sm-7">
+					<input ng-model="user.email" style="width: 50%" type="email" name="email" class="form-control">
+				</div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left:250px">用户角色:</label>
+				<div class="col-sm-2" style="margin-left: -50px">
+					<label class="checkbox-inline">
+						<input ng-checked="true" type="radio" name="user.role" ng-model="user.role" value="op"> 普通用户
+					</label>
+				</div>
+				<div class="col-sm-2" style="margin-left: -50px">
+					<label class="checkbox-inline">
+						<input  type="radio" name="user.role"  ng-model="user.role" value="admin"> 管理员
+					</label>
+				</div>
+				
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left:250px"></label>
+				<div class="col-sm-1">
+					<label class="checkbox-inline">
+						<button ng-click="addUser(userform.$valid)" style="width:200%" type="button" class="btn btn-success">添加</button>
+					</label>
+				</div>
+				<div class="col-sm-1">
+					<label class="checkbox-inline">
+						<a ui-sref="userinfo"><button style="width:200%" type="button" class="btn btn-danger">取消</button></a>
+					</label>
+				</div>
+				
+			</div>
+			
+	<!-- 		<div class="has-success"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxSuccess" value="option1"> -->
+	<!-- 		      <span>Checkbox with success</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="has-warning"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxWarning" value="option1"> -->
+	<!-- 		      <span>Checkbox with warning</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="has-error"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxError" value="option1"> -->
+	<!-- 		      <span>Checkbox with error</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+			
+	<!-- 		<div class="form-group has-success has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputSuccess2">Input with success</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputSuccess2" aria-describedby="inputSuccess2Status"> -->
+	<!-- 		  <i class="ion-checkmark-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputSuccess2Status" class="sr-only">(success)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-warning has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputWarning2">Input with warning</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputWarning2" aria-describedby="inputWarning2Status"> -->
+	<!-- 		  <i class="ion-alert-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputWarning2Status" class="sr-only">(warning)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-error has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputError2">Input with error</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputError2" aria-describedby="inputError2Status"> -->
+	<!-- 		  <i class="ion-android-cancel form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputError2Status" class="sr-only">(error)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-success has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputGroupSuccess1">Input group with success</label> -->
+	<!-- 		  <div class="input-group"> -->
+	<!-- 		    <span class="input-group-addon addon-left">@</span> -->
+	<!-- 		    <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status"> -->
+	<!-- 		  </div> -->
+	<!-- 		  <i class="ion-checkmark-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputGroupSuccess1Status" class="sr-only">(success)</span> -->
+	<!-- 		</div> -->
+		</form>
+	</div>
+	
+	
+</section>

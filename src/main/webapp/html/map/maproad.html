@@ -1,0 +1,49 @@
+<div ng-controller="maproadCtr">
+<!-- 	<section class="content-header"> -->
+<!-- 	<h1>map</h1> -->
+<!-- 	</section> -->
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header" style="background-color: #ccc">
+<!--               <h3 class="box-title">路径查找</h3> -->
+
+<!--               <div class="box-tools"> -->
+<!--                 <form class="form-inline"> -->
+<!--                 	<div class="input-group input-group-sm"> -->
+<!--                 		起点:&nbsp;&nbsp;<input ng-model="map.framenum" type="text" placeholder="输入车架号"> -->
+<!--                   &nbsp;&nbsp;--&nbsp;&nbsp;终点:&nbsp;&nbsp;<input type="text" value="xxx" readonly="readonly"> -->
+<!--                 	</div> -->
+                	
+<!-- 					<div class="pull-right"> -->
+<!-- 	                    <button ng-click="getRoadInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!-- 	                 </div> -->
+<!--                 </form> -->
+                 	 
+                
+<!--               </div> -->
+					<form class="form-inline">
+						<div class="input-group input-group-sm">
+							<input class="form-control" ng-model="map.framenum" placeholder=" 起点">
+						</div>
+						<div class="input-group input-group-sm">
+							<input class="form-control" placeholder=" 终点" readonly="readonly">
+						</div>
+						<div class="pull-right">
+							<button ng-click="getRoadInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+						</div>
+		                 
+	                 	
+		              	
+		              </form>
+            </div>
+            <!-- /.box-header -->
+<!--             <div id="leafletMap" class="box-body table-responsive no-padding" ng-controller="mapCtrl"> -->
+				<div id="leafletMap" style="width:100%;height:550px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>

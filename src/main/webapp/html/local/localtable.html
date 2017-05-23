@@ -1,0 +1,94 @@
+<section class="content-header">
+	<h1>车载定位器设置</h1>
+	</section>
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+<!--               <h3 class="box-title">车载定位器信息</h3> -->
+<!--               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+              <a ui-sref="addlocal" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a>
+
+              <div class="box-tools" style="padding-top: 8px">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" ng-model="local.number" name="table_search" class="form-control pull-right" placeholder="编号">
+
+                  <div class="input-group-btn">
+                    <button ng-click="getLocalInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding" ng-controller="localCtrl">
+              <table class="table table-hover" style="text-align: center;">
+                <tr>
+                  <th style="border-top: 1px solid #794747;text-align: center;"></th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">编号</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">静止时上报时间间隔</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">运行时上报时间间隔</th>
+<!--                   <th>注册服务器端口</th> -->
+<!--                   <th>登录服务器地址</th> -->
+<!--                   <th>终端号</th> -->
+                  <th style="border-top: 1px solid #794747;text-align: center;">时间</th>
+                  <th style="border-top: 1px solid #794747"></th>
+                  <th style="border-top: 1px solid #794747"></th>
+                </tr>
+                <tr ng-repeat="local in locals">
+                	<input ng-model="local.numberDef" hidden="true" class="input{{local.numberDef}}">
+                	<td style="padding: 4px">{{(indexPage-1)*10+$index+1}}</td>
+                	<td style="padding: 4px;width: 200px"><input style="width:100%;text-align: center;" ng-model="local.number" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td>{{x.UUID}}</td> -->
+<!--                 	<td>{{x.Maior}}</td> -->
+<!--                 	<td>{{x.Minor}}</td> -->
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td>{{x.RSSI}}</td> -->
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td>{{x.POWER}}</td> -->
+<!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
+<!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
+<!-- 					<td><input style="width:50px" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td> -->
+<!-- 					<td><input style="width:150px" ng-model="local.timeStr" readonly class="inactive input{{local.number}}"></td> -->
+					<td style="width:150px;padding: 4px" ng-bind="local.timeStr"></td>
+                	<td style="padding: 4px">
+                		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow">
+				        	<span class="glyphicon glyphicon-pencil">编辑</span>
+				        </localedit>
+				        <localupdate class="btn btn-success" ng-show="isShow" ng-model="local">
+				        	<span class="glyphicon glyphicon-pencil">保存</span>
+				        </localupdate>
+				        <localcancel class="btn btn-warning" ng-show="isShow" ng-model="local">
+				        	<span class="glyphicon glyphicon-remove">取消</span>
+				        </localcancel>
+				        <localdelete class="btn btn-danger" ng-model="local" ng-show="!isShow">
+				        	<span class="glyphicon glyphicon-trash">删除</span>
+				        </localdelete>
+                	</td>
+                	<td style="padding: 4px">
+                		<localrestart class="btn btn-primary" ng-model="local">
+                			<span class="glyphicon glyphicon-refresh">重启</span>
+                		</localrestart>
+                	</td>
+                </tr>
+                </table>
+            </div>
+            
+            <div class="box-tools pull-left" style="font-family:'黑体'">
+            	<span class="pagination pagination-sm inline">总数:{{count}}</span>
+            	
+            </div>
+<!--             <div class="box-tools pull-right"> -->
+<!--             	<ul class="pagination pagination-sm inline"><li><a ng-click="getLocalInfoOfPage(1)">&laquo;</a></li></ul> -->
+<!--                 <ul class="pagination pagination-sm inline" ng-repeat="page in pages"> -->
+<!-- 					<li><a ng-click="getLocalInfoOfPage($index+1)">{{$index+1}}</a></li> -->
+<!--                 </ul> -->
+<!--                 <ul class="pagination pagination-sm inline"><li><a ng-click="getLocalInfoOfPage(lastPage)">&raquo;</a></li></ul> -->
+<!--               </div> -->
+            <div class="box-tools pull-right">
+				<div id="Pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

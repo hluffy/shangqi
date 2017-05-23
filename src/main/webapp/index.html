@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="parentCtrl">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>车辆定位系统</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="css/AdminLTE.min.css">
+  <link rel="stylesheet" href="css/_all-skins.min.css">
+  <link rel="stylesheet" href="css/blue.css">
+  <link rel="stylesheet" href="css/morris.css">
+  <link rel="stylesheet" href="css/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="css/datepicker3.css">
+  <link rel="stylesheet" href="css/daterangepicker.css">
+  <link rel="stylesheet" href="css/bootstrap3-wysihtml5.min.css">
+  
+  <link rel="stylesheet" href="css/leaflet.css">
+  <link rel="stylesheet" href="css/leaflet-routing-machine.css">
+  <link rel="stylesheet" href="css/daterangpicker.css">
+  <link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" href="css/pagination.css">
+  
+  <script src="js/js/angular-1.5.8.js"></script>
+<!--   <script src="js/angular.min.js"></script> -->
+  <script src="js/angular-ui-router.min.js"></script>
+  <script src="js/js/angular-ui-bootstrap.js"></script>
+  
+  
+<!--   <script src="http://code.angularjs.org/1.2.9/angular-cookies.min.js"></script> -->
+  
+  
+  <style>
+  	body{
+  		background-color: #222d32;
+  	}
+  	
+  	.active{
+/*   		border: 1px solid #5D5DE0; */
+/*    		background-color: #f4f4f4; */
+		background-color: #fff;
+  	}
+  	.inactive{
+  		border: 0px solid #fff;
+  		background-color: #fff;
+  	}
+  	
+/*   	table tr th { */
+/* 	  border-top: 1px solid #794747; */
+/* 	} */
+	table, th , td  {
+	  border: 1px solid grey;
+	  border-collapse: collapse;
+	  padding: 5px;
+	}
+	.table1 tr:nth-child(odd)	{
+	  background-color: #f1f1f1;
+	}
+	.table1 tr:nth-child(even) {
+	  background-color: #ffffff;
+	}
+	
+	input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    input[type="number"]{
+        -moz-appearance: textfield;
+    }
+    .red{
+    	color:red
+    }
+    .green{
+    	color:green
+    }
+    .pagination{
+    	display:inline
+    }
+  </style>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<div ng-controller="headerCtrl">
+	<header class="main-header" ng-include="'html/header.html'">
+  </header>
+</div>
+  
+  <div ng-controller="asideCtrl">
+  	<aside class="main-sidebar" ng-include="'html/aside.html'">
+    
+  	</aside>
+  </div>
+  
+
+<!--   <div class="content-wrapper" ng-include="'html/user/usertable.html'"> -->
+<!--   </div> -->
+<!--   <div class="content-wrapper" ng-include="'html/location/IBeacontable.html'"> -->
+<!--   </div> -->
+<!--   <div class="content-wrapper" ng-include="'html/location/GPStable.html'"> -->
+<!--   </div> -->
+  
+<!--   <div id="countId" style="position: relative;height: {{countId}}" class="content-wrapper" ui-view=""></div> -->
+  
+  <div id="countId" style="height: {{countId}}"  class="content-wrapper" ui-view=""></div>
+  
+  
+<!--   <div my-directive="USER" my-directive-level="none"></div> -->
+<!--   <footer class="main-footer"> -->
+<!--     <div class="pull-right hidden-xs"> -->
+<!--       <b>Version</b> 2.3.7 -->
+<!--     </div> -->
+<!--     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights -->
+<!--     reserved. -->
+<!--   </footer> -->
+
+  
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/jquery.pagination.js"></script>
+
+<script src="js/members.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> -->
+<!-- <script> -->
+<!--    $.widget.bridge('uibutton', $.ui.button);  -->
+<!-- </script> -->
+<script src="js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="js/morris.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="js/jquery.knob.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="js/jquery.slimscroll.min.js"></script>
+<script src="js/fastclick.js"></script>
+<script src="js/app.min.js"></script>
+<!-- <script src="js/dashboard.js"></script> -->
+<script src="js/demo.js"></script>
+<script src="js/cookie.js"></script>
+<script src="js/index.js"></script>
+
+<!-- <script src="js/jquery.easyui.min.js"></script> -->
+<!-- <script src="js/easyui-lang-zh_CN.js"></script> -->
+
+<script src="js/leaflet.js"></script>
+<script src="js/leaflet-routing-machine.js"></script>
+<script src="js/lrm-graphhopper-1.1.2.js"></script>
+
+<script src="js/echarts.min.js"></script>
+<!-- <script src="js/bootstrap-datetimepicker.min.js"></script> -->
+
+
+<script src="https://cdn.bootcss.com/angular-ui-bootstrap/0.7.0/ui-bootstrap-tpls.min.js"></script>
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datepicker.fr.js"></script>
+<script src="laydate-v1.1/laydate/laydate.js"></script>
+
+<script src="index.js"></script>
+<script src="controller/barchartCtrl.js"></script>
+<script src="controller/carCtrl.js"></script>
+<script src="controller/gpsCtrl.js"></script>
+<script src="controller/ibeaconCtrl.js"></script>
+<script src="controller/mapCtrl.js"></script>
+<script src="controller/peichartCtrl.js"></script>
+<script src="controller/userCtrl.js"></script>
+<script src="service/userService.js"></script>
+<script src="service/carService.js"></script>
+<script src="controller/positionCtrl.js"></script>
+<script src="service/positionService.js"></script>
+<script src="service/ibeaconService.js"></script>
+<script src="controller/asideCtrl.js"></script>
+<script src="controller/parentCtrl.js"></script>
+<script src="service/mapServ.js"></script>
+<script src="controller/maproadCtrl.js"></script>
+<script src="controller/dashboardCtrl.js"></script>
+<script src="controller/bindCtrl.js"></script>
+<script src="service/bindService.js"></script>
+<script src="controller/loraCtrl.js"></script>
+<script src="service/loraService.js"></script>
+<script src="controller/localCtrl.js"></script>
+<script src="service/localService.js"></script>
+<script src="controller/mapAreaCtrl.js"></script>
+<script src="controller/areaCtrl.js"></script>
+<script src="controller/headerCtrl.js"></script>
+<script src="controller/equipPieCtrl.js"></script>
+<script src="controller/lowEquipPieCtrl.js"></script>
+<script>
+	
+// 	$('#datetimepicker').datetimepicker({  
+//         format: 'MM/dd/yyyy hh:mm',  
+//         language: 'en',  
+//         pickDate: true,  
+//         pickTime: true,  
+//         hourStep: 1,  
+//         minuteStep: 15,  
+//         secondStep: 30,  
+//         inputMask: true  
+//       });  
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<section class="content-header">
+	<h1>添加Lora网关</h1>
+</section>
+<section class="content" style="height: 100%">
+	<div>
+		<form action="" style="text-align: right;padding-top: 70px">
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">编号:</label>
+			  <div class="col-sm-7">
+			  	<input required="required" ng-model="lora.number" style="width:50%" type="text" class="form-control" id="inputSuccess1">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">IP地址:</label>
+			  <div class="col-sm-7">
+			  	<input ng-model="lora.ip" style="width:50%" type="text" class="form-control" id="inputWarning1">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">注册服务器地址:</label>
+			  <div class="col-sm-7">
+			  	<input ng-model="lora.registAddr" style="width:50%" type="text" class="form-control" id="inputError1">
+			  </div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left: 250px">注册服务器端口:</label>
+				<div class="col-sm-7">
+					<input ng-model="lora.registPort" style="width:50%" type="text" class="form-control">
+				</div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left: 250px">登录服务器地址:</label>
+				<div class="col-sm-7">
+					<input ng-model="lora.loginAddr" style="width:50%" type="text" class="form-control">
+				</div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left: 250px">终端号:</label>
+				<div class="col-sm-7">
+					<input ng-model="lora.terNum" style="width:50%" type="text" class="form-control">
+				</div>
+			</div>
+			<br/><br/>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" style="margin-left:280px"></label>
+				<div class="col-sm-1">
+					<label class="checkbox-inline">
+						<button ng-click="addLora()" style="width:200%" type="button" class="btn btn-success">添加</button>
+					</label>
+				</div>
+				<div class="col-sm-1">
+					<label class="checkbox-inline">
+						<a ui-sref="lora"><button style="width:200%" type="button" class="btn btn-danger">取消</button></a>
+					</label>
+				</div>
+			</div>
+<!-- 			<div> -->
+<!-- 				<button ng-click="addLora()" style="width:30%" type="button" class="btn btn-success">添加</button> -->
+<!-- 			</div> -->
+			
+	<!-- 		<div class="has-success"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxSuccess" value="option1"> -->
+	<!-- 		      <span>Checkbox with success</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="has-warning"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxWarning" value="option1"> -->
+	<!-- 		      <span>Checkbox with warning</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="has-error"> -->
+	<!-- 		  <div class="checkbox"> -->
+	<!-- 		    <label class="custom-checkbox"> -->
+	<!-- 		      <input type="checkbox" id="checkboxError" value="option1"> -->
+	<!-- 		      <span>Checkbox with error</span> -->
+	<!-- 		    </label> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+			
+	<!-- 		<div class="form-group has-success has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputSuccess2">Input with success</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputSuccess2" aria-describedby="inputSuccess2Status"> -->
+	<!-- 		  <i class="ion-checkmark-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputSuccess2Status" class="sr-only">(success)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-warning has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputWarning2">Input with warning</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputWarning2" aria-describedby="inputWarning2Status"> -->
+	<!-- 		  <i class="ion-alert-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputWarning2Status" class="sr-only">(warning)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-error has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputError2">Input with error</label> -->
+	<!-- 		  <input type="text" class="form-control" id="inputError2" aria-describedby="inputError2Status"> -->
+	<!-- 		  <i class="ion-android-cancel form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputError2Status" class="sr-only">(error)</span> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="form-group has-success has-feedback"> -->
+	<!-- 		  <label class="control-label" for="inputGroupSuccess1">Input group with success</label> -->
+	<!-- 		  <div class="input-group"> -->
+	<!-- 		    <span class="input-group-addon addon-left">@</span> -->
+	<!-- 		    <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status"> -->
+	<!-- 		  </div> -->
+	<!-- 		  <i class="ion-checkmark-circled form-control-feedback" aria-hidden="true"></i> -->
+	<!-- 		  <span id="inputGroupSuccess1Status" class="sr-only">(success)</span> -->
+	<!-- 		</div> -->
+		</form>
+	</div>
+	
+	
+</section>

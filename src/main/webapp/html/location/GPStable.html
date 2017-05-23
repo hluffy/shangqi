@@ -1,0 +1,74 @@
+<section class="content-header">
+	<h1>GPS管理</h1>
+	</section>
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">GPS信息信息</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding" ng-controller="gpsCtrl">
+              <table class="table table-hover">
+                <tr>
+<!--                   <th>序号</th> -->
+				  <th></th>
+				  <th>gpsID</th>
+                  <th>是否定位</th>
+                  <th>时间</th>
+                  <th>经度</th>
+                  <th>纬度</th>
+                  <th>海拔</th>
+                  <th>方向</th>
+                  <th>速度</th>
+                  <th></th>
+                </tr>
+                <tr ng-repeat="gps in GPSS">
+                	<td>{{$index+1}}</td>
+                	<td><input style="width:100%" ng-model="gps.gpsID" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.isLocation}}</td> -->
+                	<td><input style="width:60px" ng-model="gps.isLocation" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.time}}</td> -->
+                	<td><input style="width:120px" ng-model="gps.time" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.lon}}</td> -->
+                	<td><input style="width:100px" ng-model="gps.lon" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.lat}}</td> -->
+                	<td><input style="width:100%" ng-model="gps.lat" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.height}}</td> -->
+                	<td><input style="width:50px" ng-model="gps.height" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.orien}}</td> -->
+                	<td><input style="width:100px" ng-model="gps.orien" readonly class="inactive input{{gps.gpsID}}"></td>
+<!--                 	<td>{{gps.speed}}</td> -->
+                	<td><input style="width:50px" ng-model="gps.speed" readonly class="inactive input{{gps.gpsID}}"></td>
+                	<td>
+                		<edit class="btn btn-primary" ng-model="gps" ng-show="!isShow">
+				        	<span class="glyphicon glyphicon-pencil">编辑</span>
+				        </edit>
+				        <update class="btn btn-success" ng-show="isShow" ng-model="gps">
+				        	<span class="glyphicon glyphicon-pencil">保存</span>
+				        </update>
+				        <cancel class="btn btn-warning" ng-show="isShow" ng-model="gps">
+				        	<span>取消</span>
+				        </cancel>
+				        <delete class="btn btn-danger" ng-model="gps" ng-show="!isShow">
+				        	<span>删除</span>
+				        </delete>
+                	</td>
+                </tr>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

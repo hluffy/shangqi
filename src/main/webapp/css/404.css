@@ -1,0 +1,59 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\000033}}
+html {
+  position: relative;
+  min-width: 320px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\000038}}
+html, body {
+  min-height: 100%;
+  height: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000313}}
+body {
+  font: 12px/16px "Roboto", sans-serif;
+  color: #666666;
+  display: flex;
+  align-items: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/theme\/conf\/_mixins\.scss}line{font-family:\0000355}}
+  body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url("../img/blur-bg.jpg") no-repeat center center;
+    background-size: cover;
+    will-change: transform;
+    z-index: -1; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000321}}
+.page-not-found-modal {
+  width: 638px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  font-weight: 300;
+  color: #ffffff;
+  padding: 32px;
+  text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000331}}
+  .page-not-found-modal h1 {
+    font-weight: 300;
+    margin-bottom: 32px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000335}}
+  .page-not-found-modal p {
+    font-size: 16px;
+    line-height: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000339}}
+  .page-not-found-modal a {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.2s ease;
+    color: #209e91;
+    display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/carol\/Desktop\/blur-admin-1\.3\.1\/src\/sass\/404\.scss}line{font-family:\0000345}}
+    .page-not-found-modal a:hover {
+      color: #1b867b; }
+
+/*# sourceMappingURL=404.css.map */

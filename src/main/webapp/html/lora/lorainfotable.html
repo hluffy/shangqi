@@ -1,0 +1,92 @@
+<section class="content-header">
+	<h1>LoRa网关信息查询</h1>
+	</section>
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Lora编号</h3>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--               <a ui-sref="addlora" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a> -->
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" ng-model="lora.number" name="table_search" class="form-control pull-right" placeholder="编号">
+
+                  <div class="input-group-btn">
+                    <button ng-click="getLoraInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding" ng-controller="loraCtrl">
+              <table class="table table-hover table1" style="text-align: center;">
+                <tr>
+                  <th style="border-top: 1px solid #794747;text-align: center;"></th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">Lora编号</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">IP地址</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">注册服务器地址</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">注册服务器端口</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">登录服务器地址</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">终端号</th>
+<!--                   <th>时间</th> -->
+<!--                   <th></th> -->
+                </tr>
+                <tr ng-repeat="lora in loras">
+                	<td style="padding: 8px">{{(indexPage-1)*10+$index+1}}</td>
+<!--                 	<td><input style="width:50px" ng-model="lora.number" readonly class="inactive input{{lora.number}}"></td> -->
+                	<td style="padding: 8px" ng-bind="lora.number"></td>
+<!--                 	<td>{{x.UUID}}</td> -->
+<!--                 	<td>{{x.Maior}}</td> -->
+<!--                 	<td>{{x.Minor}}</td> -->
+<!--                 	<td><input style="width:100px" ng-model="lora.ip" readonly class="inactive input{{lora.number}}"></td> -->
+                	<td style="padding: 8px" ng-bind="lora.ip"></td>
+<!--                 	<td>{{x.RSSI}}</td> -->
+<!--                 	<td><input style="width:100px" ng-model="lora.registAddr" readonly class="inactive input{{lora.number}}"></td> -->
+                	<td style="padding: 8px" ng-bind="lora.registAddr"></td>
+<!--                 	<td>{{x.POWER}}</td> -->
+<!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
+					<td style="padding: 8px" ng-bind="lora.registPort"></td>
+<!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
+					<td style="padding: 8px" ng-bind="lora.loginAddr"></td>
+<!-- 					<td><input style="width:50px" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td> -->
+					<td style="padding: 8px" ng-bind="lora.terNum"></td>
+<!-- 					<td><input style="width:150px" ng-model="lora.timeStr" readonly class="inactive input{{lora.number}}"></td> -->
+<!--                 	<td> -->
+<!--                 		<loraedit class="btn btn-primary" ng-model="lora" ng-show="!isShow"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">编辑</span> -->
+<!-- 				        </loraedit> -->
+<!-- 				        <loraupdate class="btn btn-success" ng-show="isShow" ng-model="lora"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">保存</span> -->
+<!-- 				        </loraupdate> -->
+<!-- 				        <loracancel class="btn btn-warning" ng-show="isShow" ng-model="lora"> -->
+<!-- 				        	<span class="glyphicon glyphicon-remove">取消</span> -->
+<!-- 				        </loracancel> -->
+<!-- 				        <loradelete class="btn btn-danger" ng-model="lora" ng-show="!isShow"> -->
+<!-- 				        	<span class="glyphicon glyphicon-trash">删除</span> -->
+<!-- 				        </loradelete> -->
+<!--                 	</td> -->
+                </tr>
+                </table>
+            </div>
+            
+            <div class="box-tools pull-left" style="font-family:'黑体'">
+            	<span class="pagination pagination-sm inline">总数:{{count}}</span>
+            	
+            </div>
+<!--             <div class="box-tools pull-right"> -->
+<!--             	<ul class="pagination pagination-sm inline"><li><a ng-click="getLoraInfoOfPage(1)">&laquo;</a></li></ul> -->
+<!--                 <ul class="pagination pagination-sm inline" ng-repeat="page in pages"> -->
+<!-- 					<li><a ng-click="getLoraInfoOfPage($index+1)">{{$index+1}}</a></li> -->
+<!--                 </ul> -->
+<!--                 <ul class="pagination pagination-sm inline"><li><a ng-click="getLoraInfoOfPage(lastPage)">&raquo;</a></li></ul> -->
+<!--               </div> -->
+			<div class="box-tools pull-right">
+				<div id="Pagination"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
