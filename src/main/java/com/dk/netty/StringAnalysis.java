@@ -41,10 +41,15 @@ public class StringAnalysis {
 			dataString.setJishu(count);
 			returnString.append(count);
 			StringBuffer sn = new StringBuffer();
+			StringBuffer snStr = new StringBuffer();
 			for(int i = 3;i<14;i++){
 				sn.append(strs[i]);
+				char a = (char) Integer.parseInt(strs[i], 16);
+				snStr.append(String.valueOf(a));
 			}
 			dataString.setSn(sn.toString());
+			localInfo.setSv(sn.toString());
+			localInfo.setSvStr(snStr.toString());
 			returnString.append(sn);
 			String instructions = strs[14];
 			System.out.println(instructions);

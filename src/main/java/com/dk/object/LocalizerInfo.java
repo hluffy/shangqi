@@ -18,6 +18,8 @@ public class LocalizerInfo implements Serializable{
 	private String area;
 	private Integer ele;
 	private int sumCount;
+	private String sv;
+	private String svStr;
 	
 	private String timeStr;
 	private Integer page;
@@ -93,6 +95,18 @@ public class LocalizerInfo implements Serializable{
 	}
 	public void setNumberDef(String numberDef) {
 		this.numberDef = numberDef;
+	}
+	public String getSv() {
+		return sv;
+	}
+	public void setSv(String sv) {
+		this.sv = sv;
+	}
+	public String getSvStr() {
+		return svStr;
+	}
+	public void setSvStr(String svStr) {
+		this.svStr = svStr;
 	}
 	
 

@@ -55,6 +55,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 					info.setTimeStr(sdf.format((Date)time));
 				}
 				info.setNumberDef(rs.getString("number_def"));
+				info.setSv(rs.getString("sv"));
+				info.setSvStr(rs.getString("sv_str"));
 				
 				infos.add(info);
 			}
@@ -319,6 +321,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 					lInfo.setTimeStr(sdf.format((Date)time));
 				}
 				lInfo.setNumberDef(rs.getString("number_def"));
+				lInfo.setSv(rs.getString("sv"));
+				lInfo.setSvStr(rs.getString("sv_str"));
 				
 				infos.add(lInfo);
 			}

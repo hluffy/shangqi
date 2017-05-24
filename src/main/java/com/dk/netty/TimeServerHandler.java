@@ -13,28 +13,28 @@ import java.util.Map;
 import com.dk.util.Date;
 
 public class TimeServerHandler extends ChannelInboundHandlerAdapter {
-	public void channelActive(ChannelHandlerContext ctx){
-		String uuid = ctx.channel().id().asLongText();
-        ChannelServer.addGatewayChannel(uuid, (SocketChannel)ctx.channel());
-        System.out.println("a new connect come in: " + uuid);
-        Map<String,SocketChannel> map = ChannelServer.getChannels();
-        for(String key:map.keySet()){
-        	System.out.println(key+":"+map.get(key));
-        }
-        StringBuffer setDate = new StringBuffer();
-        setDate.append("7B");
-        setDate.append("0004");
-        setDate.append("414c545f4c6f5261303031");
-        setDate.append("89");
-        setDate.append("0008");
-        setDate.append("04");
-        setDate.append("06");
-        setDate.append(Date.getDate());
-        setDate.append("7d");
-        System.out.println("发送："+setDate.toString());
-        ByteBuf resp = Unpooled.copiedBuffer(stringToByte(setDate.toString()));
-        ctx.writeAndFlush(resp);
-	}
+//	public void channelActive(ChannelHandlerContext ctx){
+//		String uuid = ctx.channel().id().asLongText();
+//        ChannelServer.addGatewayChannel(uuid, (SocketChannel)ctx.channel());
+//        System.out.println("a new connect come in: " + uuid);
+//        Map<String,SocketChannel> map = ChannelServer.getChannels();
+//        for(String key:map.keySet()){
+//        	System.out.println(key+":"+map.get(key));
+//        }
+//        StringBuffer setDate = new StringBuffer();
+//        setDate.append("7B");
+//        setDate.append("0004");
+//        setDate.append("414c545f4c6f5261303031");
+//        setDate.append("89");
+//        setDate.append("0008");
+//        setDate.append("04");
+//        setDate.append("06");
+//        setDate.append(Date.getDate());
+//        setDate.append("7d");
+//        System.out.println("发送："+setDate.toString());
+//        ByteBuf resp = Unpooled.copiedBuffer(stringToByte(setDate.toString()));
+//        ctx.writeAndFlush(resp);
+//	}
 	
 	public void channelInactive(ChannelHandlerContext ctx){
 		System.out.println("channel inactive");

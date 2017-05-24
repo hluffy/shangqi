@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Test {
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args){
 //		UserService userService = new UserServiceImpl();
 //		Result result = userService.getUserInfos();
 //		System.out.println(result);
@@ -17,10 +17,12 @@ public class Test {
 //		Date date = new Date();
 //		System.out.println(date<(sdf.parse(str)));
 		
-		StringBuffer str = new StringBuffer();
-		str.setLength(0);
-		System.out.println(str.toString().toUpperCase());
-		System.out.println(str.toString().isEmpty());
+//		StringBuffer str = new StringBuffer();
+//		str.setLength(0);
+//		System.out.println(str.toString().toUpperCase());
+//		System.out.println(str.toString().isEmpty());
+		System.out.println(111);
+		System.out.println((char)30);
 	}
 
 }

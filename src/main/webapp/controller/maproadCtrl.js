@@ -32,17 +32,22 @@ app.controller("maproadCtr",function($scope,mapServ){
 		aerial.addTo(map);
 		mapServ.getPositionInfoAsFrameNum($scope.map).then(function(data){
 			if(data.data!=null){
-				var marker = L.marker([data.data.log,data.data.lat]);
-				map.addLayer(marker);
-				marker.bindPopup("终点").openPopup();
 				L.Routing.control({
 					router: L.Routing.graphHopper(undefined /* no api key */, {
 				        serviceUrl: 'http://www.1000van.com:8989/route'}),
 					waypoints:[
 						L.latLng(30.8863413,121.8266332),
+//						L.latLng(30.8861684,121.827178),
 						L.latLng(data.data.log,data.data.lat)
 					           ]
 				}).addTo(map);
+				var marker = L.marker([data.data.log,data.data.lat]);
+				map.addLayer(marker);
+				marker.bindPopup("终点").openPopup();
+				marker = L.marker([30.8863413,121.8266332]);
+				map.addLayer(marker);
+				marker.bindPopup("起点");
+				map.setView([data.data.log,data.data.lat],18);
 			}else{
 				alert("该车架号没有位置信息,请确认 是否绑定定位器");
 			}
