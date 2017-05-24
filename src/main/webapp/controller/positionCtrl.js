@@ -1,5 +1,5 @@
 app.controller("positionCtrl",function($rootScope,$scope,positionSer,$log,$timeout){
-	$rootScope.countId="600px";
+	$rootScope.countId="599px";
 //	$rootScope.countId = "100%";
 	$scope.position = {};
 	$rootScope.indexPage = 1;
