@@ -7,6 +7,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.SocketChannel;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -156,7 +157,31 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
+    	//出现异常返回定位失败
         System.out.println("server exceptionCaught..");
+        Map<String, ChannelHandlerContext> maps = ChannelServer.getChannels();
+        Set<String> keys = maps.keySet();
+        String sn = null;
+        for (String key : keys) {
+			if(ctx.equals(maps.get(key))){
+				sn = key;
+				break;
+			};
+		}
+        if(sn!=null){
+        	StringBuffer returnStr = new StringBuffer();
+        	returnStr.append("7b");
+        	returnStr.append("0004");
+        	returnStr.append(sn);
+        	returnStr.append("85");
+        	returnStr.append("0003");
+        	returnStr.append("09");
+        	returnStr.append("01");
+        	returnStr.append("04");
+        	returnStr.append("7d");
+        	ByteBuf resp = Unpooled.copiedBuffer(stringToByte(returnStr.toString()));
+            ctx.writeAndFlush(resp);
+        }
 //        ctx.close();
     }
 
