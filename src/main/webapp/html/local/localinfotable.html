@@ -30,6 +30,8 @@
 <!--                   <TH>纬度</th> -->
                   <th style="border-top: 1px solid #794747;text-align: center;">静止时上报时间间隔</th>
                   <th style="border-top: 1px solid #794747;text-align: center;">运行时上报时间间隔</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">GPS超时时间</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">LoRa休眠时间</th>
 <!--                   <th>注册服务器端口</th> -->
 <!--                   <th>登录服务器地址</th> -->
 <!--                   <th>终端号</th> -->
@@ -50,6 +52,8 @@
 <!--                 	<td>{{x.RSSI}}</td> -->
 <!--                 	<td><input style="width:100px" ng-model="local.runTime" readonly class="inactive input{{local.number}}"></td> -->
                 	<td style="padding: 8px" ng-bind="local.runTime"></td>
+                	<td style="padding: 8px" ng-bind="local.gpsTimeOut"></td>
+                	<td style="padding: 8px" ng-bind="local.loraSleepTime"></td>
 <!--                 	<td>{{x.POWER}}</td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->

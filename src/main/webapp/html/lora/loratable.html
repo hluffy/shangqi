@@ -28,16 +28,17 @@
                   <th style="border-top: 1px solid #794747;text-align: center;">编号</th>
                   <th style="border-top: 1px solid #794747;text-align: center;">IP地址</th>
                   <th style="border-top: 1px solid #794747;text-align: center;">服务器地址</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">注册服务器端口</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">登录服务器地址</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">终端号</th>
+<!--                   <th style="border-top: 1px solid #794747;text-align: center;">注册服务器端口</th> -->
+<!--                   <th style="border-top: 1px solid #794747;text-align: center;">登录服务器地址</th> -->
+<!--                   <th style="border-top: 1px solid #794747;text-align: center;">终端号</th> -->
                   <th style="border-top: 1px solid #794747;text-align: center;">时间</th>
                   <th style="border-top: 1px solid #794747"></th>
                   <th style="border-top: 1px solid #794747"></th>
                 </tr>
                 <tr ng-repeat="lora in loras">
+                	<input ng-model="lora.numberDef" hidden="true" class="input{{lora.number}}">
                 	<td style="padding: 4px">{{(indexPage-1)*10+$index+1}}</td>
-                	<td style="padding: 4px"><input style="width:50px;text-align: center;" ng-model="lora.number" readonly class="inactive input{{lora.number}}"></td>
+                	<td style="padding: 4px"><input style="text-align: center;" ng-model="lora.number" readonly class="inactive input{{lora.number}}"></td>
 <!--                 	<td>{{x.UUID}}</td> -->
 <!--                 	<td>{{x.Maior}}</td> -->
 <!--                 	<td>{{x.Minor}}</td> -->
@@ -45,9 +46,9 @@
 <!--                 	<td>{{x.RSSI}}</td> -->
                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="lora.registAddr" readonly class="inactive input{{lora.number}}"></td>
 <!--                 	<td>{{x.POWER}}</td> -->
-					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td>
-					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td>
-					<td style="padding: 4px"><input style="width:50px;text-align: center;" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td>
+<!-- 					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
+<!-- 					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
+<!-- 					<td style="padding: 4px"><input style="width:50px;text-align: center;" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:150px" ng-model="lora.timeStr" readonly class="inactive input{{lora.number}}"></td> -->
 					<td style="width:150px;padding: 4px" ng-bind="lora.timeStr"></td>
                 	<td style="padding: 4px">
@@ -68,6 +69,9 @@
                 		<lorarestart class="btn btn-primary" ng-model="lora">
                 			<span class="glyphicon glyphicon-refresh">重启</span>
                 		</lorarestart>
+                		<lorasync class="btn btn-primary" ng-model="lora">
+                			<span class="glyphicon glyphicon-refresh">同步时间</span>
+                		</lorasync>
                 	</td>
                 </tr>
                 </table>

@@ -15,6 +15,7 @@ public class LoraInfo implements Serializable{
 	private String loginAddr;//登录地址
 	private String terNum;//终端号
 	private Timestamp time;//时间
+	private String numberDef;
 	
 	private String timeStr;
 	private Integer page;
@@ -71,6 +72,12 @@ public class LoraInfo implements Serializable{
 	}
 	public void setPage(Integer page) {
 		this.page = page;
+	}
+	public String getNumberDef() {
+		return numberDef;
+	}
+	public void setNumberDef(String numberDef) {
+		this.numberDef = numberDef;
 	}
 	
 

@@ -57,6 +57,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 				info.setNumberDef(rs.getString("number_def"));
 				info.setSv(rs.getString("sv"));
 				info.setSvStr(rs.getString("sv_str"));
+				info.setGpsTimeOut(rs.getString("gps_time_out"));
+				info.setLoraSleepTime(rs.getString("lora_sleep_time"));
 				
 				infos.add(info);
 			}
@@ -102,7 +104,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "insert into localizer(number,static_time,run_time,time,log,lat,area,ele,number_def) values(?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into localizer(number,static_time,run_time,time,log,lat,area,ele,number_def,gps_time_out,lora_sleep_time) values(?,?,?,?,?,?,?,?,?,?,?)";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
@@ -119,6 +121,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 				ps.setInt(8, info.getEle());
 			}
 			ps.setString(9, info.getNumber().replace(".", ""));
+			ps.setString(10, info.getGpsTimeOut());
+			ps.setString(11, info.getLoraSleepTime());
 			
 			ps.execute();
 			
@@ -164,14 +168,18 @@ public class LocalizerServiceImpl implements LocalizerService{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "update localizer set static_time=?,run_time=?,time=? where number=?";
+			String sql = "update localizer set static_time=?,run_time=?,time=?,gps_time_out=?,lora_sleep_time=? where number=?";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, info.getStaticTime());
 			ps.setString(2, info.getRunTime());
 			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-			ps.setString(4, info.getNumber());
+			
+			ps.setString(4, info.getGpsTimeOut());
+			ps.setString(5, info.getLoraSleepTime());
+			
+			ps.setString(6, info.getNumber());
 			
 			ps.execute();
 			
@@ -323,6 +331,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 				lInfo.setNumberDef(rs.getString("number_def"));
 				lInfo.setSv(rs.getString("sv"));
 				lInfo.setSvStr(rs.getString("sv_str"));
+				lInfo.setGpsTimeOut(rs.getString("gps_time_out"));
+				lInfo.setLoraSleepTime(rs.getString("lora_sleep_time"));
 				
 				infos.add(lInfo);
 			}

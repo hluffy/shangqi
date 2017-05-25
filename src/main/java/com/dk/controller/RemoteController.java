@@ -2,9 +2,11 @@ package com.dk.controller;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,8 @@ import com.dk.netty.ChannelServer;
 import com.dk.object.LocalizerInfo;
 import com.dk.object.LoraInfo;
 import com.dk.result.Result;
+import com.dk.service.LocalizerService;
+import com.dk.util.Date;
 
 @Controller
 @RequestMapping("remote")
@@ -24,9 +28,11 @@ import com.dk.result.Result;
  *
  */
 public class RemoteController {
+	@Resource
+	private LocalizerService localService;
 	
 	/**
-	 * 重启LORA模块
+	 * 重启LORA模块 ok
 	 * @param str
 	 * @return
 	 */
@@ -34,42 +40,71 @@ public class RemoteController {
 	@ResponseBody
 	public Result restartLoraMac(@RequestBody LocalizerInfo local){
 		Result result = new Result();
-		Map<String,SocketChannel> map = ChannelServer.getChannels();
-		SocketChannel ctx = null;
-		ByteBuf resp = Unpooled.copiedBuffer(getByte(sendLoraMacStr(local.getNumber()).toUpperCase()));
-		for(String key:map.keySet()){
-			ctx = map.get(key);
-			ctx.writeAndFlush(resp);
-		}
-		while(ChannelServer.getString()==null){
-			
-		}
-		
-		result.setMessage(ChannelServer.getString());
 		ChannelServer.setString(null);
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(local.getSv());
+		if(ctx==null){
+			result.setStates(false);
+			result.setMessage("连接不存在，请稍后再试");
+			return result;
+		}
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(restartLora(local)));
+		ctx.writeAndFlush(resp);
+		long start = System.currentTimeMillis();
+		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>5000){
+				break;
+			}
+		}
+		if(ChannelServer.getString()==null){
+			result.setStates(false);
+			result.setMessage("连接超时，请稍后再试");
+			
+		}else{
+			result.setStates(true);
+			result.setMessage(ChannelServer.getString());
+			ChannelServer.setString(null);
+		}
 		return result;
 	}
 	
 	/**
-	 * 重启LORA基站
+	 * 重启LORA基站 ok
 	 * @return
 	 */
 	@RequestMapping("restartlora.ll")
 	@ResponseBody
 	public Result restartLora(@RequestBody LoraInfo lora){
 		Result result = new Result();
-		Map<String,SocketChannel> map = ChannelServer.getChannels();
-		SocketChannel ctx = null;
-		ByteBuf resp = Unpooled.copiedBuffer(getByte(sendLoraStr(lora.getNumber()).toUpperCase()));
-		for(String key:map.keySet()){
-			ctx = map.get(key);
-			ctx.writeAndFlush((resp));
-		}
-		while(ChannelServer.getString()==null){
-			
-		}
-		result.setMessage(ChannelServer.getString());
 		ChannelServer.setString(null);
+		if(lora.getNumberDef()==null){
+			result.setMessage("连接不存在");
+			return result;
+		}
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(lora.getNumberDef());
+		if(ctx==null){
+			result.setMessage("连接不存在，请稍后再试");
+			return result;
+		}
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(sendLoraStr(lora)));
+		ctx.writeAndFlush((resp));
+		long start = System.currentTimeMillis();
+		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>5000){
+				break;
+			}
+		}
+		if(ChannelServer.getString()==null){
+			result.setStates(false);
+			result.setMessage("连接超时，请稍后再试");
+		}else{
+			result.setStates(true);
+			result.setMessage(ChannelServer.getString());;
+			ChannelServer.setString(null);
+		}
 		return result;
 	}
 	
@@ -78,21 +113,128 @@ public class RemoteController {
 	 */
 	@RequestMapping("synctime.ll")
 	@ResponseBody
-	public Result syncTime(){
+	public Result syncTime(@RequestBody LoraInfo info){
 		Result result = new Result();
-		Map<String,SocketChannel> map = ChannelServer.getChannels();
-		SocketChannel ctx = null;
-		ByteBuf resp = Unpooled.copiedBuffer(getByte(""));
-		for(String key:map.keySet()){
-			ctx = map.get(key);
-			ctx.writeAndFlush((resp));
+		ChannelServer.setString(null);
+		if(info.getNumberDef()==null){
+			result.setStates(false);
+			result.setMessage("连接不存在");
+			return result;
 		}
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(info.getNumberDef());
+		if(ctx==null){
+			result.setStates(false);
+			result.setMessage("连接不存在，请稍后再试");
+			return result;
+		}
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(syncTimeStr(info)));
+		ctx.writeAndFlush((resp));
+		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>5000){
+				break;
+			}
 			
 		}
-		result.setMessage(ChannelServer.getString());
-		ChannelServer.setString(null);
+		if(ChannelServer.getString()==null){
+			result.setStates(false);
+			result.setMessage("连接超时，请稍后再试");
+		}else{
+			result.setStates(true);
+			result.setMessage(ChannelServer.getString());
+			ChannelServer.setString(null);
+		}
 		return result;
+	}
+	
+	//同步参数 ok
+	@RequestMapping("loadparame.ll")
+	@ResponseBody
+	public Result loadLocal(@RequestBody LocalizerInfo info){
+		Result result = new Result();
+		ChannelServer.setString(null);
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(info.getSv());
+		if(ctx==null){
+			result.setStates(false);
+			result.setMessage("连接不存在,请稍后再试");
+			return result;
+		}
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(loadStr(info)));
+		ctx.writeAndFlush(resp);
+		long start = System.currentTimeMillis();
+		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>5000){
+				break;
+			}
+		}
+		if(ChannelServer.getString()==null){
+			result.setStates(false);
+			result.setMessage("连接超时，请稍后再试");
+		}else{
+			result.setStates(true);
+			result.setMessage(ChannelServer.getString());
+			ChannelServer.setString(null);
+		}
+		return result;
+	}
+	
+	private String syncTimeStr(LoraInfo info){
+		StringBuffer syncTimeStr = new StringBuffer();
+		syncTimeStr.append("7b");
+		syncTimeStr.append("0004");
+		syncTimeStr.append(info.getNumberDef());
+		syncTimeStr.append("89");
+		syncTimeStr.append("0008");
+		syncTimeStr.append("03");
+		syncTimeStr.append("06");
+		syncTimeStr.append(Date.getDate());
+		syncTimeStr.append("7d");
+		System.out.println(syncTimeStr.toString());
+		return syncTimeStr.toString();
+	}
+	
+	//同步lora模块参数
+	private String loadStr(LocalizerInfo info){
+		StringBuffer loadStr = new StringBuffer();
+		loadStr.append("7b");
+		loadStr.append("0004");
+		loadStr.append(info.getSv());
+		loadStr.append("87");
+		loadStr.append("0018");
+		loadStr.append("03");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("04");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("05");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("06");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("7d");
+		System.out.println("loadStr:"+loadStr.toString());
+		return loadStr.toString();
+	}
+	
+	//重启lora模块
+	private String restartLora(LocalizerInfo info){
+		StringBuffer restartStr = new StringBuffer();
+		restartStr.append("7b");
+		restartStr.append("0004");
+		restartStr.append(info.getSv());
+		restartStr.append("89");
+		restartStr.append("0006");
+		restartStr.append("01");
+		restartStr.append("04");
+		restartStr.append(numberToHex(info.getNumber()));
+		restartStr.append("7d");
+		return restartStr.toString();
 	}
 	
 	private String sendLoraMacStr(String str){
@@ -109,7 +251,7 @@ public class RemoteController {
 		return sendStr.toString();
 	}
 	
-	
+	//将设备号按位转为16进制
 	private String numberToHex(String str){
 		String[] strs = str.split("\\.");
 		StringBuffer number = new StringBuffer();
@@ -124,18 +266,19 @@ public class RemoteController {
 		return number.toString();
 	}
 	
-	private String sendLoraStr(String str){
+	//重启lora网关
+	private String sendLoraStr(LoraInfo info){
 		StringBuffer sendStr = new StringBuffer();
 		sendStr.append("7b");
 		sendStr.append("0004");
-//		sendStr.append(str);
-		sendStr.append("414c545f4c6f5261303031");
+		sendStr.append(info.getNumberDef());
 		sendStr.append("89");
 		sendStr.append("0003");
 		sendStr.append("02");
 		sendStr.append("01");
 		sendStr.append("01");
 		sendStr.append("7d");
+		System.out.println(sendStr.toString());
 		return sendStr.toString();
 	}
 	

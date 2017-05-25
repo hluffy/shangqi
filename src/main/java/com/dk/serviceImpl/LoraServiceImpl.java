@@ -53,6 +53,7 @@ public class LoraServiceImpl implements LoraService{
 				if(time!=null){
 					info.setTimeStr(sdf.format((Date)time));
 				}
+				info.setNumberDef(rs.getString("number_def"));
 				
 				infos.add(info);
 			}
@@ -98,7 +99,7 @@ public class LoraServiceImpl implements LoraService{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "insert into lora(number,ip,registaddr,registport,loginaddr,ternum,time) values(?,?,?,?,?,?,?)";
+			String sql = "insert into lora(number,ip,registaddr,registport,loginaddr,ternum,time,number_def) values(?,?,?,?,?,?,?,?)";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
@@ -109,6 +110,7 @@ public class LoraServiceImpl implements LoraService{
 			ps.setString(5, info.getLoginAddr());
 			ps.setString(6, info.getTerNum());
 			ps.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+			ps.setString(8, getStr(info.getNumber()));
 			
 			ps.execute();
 			
@@ -318,6 +320,7 @@ public class LoraServiceImpl implements LoraService{
 				if(time!=null){
 					lInfo.setTimeStr(sdf.format((Date)time));
 				}
+				lInfo.setNumberDef(rs.getString("number_def"));
 				
 				infos.add(lInfo);
 			}
@@ -349,6 +352,16 @@ public class LoraServiceImpl implements LoraService{
 			}
 		}
 		return result;
+	}
+	
+	private String getStr(String str){
+		StringBuffer numberDef = new StringBuffer();
+		char[] chars = str.toCharArray();
+		for (char c : chars) {
+			numberDef.append(Integer.toHexString((int)c));
+		}
+		System.out.println(numberDef.toString().toUpperCase());
+		return numberDef.toString().toUpperCase();
 	}
 
 }

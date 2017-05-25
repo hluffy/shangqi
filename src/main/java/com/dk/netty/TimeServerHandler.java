@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.dk.util.Date;
 
@@ -38,7 +39,12 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
 	
 	public void channelInactive(ChannelHandlerContext ctx){
 		System.out.println("channel inactive");
-		ChannelServer.removeGatewayChannel(ctx.channel().id().asLongText());
+//		ChannelServer.removeGatewayChannel(ctx.channel().id().asLongText());
+		Map<String, ChannelHandlerContext> channels = ChannelServer.getChannels();
+		Set<String> keys = channels.keySet();
+		for (String key : keys) {
+			ChannelServer.removeGatewayChannel(key);
+		}
 	}
 
     @Override
@@ -78,7 +84,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
         }
         System.out.println(sb.toString());
         
-       String hexString =  StringAnalysis.stringAnalysis(datas);
+       String hexString =  StringAnalysis.stringAnalysis(datas,ctx);
        if(hexString==null||hexString.isEmpty()){
     	   return;
        }
@@ -151,7 +157,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         System.out.println("server exceptionCaught..");
-        ctx.close();
+//        ctx.close();
     }
 
 }

@@ -1,22 +1,22 @@
 package com.dk.netty;
 
-import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChannelServer {
-	private static Map<String, SocketChannel> map = new ConcurrentHashMap<>();
+	private static Map<String, ChannelHandlerContext> map = new ConcurrentHashMap<>();
     
-    public static void addGatewayChannel(String id, SocketChannel gateway_channel){
+    public static void addGatewayChannel(String id, ChannelHandlerContext gateway_channel){
         map.put(id, gateway_channel);
     }
     
-    public static Map<String, SocketChannel> getChannels(){
+    public static Map<String, ChannelHandlerContext> getChannels(){
         return map;
     }
 
-    public static SocketChannel getGatewayChannel(String id){
+    public static ChannelHandlerContext getGatewayChannel(String id){
         return map.get(id);
     }
     
@@ -32,6 +32,16 @@ public class ChannelServer {
     
     public static String getString(){
     	return waitResponse;
+    }
+    
+    private static int status = -1;
+    
+    public static void setInt(int stat){
+    	status = stat;
+    }
+    
+    public static int getInt(){
+    	return status;
     }
 
 }

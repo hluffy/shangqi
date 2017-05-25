@@ -166,6 +166,32 @@ app.directive("loradelete",function($document,loraService){
 	}
 });
 
+
+app.directive("lorasync",function($document,loraService){
+	return{
+		restrict:"E",
+		require:"ngModel",
+		link:function(scope,element,attrs,ngModel){
+			element.bind("click",function(){
+				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
+					var id = ngModel.$modelValue.number;
+					console.log(id);
+					scope.$apply(function(){
+						for(var i = 0;i<scope.loras.length;i++){
+							if(scope.loras[i].number==id){
+								loraService.loraSyncTime(ngModel.$modelValue).then(function(data){
+									console.log(data);
+									alert(data.message);
+								});
+							}
+						}
+					});
+				}
+				
+			});
+		}
+	}
+});
 app.directive("lorarestart",function($document,loraService){
 	return{
 		restrict:"E",

@@ -89,4 +89,20 @@ app.service("loraService",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	this.loraSyncTime = function(lora){
+		var deferred = $q.defer();
+		$http({
+			method:"post",
+			url:"http://localhost:8080/shangqi/remote/synctime.ll",
+			data:lora,
+			dataType:"json"
+		}).success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("同步失败");
+		});
+		
+		return deferred.promise;
+	}
 });

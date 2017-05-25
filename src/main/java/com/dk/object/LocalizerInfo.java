@@ -24,6 +24,10 @@ public class LocalizerInfo implements Serializable{
 	private String timeStr;
 	private Integer page;
 	private String numberDef;
+	
+	private String gpsTimeOut;
+	private String loraSleepTime;
+	
 	public String getNumber() {
 		return number;
 	}
@@ -107,6 +111,18 @@ public class LocalizerInfo implements Serializable{
 	}
 	public void setSvStr(String svStr) {
 		this.svStr = svStr;
+	}
+	public String getGpsTimeOut() {
+		return gpsTimeOut;
+	}
+	public void setGpsTimeOut(String gpsTimeOut) {
+		this.gpsTimeOut = gpsTimeOut;
+	}
+	public String getLoraSleepTime() {
+		return loraSleepTime;
+	}
+	public void setLoraSleepTime(String loraSleepTime) {
+		this.loraSleepTime = loraSleepTime;
 	}
 	
 

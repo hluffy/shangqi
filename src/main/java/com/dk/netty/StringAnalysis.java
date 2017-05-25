@@ -1,5 +1,7 @@
 package com.dk.netty;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,13 +15,14 @@ import com.dk.gis.client.model.BeaconGroupInput;
 import com.dk.gis.client.model.GISLocation;
 import com.dk.object.IbeaconInfo;
 import com.dk.object.LocalizerInfo;
+import com.dk.result.Result;
 import com.dk.service.LocalizerService;
 import com.dk.serviceImpl.LocalizerServiceImpl;
 import com.dk.util.IsInArea;
 import com.dk.util.MyComparator;
 
 public class StringAnalysis {
-	public static String stringAnalysis(String[] args){
+	public static String stringAnalysis(String[] args,ChannelHandlerContext ctx){
 		LocalizerService localService = new LocalizerServiceImpl();
 		Positioning positioning = new Positioning();
 		LocalizerInfo localInfo = new LocalizerInfo();
@@ -48,7 +51,7 @@ public class StringAnalysis {
 				snStr.append(String.valueOf(a));
 			}
 			dataString.setSn(sn.toString());
-			localInfo.setSv(sn.toString());
+			localInfo.setSv(sn.toString().toUpperCase());
 			localInfo.setSvStr(snStr.toString());
 			returnString.append(sn);
 			String instructions = strs[14];
@@ -80,6 +83,11 @@ public class StringAnalysis {
 				lora.setQuantity(quantity);
 				positioning.setElectricity(quantity);
 				localInfo.setEle(quantity);
+				
+				//保存连接
+				if(ChannelServer.getGatewayChannel(localInfo.getSv())==null){
+					ChannelServer.addGatewayChannel(localInfo.getSv(), ctx);
+				}
 				
 				String T = strs[25];
 				System.out.println("t:"+T);
@@ -303,20 +311,78 @@ public class StringAnalysis {
 				
 				
 			case "07":
-				//服务器读取/修改参数
-				if(strs[17].equals("09")&&strs[19].equals("04")){
-					ChannelServer.setString("修改失败,未知参数");
-				}else if(strs[17].equals("09")&&strs[19].equals("03")){
-					ChannelServer.setString("修改失败,未知的IBeacon");
-				}else if(strs[17].equals("09")&&strs[19].equals("02")){
-					ChannelServer.setString("修改失败,未知的Lora模块");
-				}else if(strs[17].equals("09")&&strs[19].equals("05")){
-					ChannelServer.setString("修改失败,系统忙");
-				}else if(strs[17].equals("09")&&strs[19].equals("01")){
-					ChannelServer.setString("设置成功");
+				String loadLength = strs[15]+strs[16];
+				if("0020".equals(loadLength)){
+					LocalizerInfo info = new LocalizerInfo();
+					StringBuffer loadData = new StringBuffer();
+					for(int i=17;i<=48;i++){
+						loadData.append(strs[i]);
+					}
+					String number = null;
+					System.out.println(loadData.toString());
+					for(int i=0;i<loadData.toString().length()/16;i++){
+						String loadStr = loadData.toString().substring(i*16,i*16+16);
+						if("04".equals(loadStr.substring(0,2))){
+							number = loadStr.substring(4,12);
+							int runTime = Integer.parseInt(loadStr.substring(13,16),16);
+							info.setRunTime(String.valueOf(runTime));
+							continue;
+						}else if("03".equals(loadStr.substring(0,2))){
+							int staticTime = Integer.parseInt(loadStr.substring(13,16),16);
+							info.setStaticTime(String.valueOf(staticTime));
+							continue;
+						}else if("05".equals(loadStr.substring(0,2))){
+							int gpsTimeOut = Integer.parseInt(loadStr.substring(13,16),16);
+							info.setGpsTimeOut(String.valueOf(gpsTimeOut));
+							continue;
+						}else if("06".equals(loadStr.subSequence(0, 2))){
+							int loraSleepTime = Integer.parseInt(loadStr.substring(13,16),16);
+							info.setLoraSleepTime(String.valueOf(loraSleepTime));
+							continue;
+						}else{
+							continue;
+						}
+					}
+					StringBuffer numberStr = new StringBuffer();
+					if(number!=null){
+						numberStr.append(Integer.parseInt((number.substring(0,2)),16));
+						numberStr.append(".");
+						numberStr.append(Integer.parseInt((number.substring(2,4)),16));
+						numberStr.append(".");
+						numberStr.append(Integer.parseInt((number.substring(4,6)),16));
+						numberStr.append(".");
+						numberStr.append(Integer.parseInt((number.substring(6,8)),16));
+					}
+					info.setNumber(numberStr.toString());
+					System.out.println(info.getNumber());
+					System.out.println(info.getRunTime());
+					System.out.println(info.getStaticTime());
+					System.out.println(info.getGpsTimeOut());
+					System.out.println(info.getLoraSleepTime());
+					Result result = localService.updateInfo(info);
+					System.out.println(result.isStates());
+					System.out.println(result.getMessage());
+					if(result.isStates()){
+						ChannelServer.setString("同步成功");
+					}
+					
 				}else{
-					ChannelServer.setString("读取成功");
+					//服务器读取/修改参数
+					if(strs[17].equals("09")&&strs[19].equals("04")){
+						ChannelServer.setString("修改失败");
+					}else if(strs[17].equals("09")&&strs[19].equals("03")){
+						ChannelServer.setString("修改失败,未知的IBeacon");
+					}else if(strs[17].equals("09")&&strs[19].equals("02")){
+						ChannelServer.setString("修改失败,未知的Lora模块");
+					}else if(strs[17].equals("09")&&strs[19].equals("05")){
+						ChannelServer.setString("修改失败,系统忙");
+					}else if(strs[17].equals("09")&&strs[19].equals("01")){
+						ChannelServer.setString("设置成功");
+					}else{
+						ChannelServer.setString("读取成功");
+					}
 				}
+				
 				
 				returnString.setLength(0);
 				
@@ -325,8 +391,9 @@ public class StringAnalysis {
 				//远程控制
 				if(strs[17].equals("09")&&strs[19].equals("01")){
 					ChannelServer.setString("设置成功");
+					System.out.println(ChannelServer.getString());
 				}else if(strs[17].equals("09")&&strs[19].equals("04")){
-					ChannelServer.setString("设置失败,未知参数");
+					ChannelServer.setString("设置失败");
 				}else{
 					ChannelServer.setString("设置失败");
 				}

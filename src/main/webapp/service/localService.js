@@ -141,4 +141,20 @@ app.service("localService",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	//同步参数
+	this.loadParame = function(local){
+		var deferred = $q.defer();
+		$http({
+			method:"post",
+			url:"http://localhost:8080/shangqi/remote/loadparame.ll",
+			data:local,
+			dataType:"json"
+		}).success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("同步失败");
+		});
+		return deferred.promise;
+	}
 });

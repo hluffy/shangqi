@@ -2,6 +2,7 @@ package com.dk.controller;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 
 import java.util.Map;
@@ -25,8 +26,8 @@ public class TestController {
 	public Result write(){
 		Result result = new Result();
 		System.out.println(ChannelServer.class);
-		Map<String,SocketChannel> map = ChannelServer.getChannels();
-		SocketChannel ctx = null;
+		Map<String,ChannelHandlerContext> map = ChannelServer.getChannels();
+		ChannelHandlerContext ctx = null;
 		ByteBuf resp = Unpooled.copiedBuffer("ssdssdsf".getBytes());
 		for(String key:map.keySet()){
 			ctx = map.get(key);
