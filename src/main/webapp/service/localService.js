@@ -1,7 +1,7 @@
 app.service("localService",function($http,$q){
 	this.getInfos = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/local/getinfos.ll").success(function(data){
+		$http.get("/shangqi/local/getinfos.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("查询失败");
@@ -14,7 +14,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/local/addinfo.ll",
+			url:"/shangqi/local/addinfo.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){
@@ -30,7 +30,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/local/updateinfo.ll",
+			url:"/shangqi/local/updateinfo.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){
@@ -46,7 +46,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/local/deleteinfo.ll",
+			url:"/shangqi/local/deleteinfo.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){
@@ -62,7 +62,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/local/getinfo.ll",
+			url:"/shangqi/local/getinfo.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){
@@ -76,7 +76,7 @@ app.service("localService",function($http,$q){
 	
 	this.getAreaDatas = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/local/getareadatas.ll").success(function(data){
+		$http.get("/shangqi/local/getareadatas.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("查询失败");
@@ -89,7 +89,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/local/getinfoofarea.ll",
+			url:"/shangqi/local/getinfoofarea.ll",
 			data:area,
 			dataType:"json"
 		}).success(function(data){
@@ -106,7 +106,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/remote/restartloramac.ll",
+			url:"/shangqi/remote/restartloramac.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){
@@ -121,7 +121,7 @@ app.service("localService",function($http,$q){
 	//设备数量饼图
 	this.getEquipPie = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/local/getequippie.ll").success(function(data){
+		$http.get("/shangqi/local/getequippie.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("查询失败");
@@ -133,7 +133,7 @@ app.service("localService",function($http,$q){
 	//设备电量饼图
 	this.getLowInfo = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/local/lowinfo.ll").success(function(data){
+		$http.get("/shangqi/local/lowinfo.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("查询失败");
@@ -147,7 +147,7 @@ app.service("localService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/remote/loadparame.ll",
+			url:"/shangqi/remote/loadparame.ll",
 			data:local,
 			dataType:"json"
 		}).success(function(data){

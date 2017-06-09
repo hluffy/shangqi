@@ -107,7 +107,7 @@ function sendUnbind(){
 		$("#equipmentNum").css("background-color","#112220");
 		$.ajax({
 			type:"post",
-			url:"http://localhost:8080/shangqi/bind/updateinfo.ll",
+			url:"/shangqi/bind/updateinfo.ll",
 			data:{"equipmentNum":equipmentNum,"bindType":"解绑"},
 			success:function(data){
 				$("#myModalButton").click();

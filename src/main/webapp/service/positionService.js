@@ -1,7 +1,7 @@
 app.service("positionSer",function($http,$q){
 	this.getPositionInfos = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/position/getinfos.ll").success(function(data){
+		$http.get("/shangqi/position/getinfos.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("连接失败");
@@ -14,7 +14,7 @@ app.service("positionSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/position/getinfo.ll",
+			url:"/shangqi/position/getinfo.ll",
 			data:position,
 			dataType:"json"
 		}).success(function(data){
@@ -30,7 +30,7 @@ app.service("positionSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/position/getinfoforpie.ll",
+			url:"/shangqi/position/getinfoforpie.ll",
 		}).success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
@@ -44,7 +44,7 @@ app.service("positionSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/position/addinfo.ll",
+			url:"/shangqi/position/addinfo.ll",
 			data:position,
 			dataType:'json'
 		}).success(function(data){
@@ -60,7 +60,7 @@ app.service("positionSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/position/updateinfo.ll",
+			url:"/shangqi/position/updateinfo.ll",
 			data:position,
 			dataType:"json"
 		}).success(function(data){
@@ -76,7 +76,7 @@ app.service("positionSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/position/deleteinfo.ll",
+			url:"/shangqi/position/deleteinfo.ll",
 			data:position,
 			dataType:"json"
 		}).success(function(data){
@@ -91,7 +91,7 @@ app.service("positionSer",function($http,$q){
 	//低电量饼图
 	this.getLowInfo = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/position/getlowinfo.ll").success(function(data){
+		$http.get("/shangqi/position/getlowinfo.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(data){
 			deferred.reject("查询失败");

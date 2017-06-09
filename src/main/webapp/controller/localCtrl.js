@@ -48,11 +48,13 @@ app.controller("localCtrl",function($rootScope,$scope,localService){
         }); 
 	});
 	
-	$scope.local.staticTime=5;
-	$scope.local.runTime=5;
 	$scope.addLocal = function(){
-		if($scope.local.number==null){
+		if($scope.local.numberDef==null){
 			alert("定位器编号不允许为空");
+			return;
+		}
+		if($scope.local.numberDef.length!=12){
+			alert("定位器编号格式不正确，请核对");
 			return;
 		}
 		localService.addInfo($scope.local).then(function(data){
@@ -82,6 +84,18 @@ app.controller("localCtrl",function($rootScope,$scope,localService){
 	}
 	
 });
+
+function getOptionsFromForm(){
+//    var opt = {callback: pageselectCallback};
+	var opt = {};
+    opt.prev_text = "上一页";
+    opt.next_text = "下一页";
+    opt.items_per_page=10;
+    opt.num_display_entries=4;
+    opt.num_edge_entries=2;
+    return opt;
+}
+
 
 app.directive("localedit",function($document){
 	return{
@@ -127,7 +141,7 @@ app.directive("localcancel",function($document){
 	}
 });
 
-app.directive("localdelete",function($document,localService){
+app.directive("localdelete",function($document,localService,$rootScope){
 	return{
 		restrict:"E",
 		require:"ngModel",
@@ -142,8 +156,15 @@ app.directive("localdelete",function($document,localService){
 								localService.deleteInfo(ngModel.$modelValue).then(function(data){
 									console.log(data);
 									alert(data.message);
+									localService.getInfos().then(function(data){
+										$rootScope.locals = data.data;
+										$rootScope.count = data.count;
+										var optInit = getOptionsFromForm();
+										$("#Pagination").pagination($rootScope.count, optInit);
+								        
+									});
 								});
-								scope.locals.splice(i,1);
+//								scope.locals.splice(i,1);
 							}
 						}
 					});

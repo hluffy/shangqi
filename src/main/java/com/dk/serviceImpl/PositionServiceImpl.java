@@ -521,4 +521,73 @@ public class PositionServiceImpl implements PositonService{
 		return result;
 	}
 
+
+	//根据时间查询位置信息
+	@Override
+	public Result getInfoAsTime(PositionInfo info) {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		if(info.getEquipmentNum()==null||info.getEquipmentNum().isEmpty()
+				||info.getStartTime()==null||info.getStartTime().isEmpty()
+				||info.getEndTime()==null||info.getEndTime().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不能为空");
+			return result;
+		}
+		
+		List<PositionInfo> infos = new ArrayList<PositionInfo>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "select * from positioning where equipment_num=? and positioning_time>? and positioning_time <?";
+			conn = DBUtil.getConnection();
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, info.getEquipmentNum());
+			ps.setString(2, info.getStartTime());
+			ps.setString(3, info.getEndTime());
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				PositionInfo pInfo = new PositionInfo();
+				pInfo.setEquipmentNum(rs.getString("equipment_num"));
+				pInfo.setElec(rs.getInt("electricity"));
+				pInfo.setLog(rs.getDouble("longitude"));
+				pInfo.setLat(rs.getDouble("latitude"));
+				pInfo.setPositionMode(rs.getString("positioning_mode"));
+				pInfo.setPositionTime(rs.getTimestamp("positioning_time"));
+				pInfo.setArea(rs.getString("area"));
+				
+				infos.add(pInfo);
+			}
+			
+			result.setStates(true);
+			result.setMessage("查询成功");
+			result.setData(infos);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("查询失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null){
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
 }

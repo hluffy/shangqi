@@ -179,6 +179,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
         	returnStr.append("01");
         	returnStr.append("04");
         	returnStr.append("7d");
+        	System.out.println("returnStr-------------"+returnStr.toString());
         	ByteBuf resp = Unpooled.copiedBuffer(stringToByte(returnStr.toString()));
             ctx.writeAndFlush(resp);
         }

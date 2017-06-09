@@ -6,30 +6,30 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		$scope.centerPoint = [30.8853,121.8258];
 		$scope.map = L.map('leafletMap').setView($scope.centerPoint, 16);
 		
-		$scope.aerial = new L.tileLayer("http://localhost:8080/Tiles/{z}/{x}/{y}.png", {
+		$scope.aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
     		maxZoom: 21,
     		minZoom: 15,
 		});
 		$scope.aerial.addTo($scope.map);
 		
-		//CAR
+		//CARE
 		$scope.car = L.polygon([{
-			lat:30.8866072,
-			lng:121.8266349
+			lat:30.8866104,
+			lng:121.8266308
 		},{
-			lat:30.8863413,
-			lng:121.8266332
+			lat:30.8862329,
+			lng:121.8266255
 		},{
-			lat:30.8863382,
-			lng:121.8269272
+			lat:30.8862329,
+			lng:121.8270063
 		},{
-			lat:30.886173,
-			lng:121.8269312
+			lat:30.886165,
+			lng:121.8270037
 		},{
-			lat:30.886177,
-			lng:121.8272759
+			lat:30.8861615,
+			lng:121.8272813
 		},{
-			lat:30.8866052,
+			lat:30.8866092,
 			lng:121.8272786
 		}]);
 		$scope.car.addTo($scope.map);
@@ -42,8 +42,8 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		$scope.car.on("click",function(){
 			$scope.$apply(function(){
-				$scope.thisarea="CAR";
-				$scope.local={"area":"CAR"};
+				$scope.thisarea="CARE";
+				$scope.local={"area":"CARE"};
 				localService.getInfo($scope.local).then(function(data){
 					$scope.areainfos = data.data;
 				});
@@ -90,17 +90,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//DVT
 		$scope.dvt = L.polygon([{
-			lat:30.8863399,
-			lng:121.8266335
+			lat:30.8862352,
+			lng:121.8266281
 		},{
-			lat:30.8855217,
-			lng:121.8266302
+			lat:30.8851671,
+			lng:121.8266281
 		},{
-			lat:30.8855203,
-			lng:121.8268727
+			lat:30.8851684,
+			lng:121.8268454
 		},{
-			lat:30.8863387,
-			lng:121.8268649
+			lat:30.8862352,
+			lng:121.8268427
 		}]);
 		$scope.dvt.addTo($scope.map);
 		$scope.dvt.on("click",function(){
@@ -117,17 +117,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//板链返修区
 		$scope.banlian = L.polygon([{
-			lat:30.8855199,
-			lng:121.8266302
+			lat:30.885296,
+			lng:121.8268454
 		},{
-			lat:30.8851306,
-			lng:121.8266318
+			lat:30.8851717,
+			lng:121.8268481
 		},{
-			lat:30.8851354,
-			lng:121.827227
+			lat:30.8851694,
+			lng:121.827229
 		},{
-			lat:30.885517,
-			lng:121.8272303
+			lat:30.885296,
+			lng:121.8272263
 		}]);
 //		.addTo($scope.map).bindPopup("板链返修区")
 		$scope.banlian.addTo($scope.map);
@@ -142,26 +142,26 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 			$("#myButton").click();
 		});
 		
-		//内饰二
+		//内饰一
 		$scope.neishier = L.polygon([{
-			lat:30.8851211,
-			lng:121.8267126
+			lat:30.8851671,
+			lng:121.8269339
 		},{
-			lat:30.8837422,
-			lng:121.8267274
+			lat:30.884152,
+			lng:121.8269339
 		},{
-			lat:30.883733,
-			lng:121.8269151
+			lat:30.8841497,
+			lng:121.8270653
 		},{
-			lat:30.8851199,
-			lng:121.8269111
+			lat:30.8851717,
+			lng:121.8270573
 		}]);
 //		.addTo($scope.map).bindPopup("内饰二")
 		$scope.neishier.addTo($scope.map);
 		$scope.neishier.on("click",function(){
 			$scope.$apply(function(){
-				$scope.thisarea="内饰二";
-				$scope.local = {"area":"内饰二"};
+				$scope.thisarea="内饰一";
+				$scope.local = {"area":"内饰一"};
 				localService.getInfo($scope.local).then(function(data){
 					$scope.areainfos = data.data;
 				});
@@ -171,17 +171,23 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//底盘三
 		$scope.dipansan = L.polygon([{
-			lat:30.8861707,
-			lng:121.8270747
+			lat:30.8862352,
+			lng:121.8268427
 		},{
-			lat:30.8856666,
-			lng:121.8270788
+			lat:30.8862352,
+			lng:121.827001
 		},{
-			lat:30.8856666,
-			lng:121.827186
+			lat:30.8861615,
+			lng:121.8270037
 		},{
-			lat:30.8861661,
-			lng:121.8271807
+			lat:30.8861615,
+			lng:121.8270358
+		},{
+			lat:30.885296,
+			lng:121.8270385
+		},{
+			lat:30.8852983,
+			lng:121.8268427
 		}]);
 //		.addTo($scope.map).bindPopup("底盘三")
 		$scope.dipansan.addTo($scope.map);
@@ -198,17 +204,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//底盘一二
 		$scope.other = L.polygon([{
-			lat:30.8855032,
-			lng:121.8287444
+			lat:30.8852879,
+			lng:121.8289322
 		},{
-			lat:30.885128,
-			lng:121.8287417
+			lat:30.8851752,
+			lng:121.8289335
 		},{
-			lat:30.8851303,
-			lng:121.8290368
+			lat:30.8851775,
+			lng:121.8290462
 		},{
-			lat:30.8855009,
-			lng:121.8290421
+			lat:30.8852914,
+			lng:121.8290462
 		}]);
 //		.addTo($scope.map).bindPopup("物流区下方")
 		$scope.other.addTo($scope.map);
@@ -225,17 +231,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//报交区
 		$scope.baojiao = L.polygon([{
-			lat:30.8867214,
-			lng:121.8271257
+			lat:30.8867246,
+			lng:121.827126
 		},{
-			lat:30.8866604,
-			lng:121.8271264
+			lat:30.8866621,
+			lng:121.8271254
 		},{
-			lat:30.8866604,
-			lng:121.8272544
+			lat:30.8866621,
+			lng:121.8272548
 		},{
-			lat:30.886722,
-			lng:121.8272544
+			lat:30.8867243,
+			lng:121.8272541
 		}]);
 //		.addTo($scope.map).bindPopup("报交区")
 		$scope.baojiao.addTo($scope.map);
@@ -252,17 +258,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//滞留区
 		$scope.zhiliu = L.polygon([{
-			lat:30.8866564,
-			lng:121.8272477
+			lat:30.886657,
+			lng:121.8272672
 		},{
-			lat:30.8866161,
-			lng:121.8272481
+			lat:30.886619,
+			lng:121.8272679
 		},{
-			lat:30.8866158,
-			lng:121.8273409
+			lat:30.886619,
+			lng:121.8273282
 		},{
-			lat:30.8866585,
-			lng:121.8273413
+			lat:30.8866573,
+			lng:121.8273275
 		}]);
 //		.addTo($scope.map).bindPopup("滞留区")
 		$scope.zhiliu.addTo($scope.map);
@@ -279,29 +285,23 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//物流区
 		$scope.wuliu = L.polygon([{
-			lat:30.8900769,
-			lng:121.8267918
-		},{
-			lat:30.8883551,
+			lat:30.8900861,
 			lng:121.8267864
 		},{
-			lat:30.8883413,
-			lng:121.8271351
+			lat:30.8883551,
+			lng:121.8267757
 		},{
-			lat:30.8867358,
-			lng:121.8271244
+			lat:30.8883643,
+			lng:121.8274462
 		},{
-			lat:30.8867312,
-			lng:121.827583
+			lat:30.888926,
+			lng:121.8274516
 		},{
-			lat:30.8889283,
-			lng:121.8275803
+			lat:30.888926,
+			lng:121.8296617
 		},{
-			lat:30.8889076,
-			lng:121.8296939
-		},{
-			lat:30.8900953,
-			lng:121.8296832
+			lat:30.8900907,
+			lng:121.8296564
 		}],{
 			color: 'red'
 		});

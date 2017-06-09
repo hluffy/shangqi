@@ -1,5 +1,13 @@
 package com.dk.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -29,12 +37,10 @@ public class LocalizerController {
 	@ResponseBody
 	public Result addInfo(@RequestBody LocalizerInfo info){
 		Result result = new Result();
-		if(info.getStaticTime()==null||info.getStaticTime().isEmpty()){
-			info.setStaticTime("5");
-		}
-		if(info.getRunTime()==null||info.getRunTime().isEmpty()){
-			info.setRunTime("5");
-		}
+		info.setStaticTime("10");
+		info.setRunTime("12*3600");
+		info.setGpsTimeOut("3*60");
+		info.setLoraSleepTime("3");
 		result = localService.addInfo(info);
 		return result;
 	}
@@ -42,6 +48,39 @@ public class LocalizerController {
 	@RequestMapping("updateinfo.ll")
 	@ResponseBody
 	public Result updateInfo(@RequestBody LocalizerInfo info){
+		//修改服务器参数的方法
+		//十进制转十六进制
+//		StringTokenizer token=new StringTokenizer(info.getNumber(),".");  
+//		List<Object> list=new ArrayList<>();
+//        while(token.hasMoreElements()){ 
+//        	int parseInt = Integer.parseInt(token.nextToken());
+//        	String hexString = Integer.toHexString(parseInt); 
+//        	list.add(hexString);
+//        } 
+//        //数组=数字
+//        String str = "";
+//        for(int i=0;i<list.size();i++){
+//            str += list.get(i);
+//        }
+//        int parseInt = Integer.parseInt(info.getStaticTime());
+//        int parseInt2 = Integer.parseInt(info.getRunTime());
+//        int parseInt3 = Integer.parseInt(info.getGpsTimeOut());
+//        int parseInt4 = Integer.parseInt(info.getLoraSleepTime());
+//        StringBuffer setDate = new StringBuffer();
+//        setDate.append("7B");//头信息
+//        setDate.append("0004");//技术
+//        setDate.append("414c545f4c6f5261303031");//sn
+//        setDate.append("89");//指令
+//        setDate.append("0008");//数据长度
+//        setDate.append(str);//设备号
+//        setDate.append(parseInt);//静止时间
+//        setDate.append(parseInt2);//运动时间
+//        setDate.append(parseInt3);//gps休眠时间
+//        setDate.append(parseInt4);//lora休眠时间
+//        setDate.append(str);//ip
+//        setDate.append("7d");//包尾
+//        System.out.println("发送："+setDate.toString());
+	        
 		Result result = new Result();
 		result = localService.updateInfo(info);
 		return result;

@@ -226,6 +226,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         	templateUrl:'html/page/page.html',
         	controller:'PaginationDemoCtrl'
         })
+        .state('roaded',{
+        	url:'/roaded',
+        	templateUrl:'html/map/maproaded.html'
+        })
+        .state('ibeaconmap',{
+        	url: '/ibeaconmap',
+        	templateUrl:'html/map/ibeaconmap.html'
+        })
         
 //        .state('login',{
 //        	url:'login',

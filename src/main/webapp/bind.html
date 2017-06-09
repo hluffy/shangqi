@@ -117,7 +117,7 @@ function sendBind(){
 		$("#equipmentNum").css("background-color","#112220");
 		$.ajax({
 			type:"post",
-			url:"http://localhost:8080/shangqi/bind/addinfo.ll",
+			url:"/shangqi/bind/addinfo.ll",
 			data:{"frameNum":frameNum,"equipmentNum":equipmentNum,"bindType":"绑定"},
 			success:function(data){
 				$("#myModalButton").click();

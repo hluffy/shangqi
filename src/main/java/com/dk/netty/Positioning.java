@@ -29,6 +29,8 @@ public class Positioning implements Serializable{
 	
 	private String area;
 	
+	private String defData;
+	
 	
 	public Positioning(){
 		
@@ -136,6 +138,12 @@ public class Positioning implements Serializable{
 	}
 	public void setArea(String area) {
 		this.area = area;
+	}
+	public String getDefData() {
+		return defData;
+	}
+	public void setDefData(String defData) {
+		this.defData = defData;
 	}
 	
 

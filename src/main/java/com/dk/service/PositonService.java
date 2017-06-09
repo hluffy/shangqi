@@ -14,5 +14,7 @@ public interface PositonService {
 	Result updateInfo(PositionInfo info);
 	Result deleteInfo(PositionInfo info);
 	Result getInfoLow();
+	
+	Result getInfoAsTime(PositionInfo info);
 
 }

@@ -23,6 +23,8 @@ public class PositionInfo implements Serializable{
 	private int total;
 	
 	private String frameNum;
+	private String startTime;
+	private String endTime;
 	
 	public String getEquipmentNum() {
 		return equipmentNum;
@@ -95,6 +97,18 @@ public class PositionInfo implements Serializable{
 	}
 	public void setFrameNum(String frameNum) {
 		this.frameNum = frameNum;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 	
 	

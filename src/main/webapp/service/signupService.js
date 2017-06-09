@@ -4,7 +4,7 @@ app.service("singupServ",function($http,$q){
 		
 		$http({
 			method:"post",
-			url: "http://localhost:8080/shangqi/user/addinfo.ll",
+			url: "/shangqi/user/addinfo.ll",
 			data: user,
 			dataType: "json"
 		}).success(function(data){

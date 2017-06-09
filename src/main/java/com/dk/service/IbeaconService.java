@@ -9,5 +9,7 @@ public interface IbeaconService {
 	Result getInfo(IbeaconInfo info);
 	Result addInfo(IbeaconInfo info);
 	Result deleteInfo(IbeaconInfo info);
+	
+	Result getIbeaconForMap();
 
 }

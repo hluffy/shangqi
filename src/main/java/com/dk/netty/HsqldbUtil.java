@@ -91,7 +91,7 @@ public class HsqldbUtil {
 	public static void addPositioning(Positioning positioning){
 		Connection conn = null;
 		PreparedStatement ps = null;
-		String sql = "insert into positioning(equipment_num,longitude,latitude,positioning_mode,positioning_time,area,electricity) values(?,?,?,?,?,?,?)";
+		String sql = "insert into positioning(equipment_num,longitude,latitude,positioning_mode,positioning_time,area,electricity,def_data) values(?,?,?,?,?,?,?,?)";
 		try {
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
@@ -102,6 +102,7 @@ public class HsqldbUtil {
 			ps.setTimestamp(5, positioning.getPositioningTime());
 			ps.setString(6, positioning.getArea());
 			ps.setInt(7, positioning.getElectricity());
+			ps.setString(8, positioning.getDefData());
 			
 			ps.execute();
 		} catch (Exception e) {

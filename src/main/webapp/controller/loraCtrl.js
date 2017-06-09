@@ -95,6 +95,17 @@ app.controller("loraCtrl",function($rootScope,$scope,loraService){
 	
 });
 
+function getOptionsFromForm(){
+//    var opt = {callback: pageselectCallback};
+	var opt = {};
+    opt.prev_text = "上一页";
+    opt.next_text = "下一页";
+    opt.items_per_page=10;
+    opt.num_display_entries=4;
+    opt.num_edge_entries=2;
+    return opt;
+}
+
 app.directive("loraedit",function($document){
 	return{
 		restrict:"E",
@@ -139,7 +150,7 @@ app.directive("loracancel",function($document){
 	}
 });
 
-app.directive("loradelete",function($document,loraService){
+app.directive("loradelete",function($document,loraService,$rootScope){
 	return{
 		restrict:"E",
 		require:"ngModel",
@@ -154,6 +165,12 @@ app.directive("loradelete",function($document,loraService){
 								loraService.deleteInfo(ngModel.$modelValue).then(function(data){
 									console.log(data);
 									alert(data.message);
+									loraService.getInfos().then(function(data){
+										$rootScope.loras = data.data;
+										$rootScope.count = data.count;
+									    var optInit = getOptionsFromForm();
+									    $("#Pagination").pagination(data.count, optInit);
+									});
 								});
 								scope.loras.splice(i,1);
 							}

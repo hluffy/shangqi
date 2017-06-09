@@ -2,6 +2,7 @@ package com.dk.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Test {
 	public static void main(String[] args){
@@ -60,11 +61,11 @@ public class Test {
 //			}
 //		}
 //		System.out.println("end");
-		String str = "ALT_LORA001";
-		char[] chars = str.toCharArray();
-		for (char c : chars) {
-			System.out.println(Integer.toHexString((int)c));
-		}
+//		String str = "ALT_LORA001";
+//		char[] chars = str.toCharArray();
+//		for (char c : chars) {
+//			System.out.println(Integer.toHexString((int)c));
+//		}
 //		String sn = "414C545F4C6F5261303031";
 //		List<String> lists = new ArrayList<String>();
 //		for(int i=0;i<sn.length()/2;i++){
@@ -77,6 +78,31 @@ public class Test {
 //			SN.append(c);
 //		}
 //		System.out.println(SN.toString());
+//		int a = 16;
+//		System.out.println(Integer.toHexString(a));
+//		
+//		StringTokenizer token=new StringTokenizer("192.168.0.1",".");  
+//		List<Object> list=new ArrayList<>();
+//        while(token.hasMoreElements()){ 
+//        	int parseInt = Integer.parseInt(token.nextToken());
+//        	String hexString = Integer.toHexString(parseInt); 
+//        	list.add(hexString);
+//        }
+//        for (Object object : list) {
+//			System.out.println(object);
+//		}
+		
+		String str = "255255201123";
+		StringBuffer number = new StringBuffer();
+		for(int i=1;i<=str.length();i++){
+			number.append(str.charAt(i-1));
+			if(i%3==0){
+				number.append(".");
+			}
+		}
+		System.out.println(number.toString().substring(0,number.toString().length()-1));
+	        
+	      
 	}
 
 }

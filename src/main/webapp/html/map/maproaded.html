@@ -1,0 +1,55 @@
+<div ng-controller="roadedCtr">
+<!-- 	<section class="content-header"> -->
+<!-- 	<h1>map</h1> -->
+<!-- 	</section> -->
+	<section class="content">
+	 <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header" style="background-color: #ccc">
+<!--               <h3 class="box-title">·������</h3> -->
+
+<!--               <div class="box-tools"> -->
+<!--                 <form class="form-inline"> -->
+<!--                 	<div class="input-group input-group-sm"> -->
+<!--                 		���:&nbsp;&nbsp;<input ng-model="map.framenum" type="text" placeholder="���복�ܺ�"> -->
+<!--                   &nbsp;&nbsp;--&nbsp;&nbsp;�յ�:&nbsp;&nbsp;<input type="text" value="xxx" readonly="readonly"> -->
+<!--                 	</div> -->
+                	
+<!-- 					<div class="pull-right"> -->
+<!-- 	                    <button ng-click="getRoadInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!-- 	                 </div> -->
+<!--                 </form> -->
+                 	 
+                
+<!--               </div> -->
+					<form class="form-inline">
+						<div class="input-group input-group-sm">
+							<input class="form-control" ng-model="map.frameNum" placeholder=" 车架号">
+						</div>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<div class="input-group input_group-sm">
+							<input style="height: 29px" ng-model="map.startTime" id="mapStartTime" class="laydate-icon" placeholder=" 开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+							--
+							<input style="height:29px" ng-model="map.endTime" id="mapEndTime" class="laydate-icon" placeholder=" 结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						</div>
+<!-- 						<div class="input-group input-group-sm"> -->
+<!-- 							<input class="form-control" placeholder=" �յ�" readonly="readonly"> -->
+<!-- 						</div> -->
+						<div class="pull-right">
+							<button ng-click="getRoadedInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+						</div>
+		                 
+	                 	
+		              	
+		              </form>
+            </div>
+            <!-- /.box-header -->
+<!--             <div id="leafletMap" class="box-body table-responsive no-padding" ng-controller="mapCtrl"> -->
+				<div id="roadedMap" style="width:100%;height:550px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>

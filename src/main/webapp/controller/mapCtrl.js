@@ -1,11 +1,12 @@
-app.controller("mapCtrl",function($scope,$timeout,mapServ){
+app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
+	$rootScope.countId="100%";
 	$scope.map = {};
 // 		function initmap(){
 //		var centerPoint = [31.1707739,121.406607];
 		var centerPoint = [30.8853,121.8258];
 		var map = L.map('leafletMap').setView(centerPoint, 16);
 		
-		var aerial = new L.tileLayer("http://localhost:8080/Tiles/{z}/{x}/{y}.png", {
+		var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
     		maxZoom: 21,
     		minZoom: 15,
 		});

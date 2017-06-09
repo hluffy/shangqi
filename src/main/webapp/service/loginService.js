@@ -12,7 +12,7 @@
 //		
 //	});
 
-app.service("loginService",function($http,$q){
+app.service("loginService",function($http,$q,$location){
 //	this.userLogin=function(user){
 //		var deferred = $q.defer();
 //		$http.jsonp("http://localhost:8080/carlocation/user/userlogin.ll?callback=JSON_CALLBACK&userName="+user.userName+"&password="+user.password).success(function(data){
@@ -29,7 +29,7 @@ app.service("loginService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/user/logininfo.ll",
+			url:"/shangqi/user/logininfo.ll",
 			data:user,
 			dataType:"json"
 		}).success(function(data){

@@ -356,7 +356,7 @@ public class LoraServiceImpl implements LoraService{
 	
 	private String getStr(String str){
 		StringBuffer numberDef = new StringBuffer();
-		char[] chars = str.toCharArray();
+		char[] chars = str.toUpperCase().toCharArray();
 		for (char c : chars) {
 			numberDef.append(Integer.toHexString((int)c));
 		}

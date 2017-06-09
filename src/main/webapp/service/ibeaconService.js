@@ -9,7 +9,7 @@ app.service("ibeaconSer",function($http,$q){
 	
 	this.getIbeaconInfos = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/ibeacon/getinfos.ll").success(function(data){
+		$http.get("/shangqi/ibeacon/getinfos.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("连接失败");
@@ -22,7 +22,7 @@ app.service("ibeaconSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/ibeacon/getinfo.ll",
+			url:"/shangqi/ibeacon/getinfo.ll",
 			data:ibeacon,
 			dataType:"json"
 		}).success(function(data){
@@ -38,7 +38,7 @@ app.service("ibeaconSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/ibeacon/updateinfo.ll",
+			url:"/shangqi/ibeacon/updateinfo.ll",
 			data:ibeacon,
 			dataType:"json"
 		}).success(function(data){
@@ -53,7 +53,7 @@ app.service("ibeaconSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/ibeacon/addinfo.ll",
+			url:"/shangqi/ibeacon/addinfo.ll",
 			data:ibeacon,
 			dataType:"json"
 		}).success(function(data){
@@ -69,7 +69,7 @@ app.service("ibeaconSer",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/ibeacon/deleteinfo.ll",
+			url:"/shangqi/ibeacon/deleteinfo.ll",
 			data:ibeacon,
 			dataType:"json"
 		}).success(function(data){

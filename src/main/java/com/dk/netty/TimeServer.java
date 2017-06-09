@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class TimeServer {
 
@@ -38,6 +39,7 @@ public class TimeServer {
         protected void initChannel(SocketChannel arg0) throws Exception {
             System.out.println("server initChannel..");
             arg0.pipeline().addLast(new TimeServerHandler());
+            arg0.pipeline().addLast(new LengthFieldBasedFrameDecoder(1536,16,2,1,0,false));
         }
     }
     

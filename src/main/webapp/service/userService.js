@@ -17,7 +17,7 @@ app.service("userService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/user/getinfo.ll",
+			url:"/shangqi/user/getinfo.ll",
 			data:user,
 			dataType:"json"
 		}).success(function(data){
@@ -31,7 +31,7 @@ app.service("userService",function($http,$q){
 	    
 	this.getUserInfos = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/user/getinfos.ll").success(function(data){
+		$http.get("/shangqi/user/getinfos.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("连接失败");
@@ -50,7 +50,7 @@ app.service("userService",function($http,$q){
 //		});
 		$http({
 			method:'post',
-			url:'http://localhost:8080/shangqi/user/updateinfo.ll',
+			url:'/shangqi/user/updateinfo.ll',
 			data:user,
 			dataType: 'json'
 //			data:{"userName":"hanxiao","password":"hanxiao"},
@@ -68,7 +68,7 @@ app.service("userService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/user/addinfo.ll",
+			url:"/shangqi/user/addinfo.ll",
 			data:user,
 			dataType:"json"
 		}).success(function(data){
@@ -83,7 +83,7 @@ app.service("userService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/user/deleteinfo.ll",
+			url:"/shangqi/user/deleteinfo.ll",
 			data:user,
 			dataType:"json"
 		}).success(function(data){

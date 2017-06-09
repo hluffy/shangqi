@@ -153,6 +153,7 @@ public class RoleFilter implements Filter{
 		RoleList.addList("position/getinfos.ll");
 		RoleList.addList("position/getinfo.ll");
 		RoleList.addList("position/getlowinfo.ll");
+		RoleList.addList("position/getinfoastime.ll");
 	}
 
 

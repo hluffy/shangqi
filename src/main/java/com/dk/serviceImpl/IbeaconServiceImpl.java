@@ -89,7 +89,7 @@ public class IbeaconServiceImpl implements IbeaconService{
 	public Result updateInfo(IbeaconInfo info) {
 		// TODO Auto-generated method stub
 		Result result = new Result();
-		if(info.getMinor()==null){
+		if(info.getUuid()==null){
 			result.setStates(false);
 			result.setMessage("参数不能为空");
 			return result;
@@ -351,6 +351,61 @@ public class IbeaconServiceImpl implements IbeaconService{
 			if(ps!=null){
 				try {
 					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result getIbeaconForMap() {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		Statement st = null;
+		List<IbeaconInfo> infos = new ArrayList<IbeaconInfo>();
+		try {
+			String sql = "select * from ibeacon";
+			conn = DBUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				IbeaconInfo info = new IbeaconInfo();
+				info.setMinor(rs.getInt("minor"));
+				info.setUuid(rs.getString("uuid"));
+				info.setLog(rs.getDouble("longitude"));
+				info.setLat(rs.getDouble("latitude"));
+				info.setEle(rs.getInt("ele"));
+				info.setArea(rs.getString("area"));
+				Timestamp lastUseTime = rs.getTimestamp("last_use_time");
+				info.setLastUseTime(lastUseTime);
+				
+				infos.add(info);
+			}
+			
+			result.setData(infos);
+			result.setStates(true);
+			result.setMessage("查询成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("查询失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(st!=null){
+				try {
+					st.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

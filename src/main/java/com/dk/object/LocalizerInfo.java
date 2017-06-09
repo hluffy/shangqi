@@ -25,8 +25,8 @@ public class LocalizerInfo implements Serializable{
 	private Integer page;
 	private String numberDef;
 	
-	private String gpsTimeOut;
-	private String loraSleepTime;
+	private String gpsTimeOut;//gps超时时间
+	private String loraSleepTime;//lora休眠时间
 	
 	public String getNumber() {
 		return number;

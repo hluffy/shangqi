@@ -2,11 +2,14 @@ package com.dk.netty;
 
 import io.netty.channel.ChannelHandlerContext;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import com.dk.gis.client.ApiException;
@@ -20,6 +23,7 @@ import com.dk.service.LocalizerService;
 import com.dk.serviceImpl.LocalizerServiceImpl;
 import com.dk.util.IsInArea;
 import com.dk.util.MyComparator;
+import com.dk.util.SelectList;
 
 public class StringAnalysis {
 	public static String stringAnalysis(String[] args,ChannelHandlerContext ctx){
@@ -56,6 +60,10 @@ public class StringAnalysis {
 			returnString.append(sn);
 			String instructions = strs[14];
 			System.out.println(instructions);
+			
+			//保存连接
+			ChannelServer.addGatewayChannel(localInfo.getSv(), ctx);
+			
 			switch (instructions) {
 			case "05":
 				returnString.append("85");
@@ -84,16 +92,13 @@ public class StringAnalysis {
 				positioning.setElectricity(quantity);
 				localInfo.setEle(quantity);
 				
-				//保存连接
-				if(ChannelServer.getGatewayChannel(localInfo.getSv())==null){
-					ChannelServer.addGatewayChannel(localInfo.getSv(), ctx);
-				}
+				
 				
 				String T = strs[25];
 				System.out.println("t:"+T);
 				switch (T) {
 				case "05":
-					positioning.setPositioningMode("IBeacon");
+					positioning.setPositioningMode("iBeacon");
 					System.out.println("IBeacon---------------------------------------------------------------------------");
 					StringBuffer Vdatas = new StringBuffer();
 					for(int i =25;i<strs.length-1;i++){
@@ -112,6 +117,9 @@ public class StringAnalysis {
 						strdata.append(datas[i]);
 					}
 					System.out.println(strdata.toString());
+					
+					StringBuffer strData = new StringBuffer();
+					
 //					String[] datas = Vdatas.toString().split(T);
 					for(String s:datas){
 						int dataLength = Integer.parseInt(s.substring(0, 2),16);
@@ -126,19 +134,24 @@ public class StringAnalysis {
 							int maior = Integer.parseInt(data.substring(32,36),16);
 							System.out.println("maior:"+maior);
 							signal.setMaior(maior);
+							strData.append("maior:"+maior+" ");
 							int minor = Integer.parseInt(data.substring(36,40),16);
 							System.out.println("minor:"+minor);
 							signal.setMinor(minor);
+							strData.append("minor:"+minor+" ");
 							int rssi = Integer.parseInt(data.substring(40,42),16);
 							System.out.println("rssi:"+(rssi-255));
 							signal.setRssi((double)(rssi-255));
+							strData.append("rssi:"+(double)(rssi-255)+" ");
 							int power = Integer.parseInt(data.substring(42,44),16);
 							System.out.println("power:"+power);
 							signal.setPower(power);
+							strData.append("power:"+power+" ");
 							int bat = Integer.parseInt(data.substring(44,46),16);
 							System.out.println("bat:"+bat);
 							signal.setBat(bat);
 							ibeaconInfo.setEle(bat);
+							strData.append("bat:"+bat+" ");
 							
 							String maiorStr;
 							if((maiorStr=String.valueOf(maior)).length()<2){
@@ -154,60 +167,130 @@ public class StringAnalysis {
 							signal.setUuid("IBCSAIC-"+maiorStr+"-"+minorStr);
 							System.out.println("uuid------IBCSAIC-"+maiorStr+"-"+minorStr);
 							ibeaconInfo.setUuid("IBCSAIC-"+maiorStr+"-"+minorStr);
+							strData.append("uuid:IBCSAIC-"+maiorStr+"-"+minorStr+" ");
 							
-							HsqldbUtil.updateIbeacon(ibeaconInfo);
+//							HsqldbUtil.updateIbeacon(ibeaconInfo);
 //							if(signals.size()<3){
 							signals.add(signal);
 //							}
 						}
 					}
 					
+					writeStr(positioning.getEquipmentNum(),signals);
+					if(signals.size()<3){
+						return returnFail(localInfo.getSv());
+					}
+					
+					positioning.setDefData(strData.toString());
+					
 					Collections.sort(signals,new MyComparator());//排序，根据rssi的值排序，最小的在前
-					IBeaconApi client =  new IBeaconApi();
-					BeaconGroupInput inputGroup = new BeaconGroupInput();
-					IBeacon ib1 = HsqldbUtil.getIbeacon(signals.get(0).getUuid());
-					IBeacon ib2 = HsqldbUtil.getIbeacon(signals.get(1).getUuid());
-					IBeacon ib3 = HsqldbUtil.getIbeacon(signals.get(2).getUuid());
-					inputGroup.setRssi1(signals.get(0).getRssi());
-					inputGroup.setTxPower1(signals.get(0).getPower());
-//					inputGroup.setTxPower1(1);
-					inputGroup.setLatitude1(ib1.getLatitude());
-					inputGroup.setLongitude1(ib1.getLongitude());
-					inputGroup.setRssi2(signals.get(1).getRssi());
-					inputGroup.setTxPower2(signals.get(1).getPower());
-//					inputGroup.setTxPower2(1);
-					inputGroup.setLatitude2(ib2.getLatitude());
-					inputGroup.setLongitude2(ib2.getLongitude());
-					inputGroup.setRssi3(signals.get(2).getRssi());
-					inputGroup.setTxPower3(signals.get(2).getPower());
-//					inputGroup.setTxPower3(1);
-					inputGroup.setLatitude3(ib3.getLatitude());
-					inputGroup.setLongitude3(ib3.getLongitude());
 					
-					inputGroup.setCoefficient1(59.0);//59
-					inputGroup.setCoefficient2(2.0);//2
-					
-					System.out.println("rssi:"+inputGroup.getRssi1()+"/"+inputGroup.getRssi2()+"/"+inputGroup.getRssi3());
-					System.out.println("txpower:"+inputGroup.getTxPower1()+"/"+inputGroup.getTxPower2()+"/"+inputGroup.getTxPower3());
-					System.out.println("longitude:"+inputGroup.getLongitude1()+"/"+inputGroup.getLongitude2()+"/"+inputGroup.getLongitude3());
-					System.out.println("latitude:"+inputGroup.getLatitude1()+"/"+inputGroup.getLatitude2()+"/"+inputGroup.getLatitude3());
-					
-					try {
-						GISLocation location = client.obtainLocationUsingPOST(inputGroup);
-						System.out.println(location.getLatitude()+":" + location.getLongitude());
-						positioning.setLatitude(location.getLongitude());
-						positioning.setLongitude(location.getLatitude());
+					List<List<IBeaconSignal>> listSignals = SelectList.getList(signals, 3);
+					List<GISLocation> giss = new ArrayList<GISLocation>();
+					for(int i=0;i<listSignals.size();i++){
+						IBeaconApi client = new IBeaconApi();
+						BeaconGroupInput inputGroup = new BeaconGroupInput();
+						IBeacon ib1 = HsqldbUtil.getIbeacon(listSignals.get(i).get(0).getUuid());
+						IBeacon ib2 = HsqldbUtil.getIbeacon(listSignals.get(i).get(1).getUuid());
+						IBeacon ib3 = HsqldbUtil.getIbeacon(listSignals.get(i).get(2).getUuid());
+						inputGroup.setRssi1(listSignals.get(i).get(0).getRssi());
+						inputGroup.setTxPower1(listSignals.get(i).get(0).getPower());
+						inputGroup.setLatitude1(ib1.getLatitude());
+						inputGroup.setLongitude1(ib1.getLongitude());
+						
+						inputGroup.setRssi2(listSignals.get(i).get(1).getRssi());
+						inputGroup.setTxPower2(listSignals.get(i).get(1).getPower());
+						inputGroup.setLatitude2(ib2.getLatitude());
+						inputGroup.setLongitude2(ib2.getLongitude());
+						
+						inputGroup.setRssi3(listSignals.get(i).get(2).getRssi());
+						inputGroup.setTxPower3(listSignals.get(i).get(2).getPower());
+						inputGroup.setLatitude3(ib3.getLatitude());
+						inputGroup.setLongitude3(ib3.getLongitude());
+						
+						inputGroup.setCoefficient1(59.0);
+						inputGroup.setCoefficient2(2.0);
+						
+						try {
+							GISLocation location = client.obtainLocationUsingPOST(inputGroup);
+							giss.add(location);
+						} catch (ApiException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					if(giss.size()>0){
+						double latsum = 0;
+						double logsum = 0;
+						for (GISLocation gis : giss) {
+							latsum += gis.getLatitude();
+							logsum += gis.getLongitude();
+						}
+						positioning.setLatitude(latsum/giss.size());
+						positioning.setLongitude(logsum/giss.size());
 						positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
 //						HsqldbUtil.updatePositioning(positioning);
-						positioning.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
-						localInfo.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
+						
+						String area = IsInArea.whereArea(logsum/giss.size(), latsum/giss.size());
+						positioning.setArea(area);
+						localInfo.setArea(area);
+						
+//						positioning.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
+//						localInfo.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
 						HsqldbUtil.addPositioning(positioning);
 //						HsqldbUtil.updateLocalizerArea(localInfo);
+						System.out.println("sn------------------------"+localInfo.getSv());
 						localService.updateLocalInfo(localInfo);//更新区域和电量信息
 						System.out.println("ibeacon保存成功");
-					} catch (ApiException e) {
-						e.printStackTrace();
 					}
+					
+					
+//					IBeaconApi client =  new IBeaconApi();
+//					BeaconGroupInput inputGroup = new BeaconGroupInput();
+//					IBeacon ib1 = HsqldbUtil.getIbeacon(signals.get(0).getUuid());
+//					IBeacon ib2 = HsqldbUtil.getIbeacon(signals.get(1).getUuid());
+//					IBeacon ib3 = HsqldbUtil.getIbeacon(signals.get(2).getUuid());
+//					inputGroup.setRssi1(signals.get(0).getRssi());
+//					inputGroup.setTxPower1(signals.get(0).getPower());
+////					inputGroup.setTxPower1(1);
+//					inputGroup.setLatitude1(ib1.getLatitude());
+//					inputGroup.setLongitude1(ib1.getLongitude());
+//					inputGroup.setRssi2(signals.get(1).getRssi());
+//					inputGroup.setTxPower2(signals.get(1).getPower());
+////					inputGroup.setTxPower2(1);
+//					inputGroup.setLatitude2(ib2.getLatitude());
+//					inputGroup.setLongitude2(ib2.getLongitude());
+//					inputGroup.setRssi3(signals.get(2).getRssi());
+//					inputGroup.setTxPower3(signals.get(2).getPower());
+////					inputGroup.setTxPower3(1);
+//					inputGroup.setLatitude3(ib3.getLatitude());
+//					inputGroup.setLongitude3(ib3.getLongitude());
+//					
+//					inputGroup.setCoefficient1(59.0);//59
+//					inputGroup.setCoefficient2(2.0);//2
+//					
+//					System.out.println("rssi:"+inputGroup.getRssi1()+"/"+inputGroup.getRssi2()+"/"+inputGroup.getRssi3());
+//					System.out.println("txpower:"+inputGroup.getTxPower1()+"/"+inputGroup.getTxPower2()+"/"+inputGroup.getTxPower3());
+//					System.out.println("longitude:"+inputGroup.getLongitude1()+"/"+inputGroup.getLongitude2()+"/"+inputGroup.getLongitude3());
+//					System.out.println("latitude:"+inputGroup.getLatitude1()+"/"+inputGroup.getLatitude2()+"/"+inputGroup.getLatitude3());
+//					
+//					try {
+//						GISLocation location = client.obtainLocationUsingPOST(inputGroup);
+//						System.out.println(location.getLatitude()+":" + location.getLongitude());
+//						positioning.setLatitude(location.getLongitude());
+//						positioning.setLongitude(location.getLatitude());
+//						positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
+////						HsqldbUtil.updatePositioning(positioning);
+//						positioning.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
+//						localInfo.setArea(IsInArea.whereArea(location.getLongitude(), location.getLatitude()));
+//						HsqldbUtil.addPositioning(positioning);
+////						HsqldbUtil.updateLocalizerArea(localInfo);
+//						System.out.println("sn------------------------"+localInfo.getSv());
+//						localService.updateLocalInfo(localInfo);//更新区域和电量信息
+//						System.out.println("ibeacon保存成功");
+//					} catch (ApiException e) {
+//						e.printStackTrace();
+//					}
 					
 					
 					
@@ -408,5 +491,50 @@ public class StringAnalysis {
 		}
 		return returnString.toString().toUpperCase();
 	}
-
+	
+	
+	private static String returnFail(String sn){
+		StringBuffer returnFail = new StringBuffer();
+		returnFail.append("7b");
+		returnFail.append("0000");
+		returnFail.append(sn);
+		returnFail.append("85");
+		returnFail.append("0003");
+		returnFail.append("09");
+		returnFail.append("01");
+		returnFail.append("04");
+		returnFail.append("7d");
+		return returnFail.toString();
+	}
+	
+	private static void writeStr(String str,List<IBeaconSignal> infos){
+		File file = new File("C:/firecontrol/shangqilog.txt");
+		PrintWriter pw = null;
+		StringBuffer fileStr = new StringBuffer();
+		try {
+			pw = new PrintWriter(new FileOutputStream(file,true));
+			fileStr.append(str);
+			fileStr.append(":");
+			for (IBeaconSignal info : infos) {
+				fileStr.append(info.toString());
+				fileStr.append("--");
+			}
+			if(infos.size()==0){
+				pw.println(fileStr.toString()+"--"+new Timestamp(System.currentTimeMillis()));
+			}else{
+				pw.println(fileStr.toString()+new Timestamp(System.currentTimeMillis()));
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			if(pw!=null){
+				pw.close();
+			}
+		}
+		
+	}
+	
+	
 }

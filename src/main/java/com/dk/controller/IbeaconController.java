@@ -1,5 +1,9 @@
 package com.dk.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -10,12 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dk.object.IbeaconInfo;
 import com.dk.result.Result;
 import com.dk.service.IbeaconService;
+import com.dk.serviceImpl.IbeaconServiceImpl;
 
 @Controller
 @RequestMapping("ibeacon")
 public class IbeaconController {
 	@Resource
 	private IbeaconService ibeaconService;
+	
 	
 	@RequestMapping("getinfos.ll")
 	@ResponseBody
@@ -57,6 +63,14 @@ public class IbeaconController {
 			info.setPage(0);
 		}
 		result = ibeaconService.getInfo(info);
+		return result;
+	}
+	
+	@RequestMapping("getinbeaconmap.ll")
+	@ResponseBody
+	public Result getIbeaconForMap(){
+		Result result = new Result();
+		result = ibeaconService.getIbeaconForMap();
 		return result;
 	}
 

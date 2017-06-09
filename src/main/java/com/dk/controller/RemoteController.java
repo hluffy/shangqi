@@ -18,6 +18,7 @@ import com.dk.object.LocalizerInfo;
 import com.dk.object.LoraInfo;
 import com.dk.result.Result;
 import com.dk.service.LocalizerService;
+import com.dk.service.LoraService;
 import com.dk.util.Date;
 
 @Controller
@@ -31,6 +32,9 @@ public class RemoteController {
 	@Resource
 	private LocalizerService localService;
 	
+	@Resource
+	private LoraService loraServer;
+	
 	/**
 	 * 重启LORA模块 ok
 	 * @param str
@@ -41,6 +45,10 @@ public class RemoteController {
 	public Result restartLoraMac(@RequestBody LocalizerInfo local){
 		Result result = new Result();
 		ChannelServer.setString(null);
+		if(local.getSv()==null){
+			result.setMessage("连接不存在");
+			return result;
+		}
 		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(local.getSv());
 		if(ctx==null){
 			result.setStates(false);
@@ -70,8 +78,45 @@ public class RemoteController {
 	}
 	
 	/**
+	 * 设置lora基站发送的服务器地址和端口
+	 */
+	public Result setIpAndPort(LoraInfo lora){
+		Result result = new Result();
+		ChannelServer.setString(null);
+		if(lora.getNumberDef()==null){
+			result.setMessage("连接不存在");
+			return result;
+		}
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(lora.getNumberDef());
+		if(ctx==null){
+			result.setMessage("连接不存在，请稍后再试");
+			return result;
+		}
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(""));
+		ctx.writeAndFlush(resp);
+		long start = System.currentTimeMillis();
+		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>10000){
+				break;
+			}
+		}
+		if(ChannelServer.getString()==null){
+			result.setStates(false);
+			result.setMessage("连接超时，请稍后再试");
+		}else{
+			result = loraServer.updateInfo(lora);
+			ChannelServer.setString(null);
+			ctx.close();
+		}
+		return result;
+	}
+	
+	/**
 	 * 重启LORA基站 ok
 	 * @return
+	 * 1
 	 */
 	@RequestMapping("restartlora.ll")
 	@ResponseBody
@@ -93,7 +138,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>5000){
+			if(end-start>10000){
 				break;
 			}
 		}
@@ -104,6 +149,7 @@ public class RemoteController {
 			result.setStates(true);
 			result.setMessage(ChannelServer.getString());;
 			ChannelServer.setString(null);
+			ctx.close();
 		}
 		return result;
 	}
@@ -133,7 +179,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>5000){
+			if(end-start>10000){
 				break;
 			}
 			
@@ -155,6 +201,10 @@ public class RemoteController {
 	public Result loadLocal(@RequestBody LocalizerInfo info){
 		Result result = new Result();
 		ChannelServer.setString(null);
+		if(info.getSv()==null){
+			result.setMessage("连接不存在");
+			return result;
+		}
 		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(info.getSv());
 		if(ctx==null){
 			result.setStates(false);
@@ -167,9 +217,9 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>5000){
-				break;
-			}
+//			if(end-start>5000){
+//				break;
+//			}
 		}
 		if(ChannelServer.getString()==null){
 			result.setStates(false);

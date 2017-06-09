@@ -96,7 +96,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 	public Result addInfo(LocalizerInfo info) {
 		// TODO Auto-generated method stub
 		Result result = new Result();
-		if(info.getNumber()==null||info.getNumber().isEmpty()){
+		if(info.getNumberDef()==null||info.getNumberDef().isEmpty()){
 			result.setStates(false);
 			result.setMessage("参数不能为空");
 			return result;
@@ -108,7 +108,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
-			ps.setString(1, info.getNumber());
+//			ps.setString(1, info.getNumber());
+			ps.setString(1, numberToNumberDef(info.getNumberDef()));
 			ps.setString(2, info.getStaticTime());
 			ps.setString(3, info.getRunTime());
 			ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
@@ -120,7 +121,8 @@ public class LocalizerServiceImpl implements LocalizerService{
 			}else{
 				ps.setInt(8, info.getEle());
 			}
-			ps.setString(9, info.getNumber().replace(".", ""));
+//			ps.setString(9, info.getNumber().replace(".", ""));
+			ps.setString(9, info.getNumberDef());
 			ps.setString(10, info.getGpsTimeOut());
 			ps.setString(11, info.getLoraSleepTime());
 			
@@ -154,6 +156,17 @@ public class LocalizerServiceImpl implements LocalizerService{
 			}
 		}
 		return result;
+	}
+	
+	private String numberToNumberDef(String str){
+		StringBuffer number = new StringBuffer();
+		for(int i=1;i<=str.length();i++){
+			number.append(str.charAt(i-1));
+			if(i%3==0){
+				number.append(".");
+			}
+		}
+		return number.toString().substring(0,number.toString().length()-1);
 	}
 
 	@Override
@@ -549,13 +562,15 @@ public class LocalizerServiceImpl implements LocalizerService{
 		PreparedStatement ps = null;
 		
 		try {
-			String sql = "update localizer set area=?,ele=?,time=? where number=?";
+			String sql = "update localizer set area=?,ele=?,time=?,sv=?,sv_str=? where number=?";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, info.getArea());
 			ps.setInt(2, info.getEle());
 			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-			ps.setString(4, info.getNumber());
+			ps.setString(4, info.getSv());
+			ps.setString(5, info.getSvStr());
+			ps.setString(6, info.getNumber());
 			
 			ps.execute();
 			result.setMessage("更新成功");

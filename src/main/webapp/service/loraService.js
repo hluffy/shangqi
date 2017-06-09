@@ -1,7 +1,7 @@
 app.service("loraService",function($http,$q){
 	this.getInfos = function(){
 		var deferred = $q.defer();
-		$http.get("http://localhost:8080/shangqi/lora/getinfos.ll").success(function(data){
+		$http.get("/shangqi/lora/getinfos.ll").success(function(data){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("查询失败");
@@ -14,7 +14,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/lora/addinfo.ll",
+			url:"/shangqi/lora/addinfo.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){
@@ -30,7 +30,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/lora/updateinfo.ll",
+			url:"/shangqi/lora/updateinfo.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){
@@ -46,7 +46,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/lora/deleteinfo.ll",
+			url:"/shangqi/lora/deleteinfo.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){
@@ -62,7 +62,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/lora/getinfo.ll",
+			url:"/shangqi/lora/getinfo.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){
@@ -78,7 +78,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/remote/restartlora.ll",
+			url:"/shangqi/remote/restartlora.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){
@@ -94,7 +94,7 @@ app.service("loraService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"http://localhost:8080/shangqi/remote/synctime.ll",
+			url:"/shangqi/remote/synctime.ll",
 			data:lora,
 			dataType:"json"
 		}).success(function(data){

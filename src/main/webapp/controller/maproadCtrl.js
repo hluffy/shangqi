@@ -1,8 +1,9 @@
-app.controller("maproadCtr",function($scope,mapServ){
+app.controller("maproadCtr",function($scope,mapServ,$rootScope){
+	$rootScope.countId="100%";
 	var centerPoint = [30.8853,121.8258];
 	var map = L.map('leafletMap').setView(centerPoint, 16);
 	
-	var aerial = new L.tileLayer("http://localhost:8080/Tiles/{z}/{x}/{y}.png", {
+	var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
 		maxZoom: 21,
 		minZoom: 15,
 	});
@@ -17,14 +18,31 @@ app.controller("maproadCtr",function($scope,mapServ){
 //		[30.8856643, 121.8270788]], {  
 //		    color: 'blue',  
 //		    opacity: 0.5,  
-//		    weight: 3  
+//		    weight: 3
 //		}).addTo(map); 
+	
+	//基站测试
+//	var marker6 = L.marker([30.8853881,121.8267542]);
+//	map.addLayer(marker6);
+//	marker6.bindPopup("006");
+//	
+//	var marker10 = L.marker([30.8853881,121.8268588]);
+//	map.addLayer(marker10);
+//	marker10.bindPopup("010");
+//	
+//	var marker79 = L.marker([30.8852983,121.8268535]);
+//	map.addLayer(marker79);
+//	marker79.bindPopup("079");
+//	
+//	var marker85 = L.marker([30.885296,121.8267462]);
+//	map.addLayer(marker85);
+//	marker85.bindPopup("085");
 	
 	$scope.map = {};
 	$scope.getRoadInfo = function(){
 		map.remove();
 		map = L.map('leafletMap').setView(centerPoint, 19);
-		var aerial = new L.tileLayer("http://localhost:8080/Tiles/{z}/{x}/{y}.png", {
+		var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
     		maxZoom: 21,
     		minZoom: 16,
 //     		maxNativeZoom: 19

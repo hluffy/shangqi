@@ -27,16 +27,16 @@
                   <th style="border-top: 1px solid #794747;text-align: center;"></th>
                   <th style="border-top: 1px solid #794747;text-align: center;">编号</th>
 <!--                   <th style="border-top: 1px solid #794747;text-align: center;">SN编号</th> -->
-                  <th style="border-top: 1px solid #794747;text-align: center;">静止时间间隔</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">运行时间间隔</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">GPS超时时间</th>
-                  <th style="border-top: 1px solid #794747;text-align: center;">LoRa休眠时间</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">静止时间间隔(s)</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">运行时间间隔(s)</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">GPS超时时间(s)</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">LoRa进入休眠时间(s)</th>
 <!--                   <th>注册服务器端口</th> -->
 <!--                   <th>登录服务器地址</th> -->
 <!--                   <th>终端号</th> -->
                   <th style="border-top: 1px solid #794747;text-align: center;">时间</th>
                   <th style="border-top: 1px solid #794747"></th>
-                  <th style="border-top: 1px solid #794747"></th>
+<!--                   <th style="border-top: 1px solid #794747"></th> -->
                 </tr>
                 <tr ng-repeat="local in locals">
                 	<input ng-model="local.numberDef" hidden="true" class="input{{local.numberDef}}">
@@ -49,11 +49,15 @@
 <!--                 	<td>{{x.UUID}}</td> -->
 <!--                 	<td>{{x.Maior}}</td> -->
 <!--                 	<td>{{x.Minor}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td> -->
+                	<td ng-bind="local.staticTime"></td>
 <!--                 	<td>{{x.RSSI}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td>
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td>
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td> -->
+                	<td ng-bind="local.runTime"></td>
+<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td> -->
+                	<td ng-bind="local.gpsTimeOut"></td>
+<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td> -->
+                	<td ng-bind="local.loraSleepTime"></td>
 <!--                 	<td>{{x.POWER}}</td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
@@ -61,27 +65,27 @@
 <!-- 					<td><input style="width:150px" ng-model="local.timeStr" readonly class="inactive input{{local.number}}"></td> -->
 					<td style="width:150px;padding: 4px" ng-bind="local.timeStr"></td>
                 	<td style="padding: 4px">
-                		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow">
-				        	<span class="glyphicon glyphicon-pencil">编辑</span>
-				        </localedit>
-				        <localupdate class="btn btn-success" ng-show="isShow" ng-model="local">
-				        	<span class="glyphicon glyphicon-pencil">保存</span>
-				        </localupdate>
-				        <localcancel class="btn btn-warning" ng-show="isShow" ng-model="local">
-				        	<span class="glyphicon glyphicon-remove">取消</span>
-				        </localcancel>
+<!--                 		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">编辑</span> -->
+<!-- 				        </localedit> -->
+<!-- 				        <localupdate class="btn btn-success" ng-show="isShow" ng-model="local"> -->
+<!-- 				        	<span class="glyphicon glyphicon-pencil">保存</span> -->
+<!-- 				        </localupdate> -->
+<!-- 				        <localcancel class="btn btn-warning" ng-show="isShow" ng-model="local"> -->
+<!-- 				        	<span class="glyphicon glyphicon-remove">取消</span> -->
+<!-- 				        </localcancel> -->
 				        <localdelete class="btn btn-danger" ng-model="local" ng-show="!isShow">
 				        	<span class="glyphicon glyphicon-trash">删除</span>
 				        </localdelete>
                 	</td>
-                	<td style="padding: 4px">
-                		<localrestart class="btn btn-primary" ng-model="local">
-                			<span class="glyphicon glyphicon-refresh">重启</span>
-                		</localrestart>
-                		<localload class="btn btn-primary" ng-model="local">
-                			<span class="glyphicon glyphicon-refresh">同步参数</span>
-                		</localload>
-                	</td>
+<!--                 	<td style="padding: 4px"> -->
+<!--                 		<localrestart class="btn btn-primary" ng-model="local"> -->
+<!--                 			<span class="glyphicon glyphicon-refresh">重启</span> -->
+<!--                 		</localrestart> -->
+<!--                 		<localload class="btn btn-primary" ng-model="local"> -->
+<!--                 			<span class="glyphicon glyphicon-refresh">同步参数</span> -->
+<!--                 		</localload> -->
+<!--                 	</td> -->
                 </tr>
                 </table>
             </div>

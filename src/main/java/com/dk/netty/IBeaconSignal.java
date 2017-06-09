@@ -57,5 +57,10 @@ public class IBeaconSignal {
 		this.bat = bat;
 	}
 	
+	@Override
+	public String toString() {
+		return "uuid:"+uuid+",power"+power+",rssi"+rssi+",bat"+bat;
+	}
+	
 
 }
