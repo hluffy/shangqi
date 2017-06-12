@@ -92,15 +92,27 @@ public class Test {
 //			System.out.println(object);
 //		}
 		
-		String str = "255255201123";
-		StringBuffer number = new StringBuffer();
-		for(int i=1;i<=str.length();i++){
-			number.append(str.charAt(i-1));
-			if(i%3==0){
-				number.append(".");
-			}
+//		String str = "255255201123";
+//		StringBuffer number = new StringBuffer();
+//		for(int i=1;i<=str.length();i++){
+//			number.append(str.charAt(i-1));
+//			if(i%3==0){
+//				number.append(".");
+//			}
+//		}
+//		System.out.println(number.toString().substring(0,number.toString().length()-1));
+		
+//		String str = "hanhhhiao";//hanshhiao
+////		str = str.replace(str.charAt(0), 's');
+//		str = str.substring(0,3)+"s"+str.substring(4,str.length()-1);
+//		System.out.println(str);
+		
+		String str = "101.37.34.43";
+		for(int i=0;i<str.length();i++){
+			char charStr = str.charAt(i);
+			int intStr = (int)charStr;
+			System.out.println(Integer.toHexString(intStr));
 		}
-		System.out.println(number.toString().substring(0,number.toString().length()-1));
 	        
 	      
 	}

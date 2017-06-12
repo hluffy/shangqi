@@ -49,15 +49,15 @@
 <!--                 	<td>{{x.UUID}}</td> -->
 <!--                 	<td>{{x.Maior}}</td> -->
 <!--                 	<td>{{x.Minor}}</td> -->
-<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td> -->
-                	<td ng-bind="local.staticTime"></td>
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td ng-bind="local.staticTime"></td> -->
 <!--                 	<td>{{x.RSSI}}</td> -->
-<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td> -->
-                	<td ng-bind="local.runTime"></td>
-<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td> -->
-                	<td ng-bind="local.gpsTimeOut"></td>
-<!--                 	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td> -->
-                	<td ng-bind="local.loraSleepTime"></td>
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td ng-bind="local.runTime"></td> -->
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td ng-bind="local.gpsTimeOut"></td> -->
+                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td>
+<!--                 	<td ng-bind="local.loraSleepTime"></td> -->
 <!--                 	<td>{{x.POWER}}</td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
@@ -65,15 +65,15 @@
 <!-- 					<td><input style="width:150px" ng-model="local.timeStr" readonly class="inactive input{{local.number}}"></td> -->
 					<td style="width:150px;padding: 4px" ng-bind="local.timeStr"></td>
                 	<td style="padding: 4px">
-<!--                 		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow"> -->
-<!-- 				        	<span class="glyphicon glyphicon-pencil">编辑</span> -->
-<!-- 				        </localedit> -->
-<!-- 				        <localupdate class="btn btn-success" ng-show="isShow" ng-model="local"> -->
-<!-- 				        	<span class="glyphicon glyphicon-pencil">保存</span> -->
-<!-- 				        </localupdate> -->
-<!-- 				        <localcancel class="btn btn-warning" ng-show="isShow" ng-model="local"> -->
-<!-- 				        	<span class="glyphicon glyphicon-remove">取消</span> -->
-<!-- 				        </localcancel> -->
+                		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow">
+				        	<span class="glyphicon glyphicon-pencil">编辑</span>
+				        </localedit>
+				        <localupdate class="btn btn-success" ng-show="isShow" ng-model="local">
+				        	<span class="glyphicon glyphicon-pencil">保存</span>
+				        </localupdate>
+				        <localcancel class="btn btn-warning" ng-show="isShow" ng-model="local">
+				        	<span class="glyphicon glyphicon-remove">取消</span>
+				        </localcancel>
 				        <localdelete class="btn btn-danger" ng-model="local" ng-show="!isShow">
 				        	<span class="glyphicon glyphicon-trash">删除</span>
 				        </localdelete>

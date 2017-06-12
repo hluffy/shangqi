@@ -462,7 +462,12 @@ public class StringAnalysis {
 					}else if(strs[17].equals("09")&&strs[19].equals("01")){
 						ChannelServer.setString("设置成功");
 					}else{
-						ChannelServer.setString("读取成功");
+//						ChannelServer.setString("读取成功");
+						StringBuffer return07 = new StringBuffer();
+						for(int i=0;i<args.length;i++){
+							return07.append(args[i]);
+						}
+						ChannelServer.setString(return07.toString());
 					}
 				}
 				

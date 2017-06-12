@@ -244,12 +244,13 @@ app.directive("loraupdate",function($rootScope,$document,loraService){
 				if(confirm("你确定要保存吗?")){
 					var id = "input" + ngModel.$modelValue.number;
 					console.log(id);
+					console.log(ngModel.$modelValue);
 					var obj = $("."+id);
 					obj.removeClass("active");
 					obj.addClass("inactive");
 					obj.attr("readonly",true);
 					scope.$apply(function(){
-						loraService.updateInfo(ngModel.$modelValue).then(function(data){
+						loraService.setIpAndPort(ngModel.$modelValue).then(function(data){
 							scope.isShow = false;
 							alert(data.message);
 							loraService.getInfos().then(function(data){
@@ -273,3 +274,42 @@ app.directive("loraupdate",function($rootScope,$document,loraService){
 		}
 	}
 });
+
+//app.directive("loraupdate",function($rootScope,$document,loraService){
+//	return{
+//		restrict:"E",
+//		require:"ngModel",
+//		link:function(scope,element,attrs,ngModel){
+//			element.bind("click",function(){
+//				if(confirm("你确定要保存吗?")){
+//					var id = "input" + ngModel.$modelValue.number;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						loraService.updateInfo(ngModel.$modelValue).then(function(data){
+//							scope.isShow = false;
+//							alert(data.message);
+//							loraService.getInfos().then(function(data){
+//								$rootScope.loras = data.data;
+//							});
+//						});
+//					});
+//				}else{
+//					var id = "input" + ngModel.$modelValue.number;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						scope.isShow = false;
+//					})
+//				}
+//				
+//			});
+//		}
+//	}
+//});

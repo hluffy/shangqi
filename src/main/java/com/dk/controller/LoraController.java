@@ -25,13 +25,13 @@ public class LoraController {
 		return result;
 	}
 	
-	@RequestMapping("updateinfo.ll")
-	@ResponseBody
-	public Result updateInfo(@RequestBody LoraInfo info){
-		Result result = new Result();
-		result = loraService.updateInfo(info);
-		return result;
-	}
+//	@RequestMapping("updateinfo.ll")
+//	@ResponseBody
+//	public Result updateInfo(@RequestBody LoraInfo info){
+//		Result result = new Result();
+//		result = loraService.updateInfo(info);
+//		return result;
+//	}
 	
 	@RequestMapping("addinfo.ll")
 	@ResponseBody

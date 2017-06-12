@@ -243,7 +243,7 @@ app.directive("localupdate",function($rootScope,$document,localService){
 					obj.addClass("inactive");
 					obj.attr("readonly",true);
 					scope.$apply(function(){
-						localService.updateInfo(ngModel.$modelValue).then(function(data){
+						localService.setEquipPara(ngModel.$modelValue).then(function(data){
 							scope.isShow = false;
 							console.log(data);
 							alert(data.message);

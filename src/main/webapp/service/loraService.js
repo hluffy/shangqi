@@ -105,4 +105,20 @@ app.service("loraService",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	this.setIpAndPort = function(lora){
+		var deferred = $q.defer();
+		$http({
+			method:"post",
+			url:"/shangqi/remote/setIpAndPort.ll",
+			data:lora,
+			dataType:"json"
+		}).success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("设置失败");
+		});
+		
+		return deferred.promise;
+	}
 });

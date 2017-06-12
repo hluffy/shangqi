@@ -157,4 +157,21 @@ app.service("localService",function($http,$q){
 		});
 		return deferred.promise;
 	}
+	
+	//设置参数
+	this.setEquipPara = function(local){
+		var deferred = $q.defer();
+		$http({
+			method:"post",
+			url:"/shangqi/remote/setEquipPara.ll",
+			data:local,
+			dataType:"json"
+		}).success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("设置失败");
+		});
+		
+		return deferred.promise;
+	}
 });

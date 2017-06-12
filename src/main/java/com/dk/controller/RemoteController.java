@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sun.security.util.Length;
+
 import com.dk.netty.ChannelServer;
 import com.dk.object.LocalizerInfo;
 import com.dk.object.LoraInfo;
@@ -78,10 +80,58 @@ public class RemoteController {
 	}
 	
 	/**
+	 * 设置定位设备参数
+	 */
+	@RequestMapping("setEquipPara.ll")
+	@ResponseBody
+	public Result setEquipPara(@RequestBody LocalizerInfo info){
+		Result result = new Result();
+		ChannelServer.setString(null);
+		if(info.getSv()==null||info.getSv().isEmpty()){
+			result.setMessage("连接不存在");
+			return result;
+		}
+		ChannelHandlerContext ctx = ChannelServer.getGatewayChannel(info.getSv());
+		if(ctx==null){
+			result.setMessage("连接不存在，请稍后再试");
+			return result;
+		}
+		
+		System.out.println(setEquipmentPara(info));
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(setEquipmentPara(info)));
+		ctx.writeAndFlush(resp);
+		long start = System.currentTimeMillis();
+		while(ChannelServer.getString()==null){
+			System.out.println(ChannelServer.getString());
+			long end = System.currentTimeMillis();
+			if(end-start>10000){
+				break;
+			}
+			
+		}
+		if(ChannelServer.getString()==null){
+			result.setMessage("连接超时，请稍后再试");
+			return result;
+		}else{
+			result.setMessage("成功");
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * 设置lora基站发送的服务器地址和端口
 	 */
-	public Result setIpAndPort(LoraInfo lora){
+	@RequestMapping("setIpAndPort.ll")
+	@ResponseBody
+	public Result setIpAndPort(@RequestBody LoraInfo lora){
 		Result result = new Result();
+		if(lora.getRegistAddr()==null||lora.getRegistAddr().isEmpty()
+				||lora.getRegistPort()==null||lora.getRegistPort().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不能为空");
+			return result;
+		}
 		ChannelServer.setString(null);
 		if(lora.getNumberDef()==null){
 			result.setMessage("连接不存在");
@@ -92,7 +142,11 @@ public class RemoteController {
 			result.setMessage("连接不存在，请稍后再试");
 			return result;
 		}
-		ByteBuf resp = Unpooled.copiedBuffer(getByte(""));
+		
+		String ipPortData = setLoraIpPort(lora);
+		System.out.println(ipPortData);
+		
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(ipPortData));
 		ctx.writeAndFlush(resp);
 		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
@@ -102,13 +156,20 @@ public class RemoteController {
 				break;
 			}
 		}
+//		ipPortData = ipPortData.replace(ipPortData.charAt(30), '0');
+		ipPortData = ipPortData.substring(0,28)+"0"+ipPortData.substring(29,ipPortData.length());
 		if(ChannelServer.getString()==null){
 			result.setStates(false);
 			result.setMessage("连接超时，请稍后再试");
-		}else{
+		}else if(ipPortData.subSequence(6, ipPortData.length()).equals(ChannelServer.getString().substring(6, ChannelServer.getString().length()))){
 			result = loraServer.updateInfo(lora);
+			result.setMessage("设置成功，重启后生效");
+//			ChannelServer.removeGatewayChannel(lora.getNumberDef());
 			ChannelServer.setString(null);
 			ctx.close();
+		}else{
+			result.setStates(false);
+			result.setMessage("请检查返回值");
 		}
 		return result;
 	}
@@ -230,6 +291,129 @@ public class RemoteController {
 			ChannelServer.setString(null);
 		}
 		return result;
+	}
+	
+	private String setEquipmentPara(LocalizerInfo info){
+		StringBuffer equipPara = new StringBuffer();
+		equipPara.append("7b");
+		equipPara.append("0001");
+		equipPara.append(info.getSv());
+		equipPara.append("87");
+		equipPara.append("0020");
+		equipPara.append("03");
+		equipPara.append("06");
+		String number = info.getNumber();
+		String[] numbers = number.split("\\.");
+		StringBuffer numberStr = new StringBuffer();
+		for(int i=0;i<numbers.length;i++){
+			String hexNumber = Integer.toHexString(Integer.parseInt(numbers[i]));
+			if(hexNumber.length()<2){
+				hexNumber = "0"+hexNumber;
+			}
+			numberStr.append(hexNumber);
+		}
+		equipPara.append(numberStr.toString());
+		String staticTime = info.getStaticTime();
+		String hexStaticTime = Integer.toHexString(Integer.parseInt(staticTime));
+		for(int i=hexStaticTime.length();i<4;i++){
+			hexStaticTime = "0"+hexStaticTime;
+		}
+		equipPara.append(hexStaticTime);
+		equipPara.append("04");
+		equipPara.append("06");
+		equipPara.append(numberStr.toString());
+		String runTime = info.getRunTime();
+		String hexRunTime = Integer.toHexString(Integer.parseInt(runTime));
+		for(int i=hexRunTime.length();i<4;i++){
+			hexRunTime = "0"+hexRunTime;
+		}
+		equipPara.append(hexRunTime);
+		equipPara.append("05");
+		equipPara.append("06");
+		equipPara.append(numberStr.toString());
+		String timeOut = info.getGpsTimeOut();
+		String hexTimeOut = Integer.toHexString(Integer.parseInt(timeOut));
+		for(int i=hexTimeOut.length();i<4;i++){
+			hexTimeOut = "0"+hexTimeOut;
+		}
+		equipPara.append(hexTimeOut);
+		equipPara.append("06");
+		equipPara.append("06");
+		equipPara.append(numberStr.toString());
+		String sleepTime = info.getLoraSleepTime();
+		String hexSleepTime = Integer.toHexString(Integer.parseInt(sleepTime));
+		for(int i=hexSleepTime.length();i<4;i++){
+			hexSleepTime = "0"+hexSleepTime;
+		}
+		equipPara.append(hexSleepTime);
+		equipPara.append("7d");
+		return equipPara.toString().toUpperCase();
+	}
+	
+	private String setLoraIpPort(LoraInfo info){
+		StringBuffer loraIpPort = new StringBuffer();
+		StringBuffer loraData = new StringBuffer();
+		StringBuffer loraLength = new StringBuffer();
+		loraIpPort.append("7b");
+		loraIpPort.append("0004");
+		loraIpPort.append(info.getNumberDef());
+		loraIpPort.append("87");
+//		loraIpPort.append("0017");
+//		loraIpPort.append("30");
+//		loraIpPort.append("04");
+		loraData.append("30");
+		String ip = info.getRegistAddr();
+		for(int i=0;i<ip.length();i++){
+			char charIp = ip.charAt(i);
+			int intIp = ((int)charIp);
+			String hexIp = Integer.toHexString(intIp);
+			for(int j=hexIp.length();j<2;j++){
+				hexIp = "0"+hexIp;
+			}
+//			loraIpPort.append(hexIp);
+//			loraData.append(hexIp);
+			loraLength.append(hexIp);
+		}
+		String length30 = Integer.toHexString(loraLength.toString().length()/2);
+		if(length30.length()<2){
+			length30 = "0"+length30;
+		}
+		loraData.append(length30);
+		loraData.append(loraLength.toString());
+//		String[] splitIp = ip.split("\\.");
+//		for (String str : splitIp) {
+//			String hexStr = Integer.toHexString(Integer.parseInt(str));
+//			if(hexStr.length()<2){
+//				hexStr = "0"+str;
+//			}
+//			loraIpPort.append(hexStr);
+//		}
+		loraData.append("31");
+		loraData.append("02");
+//		loraIpPort.append("31");
+//		loraIpPort.append("02");
+		String hexPort = Integer.toHexString(Integer.parseInt(info.getRegistPort()));
+		for(int i=hexPort.length();i<4;i++){
+			hexPort = "0"+hexPort;
+		}
+		loraData.append(hexPort);
+		loraData.append("33");
+		loraData.append("0b");
+		loraData.append(info.getNumberDef());
+		
+		String length = Integer.toHexString(loraData.toString().length()/2);
+//		if(length.length()<2){
+//			length = "0"+length;
+//		}
+		for(int i=length.length();i<4;i++){
+			length = "0"+length;
+		}
+		loraIpPort.append(length);
+		loraIpPort.append(loraData.toString());
+		loraIpPort.append("7d");
+		
+//		loraIpPort.append(Integer.toHexString(Integer.parseInt(info.getRegistPort())));
+		return loraIpPort.toString().toUpperCase();
 	}
 	
 	private String syncTimeStr(LoraInfo info){
