@@ -395,81 +395,137 @@ public class StringAnalysis {
 				
 			case "07":
 				String loadLength = strs[15]+strs[16];
-				if("0020".equals(loadLength)){
+				if("0030".equals(loadLength)){
 					LocalizerInfo info = new LocalizerInfo();
 					StringBuffer loadData = new StringBuffer();
-					for(int i=17;i<=48;i++){
+					for(int i=17;i<=64;i++){
 						loadData.append(strs[i]);
 					}
 					String number = null;
 					System.out.println(loadData.toString());
+					
 					for(int i=0;i<loadData.toString().length()/16;i++){
 						String loadStr = loadData.toString().substring(i*16,i*16+16);
-						if("04".equals(loadStr.substring(0,2))){
-							number = loadStr.substring(4,12);
-							int runTime = Integer.parseInt(loadStr.substring(13,16),16);
+						if("0010".equals(loadStr.substring(0,2))){
+							number = loadStr.substring(4,13);
+							int runTime = Integer.parseInt(loadStr.substring(13,17),16);
 							info.setRunTime(String.valueOf(runTime));
-							continue;
-						}else if("03".equals(loadStr.substring(0,2))){
-							int staticTime = Integer.parseInt(loadStr.substring(13,16),16);
+						}else if("0011".equals(loadStr.substring(0,2))){
+							int staticTime = Integer.parseInt(loadStr.substring(13,17),16);
 							info.setStaticTime(String.valueOf(staticTime));
-							continue;
-						}else if("05".equals(loadStr.substring(0,2))){
-							int gpsTimeOut = Integer.parseInt(loadStr.substring(13,16),16);
+						}else if("0012".equals(loadStr.substring(0,2))){
+							int gpsTimeOut = Integer.parseInt(loadStr.substring(13,17),16);
 							info.setGpsTimeOut(String.valueOf(gpsTimeOut));
-							continue;
-						}else if("06".equals(loadStr.subSequence(0, 2))){
-							int loraSleepTime = Integer.parseInt(loadStr.substring(13,16),16);
+						}else if("0013".equals(loadStr.substring(0,2))){
+							int loraSleepTime = Integer.parseInt(loadStr.substring(13,17),16);
 							info.setLoraSleepTime(String.valueOf(loraSleepTime));
-							continue;
+						}else if("0014".equals(loadStr.substring(0,2))){
+							int ibeaconEffectNum = Integer.parseInt(loadStr.substring(13,17),16);
+							info.setIbeaconEffectNum(String.valueOf(ibeaconEffectNum));
+						}else if("0015".equals(loadStr.subSequence(0, 2))){
+							int ibeaconTimeOut = Integer.parseInt(loadStr.substring(13,17),16);
+							info.setIbeaconTimeOut(String.valueOf(ibeaconTimeOut));
 						}else{
-							continue;
+							
 						}
-					}
-					StringBuffer numberStr = new StringBuffer();
-					if(number!=null){
-						numberStr.append(Integer.parseInt((number.substring(0,2)),16));
-						numberStr.append(".");
-						numberStr.append(Integer.parseInt((number.substring(2,4)),16));
-						numberStr.append(".");
-						numberStr.append(Integer.parseInt((number.substring(4,6)),16));
-						numberStr.append(".");
-						numberStr.append(Integer.parseInt((number.substring(6,8)),16));
-					}
-					info.setNumber(numberStr.toString());
-					System.out.println(info.getNumber());
-					System.out.println(info.getRunTime());
-					System.out.println(info.getStaticTime());
-					System.out.println(info.getGpsTimeOut());
-					System.out.println(info.getLoraSleepTime());
-					Result result = localService.updateInfo(info);
-					System.out.println(result.isStates());
-					System.out.println(result.getMessage());
-					if(result.isStates()){
-						ChannelServer.setString("同步成功");
-					}
-					
-				}else{
-					//服务器读取/修改参数
-					if(strs[17].equals("09")&&strs[19].equals("04")){
-						ChannelServer.setString("修改失败");
-					}else if(strs[17].equals("09")&&strs[19].equals("03")){
-						ChannelServer.setString("修改失败,未知的IBeacon");
-					}else if(strs[17].equals("09")&&strs[19].equals("02")){
-						ChannelServer.setString("修改失败,未知的Lora模块");
-					}else if(strs[17].equals("09")&&strs[19].equals("05")){
-						ChannelServer.setString("修改失败,系统忙");
-					}else if(strs[17].equals("09")&&strs[19].equals("01")){
-						ChannelServer.setString("设置成功");
-					}else{
-//						ChannelServer.setString("读取成功");
-						StringBuffer return07 = new StringBuffer();
-						for(int i=0;i<args.length;i++){
-							return07.append(args[i]);
+						StringBuffer numberStr = new StringBuffer();
+						if(number!=null){
+							numberStr.append(Integer.parseInt((number.substring(0,2)),16));
+							numberStr.append(".");
+							numberStr.append(Integer.parseInt((number.substring(2,4)),16));
+							numberStr.append(".");
+							numberStr.append(Integer.parseInt((number.substring(4,6)),16));
+							numberStr.append(".");
+							numberStr.append(Integer.parseInt((number.substring(6,8)),16));
 						}
-						ChannelServer.setString(return07.toString());
+						info.setNumber(numberStr.toString());
+						Result result = localService.updateInfo(info);
+						if(result.isStates()){
+							ChannelServer.setString("成功");
+						}else{
+							ChannelServer.setString("失败");
+						}
 					}
 				}
+				
+				
+//				if("0020".equals(loadLength)){
+//					LocalizerInfo info = new LocalizerInfo();
+//					StringBuffer loadData = new StringBuffer();
+//					for(int i=17;i<=48;i++){
+//						loadData.append(strs[i]);
+//					}
+//					String number = null;
+//					System.out.println(loadData.toString());
+//					for(int i=0;i<loadData.toString().length()/16;i++){
+//						String loadStr = loadData.toString().substring(i*16,i*16+16);
+//						if("04".equals(loadStr.substring(0,2))){
+//							number = loadStr.substring(4,12);
+//							int runTime = Integer.parseInt(loadStr.substring(13,16),16);
+//							info.setRunTime(String.valueOf(runTime));
+//							continue;
+//						}else if("03".equals(loadStr.substring(0,2))){
+//							int staticTime = Integer.parseInt(loadStr.substring(13,16),16);
+//							info.setStaticTime(String.valueOf(staticTime));
+//							continue;
+//						}else if("05".equals(loadStr.substring(0,2))){
+//							int gpsTimeOut = Integer.parseInt(loadStr.substring(13,16),16);
+//							info.setGpsTimeOut(String.valueOf(gpsTimeOut));
+//							continue;
+//						}else if("06".equals(loadStr.subSequence(0, 2))){
+//							int loraSleepTime = Integer.parseInt(loadStr.substring(13,16),16);
+//							info.setLoraSleepTime(String.valueOf(loraSleepTime));
+//							continue;
+//						}else{
+//							continue;
+//						}
+//					}
+//					StringBuffer numberStr = new StringBuffer();
+//					if(number!=null){
+//						numberStr.append(Integer.parseInt((number.substring(0,2)),16));
+//						numberStr.append(".");
+//						numberStr.append(Integer.parseInt((number.substring(2,4)),16));
+//						numberStr.append(".");
+//						numberStr.append(Integer.parseInt((number.substring(4,6)),16));
+//						numberStr.append(".");
+//						numberStr.append(Integer.parseInt((number.substring(6,8)),16));
+//					}
+//					info.setNumber(numberStr.toString());
+//					System.out.println(info.getNumber());
+//					System.out.println(info.getRunTime());
+//					System.out.println(info.getStaticTime());
+//					System.out.println(info.getGpsTimeOut());
+//					System.out.println(info.getLoraSleepTime());
+//					System.out.println(info.getIbeaconEffectNum());
+//					System.out.println(info.getIbeaconTimeOut());
+//					Result result = localService.updateInfo(info);
+//					System.out.println(result.isStates());
+//					System.out.println(result.getMessage());
+//					if(result.isStates()){
+//						ChannelServer.setString("同步成功");
+//					}
+//					
+//				}else{
+//					//服务器读取/修改参数
+//					if(strs[17].equals("09")&&strs[19].equals("04")){
+//						ChannelServer.setString("修改失败");
+//					}else if(strs[17].equals("09")&&strs[19].equals("03")){
+//						ChannelServer.setString("修改失败,未知的IBeacon");
+//					}else if(strs[17].equals("09")&&strs[19].equals("02")){
+//						ChannelServer.setString("修改失败,未知的Lora模块");
+//					}else if(strs[17].equals("09")&&strs[19].equals("05")){
+//						ChannelServer.setString("修改失败,系统忙");
+//					}else if(strs[17].equals("09")&&strs[19].equals("01")){
+//						ChannelServer.setString("设置成功");
+//					}else{
+////						ChannelServer.setString("读取成功");
+//						StringBuffer return07 = new StringBuffer();
+//						for(int i=0;i<args.length;i++){
+//							return07.append(args[i]);
+//						}
+//						ChannelServer.setString(return07.toString());
+//					}
+//				}
 				
 				
 				returnString.setLength(0);

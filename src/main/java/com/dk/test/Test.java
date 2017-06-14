@@ -107,12 +107,14 @@ public class Test {
 //		str = str.substring(0,3)+"s"+str.substring(4,str.length()-1);
 //		System.out.println(str);
 		
-		String str = "101.37.34.43";
-		for(int i=0;i<str.length();i++){
-			char charStr = str.charAt(i);
-			int intStr = (int)charStr;
-			System.out.println(Integer.toHexString(intStr));
-		}
+//		String str = "101.37.34.43";
+//		for(int i=0;i<str.length();i++){
+//			char charStr = str.charAt(i);
+//			int intStr = (int)charStr;
+//			System.out.println(Integer.toHexString(intStr));
+//		}
+		
+//		System.out.println(Integer.toHexString(36));
 	        
 	      
 	}

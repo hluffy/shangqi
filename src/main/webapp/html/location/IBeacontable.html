@@ -60,23 +60,23 @@
                   <th style="border-top: 1px solid #794747"></th>
                 </tr>
                 <tr ng-repeat="ibeacon in ibeacons">
-                	<td style="padding: 4px">{{(indexPage-1)*10+$index+1}}</td>
+                	<td>{{(indexPage-1)*10+$index+1}}</td>
 <!--                 	<td style="padding: 4px"><input style="width: 80px;text-align: center;" ng-model="ibeacon.minor" readonly class="inactive input{{ibeacon.minor}}"></td> -->
 <!--                 	<td>{{x.UUID}}</td> -->
 <!--                 	<td>{{x.Maior}}</td> -->
-                	<td style="padding: 4px"><input style="width:240px;text-align: center;" ng-model="ibeacon.uuid" readonly class="inactive input{{ibeacon.uuid}}"></td>
+                	<td><input style="width:240px;text-align: center;" ng-model="ibeacon.uuid" readonly class="inactive input{{ibeacon.uuid}}"></td>
 <!--                 	<td>{{x.Minor}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="ibeacon.log" readonly class="inactive input{{ibeacon.uuid}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="ibeacon.log" readonly class="inactive input{{ibeacon.uuid}}"></td>
 <!--                 	<td>{{x.RSSI}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="ibeacon.lat" readonly class="inactive input{{ibeacon.uuid}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="ibeacon.lat" readonly class="inactive input{{ibeacon.uuid}}"></td>
 <!--                 	<td>{{x.POWER}}</td> -->
-					<td style="padding: 4px" ng-bind="ibeacon.ele"></td>
+					<td ng-bind="ibeacon.ele"></td>
 <!-- 					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="ibeacon.area" readonly class="inactive input{{ibeacon.uuid}}"></td> -->
 					<td>
 						<select ng-model="ibeacon.area"  ng-options="x for x in areanames" class="inactive select{{ibeacon.uuid}}" disabled>
 						</select>
 					</td>
-					<td style="padding: 4px" ng-bind="ibeacon.lastUseTimeStr"></td>
+					<td ng-bind="ibeacon.lastUseTimeStr"></td>
                 	<td style="padding: 4px">
                 		<ibeedit class="btn btn-primary" ng-model="ibeacon" ng-show="!isShow">
 				        	<span class="glyphicon glyphicon-pencil">编辑</span>

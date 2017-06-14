@@ -68,7 +68,7 @@ public class IsInArea {
 		}else if(isInArea(Alon,Alat,zlArea)){
 			area = "滞留区";
 		}else if(isInArea(Alon,Alat,wlArea)){
-			area = "wlArea";
+			area = "物流区";
 		}else{
 			area = "其他";
 		}

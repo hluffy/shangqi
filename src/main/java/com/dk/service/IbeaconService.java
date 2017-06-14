@@ -11,5 +11,7 @@ public interface IbeaconService {
 	Result deleteInfo(IbeaconInfo info);
 	
 	Result getIbeaconForMap();
+	
+	Result getInfoAsUuid(IbeaconInfo info);
 
 }

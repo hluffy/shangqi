@@ -38,4 +38,20 @@ app.service("mapServ",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	this.getinfoasuuid = function(map){
+		var deferred = $q.defer();
+		$http({
+			method:"post",
+			url:"/shangqi/ibeacon/getinfoasuuid.ll",
+			data:map,
+			dataType:"json"
+		}).success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("查询失败");
+		});
+		
+		return deferred.promise;
+	}
 });

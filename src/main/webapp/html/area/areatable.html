@@ -32,13 +32,13 @@
                 </tr>
                 <tr ng-repeat="area in areas">
 <!--                 	<td>{{(indexPage-1)*10+$index+1}}</td> -->
-					<td style="padding: 8px">{{$index+1}}</td>
+					<td style="text-align: center;">{{$index+1}}</td>
 <!--                 	<td><input ng-model="car.frameNum" readonly class="inactive input{{car.frameNum}}"></td> -->
-                	<td style="padding: 8px" ng-bind="area.area"></td>
+                	<td style="text-align: center;" ng-bind="area.area"></td>
                 	
 <!--                 	<td>{{x.carFrameNum}}</td> -->
 <!-- 					<td><input ng-model="car.engineNum" readonly class="inactive input{{car.frameNum}}"></td> -->
-					<td style="padding: 8px" ng-bind="area.sumCount"></td>
+					<td style="text-align: center;" ng-bind="area.sumCount"></td>
 <!--                 	<td>{{x.motorNum}}</td> -->
 <!--                 	<td><input ng-model="car.productionTimeStr" readonly class="inactive input{{car.frameNum}}"></td> -->
 <!--                 	<td><input ng-model="car.equipmentNum" readonly class="inactive input{{car.frameNum}}"></td> -->
@@ -49,7 +49,7 @@
 <!-- 						<button class="btn btn-warning" ng-model="car" ng-show="isShow" ng-click="cancelCar($index)"><span>取消</span></button> -->
 <!-- 						<button class="btn btn-danger" ng-model="car" ng-show="!isShow" ng-click="deleteCar($index)"><span>刪除</span></button> -->
 <!-- 					</td> -->
-                	<td>
+                	<td style="text-align: center;padding: 4px">
                 		<areainfo class="btn btn-primary" ng-model="area">
                 			<span>...</span>
                 		</areainfo>
@@ -78,7 +78,7 @@
                 
                 <div ng-show="areainfo">
                 	<br>
-	                <h3 class="box-title">详情</h3>
+	                <h3 class="box-title">详情<button type="button" class="btn btn-info" style="float: right;" ng-click="hiddeTable()">隐藏</button></h3>
 	                
 	                <table class="table table-hover table1" style="text-align: center;">
 	                <tr>
@@ -94,7 +94,7 @@
 	                </tr>
 	                <tr ng-repeat="area in areainfos">
 	<!--                 	<td>{{(indexPage-1)*10+$index+1}}</td> -->
-						<td style="padding: 8px">{{$index+1}}</td>
+						<td style="padding: 8px">{{(indexPage-1)*10+$index+1}}</td>
 	<!--                 	<td><input ng-model="car.frameNum" readonly class="inactive input{{car.frameNum}}"></td> -->
 	                	<td style="padding: 8px" ng-bind="area.area"></td>
 	                	
@@ -130,6 +130,13 @@
 	<!-- 				    </td> -->
 	                </tr>
 	                </table>
+	                <div class="box-tools pull-left" style="font-family:'黑体'">
+		            	<span class="pagination pagination-sm inline">总数:{{count}}</span>
+		            	
+		            </div>
+		            <div class="box-tools pull-right">
+						<div id="Pagination"></div>
+		            </div>
                 </div>
                 
                 

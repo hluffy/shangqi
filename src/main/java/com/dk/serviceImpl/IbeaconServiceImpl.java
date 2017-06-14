@@ -415,4 +415,56 @@ public class IbeaconServiceImpl implements IbeaconService{
 		return result;
 	}
 
+	@Override
+	public Result getInfoAsUuid(IbeaconInfo info) {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		IbeaconInfo ibeacon = new IbeaconInfo();
+		
+		try {
+			String sql = "select * from ibeacon where uuid like ?";
+			conn = DBUtil.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1,"%"+info.getUuid());
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				ibeacon.setUuid(rs.getString("uuid"));
+				ibeacon.setMinor(rs.getInt("minor"));
+				ibeacon.setLat(rs.getDouble("latitude"));
+				ibeacon.setLog(rs.getDouble("longitude"));
+				ibeacon.setEle(rs.getInt("ele"));
+				ibeacon.setArea(rs.getString("area"));
+			}
+			
+			result.setStates(true);
+			result.setMessage("查询成功");
+			result.setData(ibeacon);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("查询失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null){
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
 }

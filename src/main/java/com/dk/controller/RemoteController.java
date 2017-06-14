@@ -98,7 +98,8 @@ public class RemoteController {
 		}
 		
 		System.out.println(setEquipmentPara(info));
-		ByteBuf resp = Unpooled.copiedBuffer(getByte(setEquipmentPara(info)));
+		String equipmentPara = setEquipmentPara(info);
+		ByteBuf resp = Unpooled.copiedBuffer(getByte(equipmentPara));
 		ctx.writeAndFlush(resp);
 		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
@@ -109,11 +110,30 @@ public class RemoteController {
 			}
 			
 		}
+//		equipmentPara = equipmentPara.substring(0,28)+"0"+equipmentPara.substring(29,equipmentPara.length());
+//		if(ChannelServer.getString()==null){
+//			result.setMessage("连接超时，请稍后再试");
+//			return result;
+//		}else if(equipmentPara.subSequence(6, equipmentPara.length()).equals(ChannelServer.getString().substring(6, ChannelServer.getString().length()))){
+//			result = localService.updateInfo(info);
+//			result.setMessage("设置成功，重启后生效");
+////			ChannelServer.removeGatewayChannel(lora.getNumberDef());
+//			ChannelServer.setString(null);
+//			ctx.close();
+//		}else{
+//			result.setStates(false);
+//			result.setMessage("请检查返回值");
+//		}
+		
 		if(ChannelServer.getString()==null){
+			result.setStates(false);
 			result.setMessage("连接超时，请稍后再试");
-			return result;
+		}else if("成功".equals(ChannelServer.getString())){
+			result.setStates(true);
+			result.setMessage("更新成功");
 		}else{
-			result.setMessage("成功");
+			result.setStates(false);
+			result.setMessage("更新失败");
 		}
 		
 		return result;
@@ -256,7 +276,7 @@ public class RemoteController {
 		return result;
 	}
 	
-	//同步参数 ok
+	//同步参数 
 	@RequestMapping("loadparame.ll")
 	@ResponseBody
 	public Result loadLocal(@RequestBody LocalizerInfo info){
@@ -278,29 +298,41 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-//			if(end-start>5000){
-//				break;
-//			}
+			if(end-start>10000){
+				break;
+			}
 		}
+//		if(ChannelServer.getString()==null){
+//			result.setStates(false);
+//			result.setMessage("连接超时，请稍后再试");
+//		}else{
+//			result.setStates(true);
+//			result.setMessage(ChannelServer.getString());
+//			ChannelServer.setString(null);
+//		}
 		if(ChannelServer.getString()==null){
 			result.setStates(false);
 			result.setMessage("连接超时，请稍后再试");
-		}else{
+		}else if("成功".equals(ChannelServer.getString())){
 			result.setStates(true);
-			result.setMessage(ChannelServer.getString());
-			ChannelServer.setString(null);
+			result.setMessage("更新成功");
+		}else{
+			result.setStates(false);
+			result.setMessage("失败");
 		}
 		return result;
 	}
 	
+	
+	//设置定位器参数
 	private String setEquipmentPara(LocalizerInfo info){
 		StringBuffer equipPara = new StringBuffer();
 		equipPara.append("7b");
 		equipPara.append("0001");
 		equipPara.append(info.getSv());
 		equipPara.append("87");
-		equipPara.append("0020");
-		equipPara.append("03");
+		equipPara.append("0030");
+		equipPara.append("10");
 		equipPara.append("06");
 		String number = info.getNumber();
 		String[] numbers = number.split("\\.");
@@ -319,7 +351,7 @@ public class RemoteController {
 			hexStaticTime = "0"+hexStaticTime;
 		}
 		equipPara.append(hexStaticTime);
-		equipPara.append("04");
+		equipPara.append("11");
 		equipPara.append("06");
 		equipPara.append(numberStr.toString());
 		String runTime = info.getRunTime();
@@ -328,7 +360,7 @@ public class RemoteController {
 			hexRunTime = "0"+hexRunTime;
 		}
 		equipPara.append(hexRunTime);
-		equipPara.append("05");
+		equipPara.append("12");
 		equipPara.append("06");
 		equipPara.append(numberStr.toString());
 		String timeOut = info.getGpsTimeOut();
@@ -337,7 +369,7 @@ public class RemoteController {
 			hexTimeOut = "0"+hexTimeOut;
 		}
 		equipPara.append(hexTimeOut);
-		equipPara.append("06");
+		equipPara.append("13");
 		equipPara.append("06");
 		equipPara.append(numberStr.toString());
 		String sleepTime = info.getLoraSleepTime();
@@ -346,10 +378,35 @@ public class RemoteController {
 			hexSleepTime = "0"+hexSleepTime;
 		}
 		equipPara.append(hexSleepTime);
+		
+		equipPara.append("14");
+		equipPara.append("05");
+		equipPara.append(numberStr.toString());
+		String ibeaconEffectNum = info.getIbeaconEffectNum();
+		String hexEffectNum = Integer.toHexString(Integer.parseInt(ibeaconEffectNum));
+		for(int i=hexEffectNum.length();i<4;i++){
+			hexEffectNum = "0"+hexEffectNum;
+		}
+//		if(hexEffectNum.length()<2){
+//			hexEffectNum = "0" + hexEffectNum;
+//		}
+		equipPara.append(hexEffectNum);
+		
+		equipPara.append("15");
+		equipPara.append("06");
+		equipPara.append(numberStr.toString());
+		String ibeaconTimeOut = info.getIbeaconTimeOut();
+		String hexIbeaconTimeOut = Integer.toHexString(Integer.parseInt(ibeaconTimeOut));
+		for(int i=hexIbeaconTimeOut.length();i<4;i++){
+			hexIbeaconTimeOut = "0"+hexIbeaconTimeOut;
+		}
+		equipPara.append(hexIbeaconTimeOut);
+		
 		equipPara.append("7d");
 		return equipPara.toString().toUpperCase();
 	}
 	
+	//设置lora ip和端口
 	private String setLoraIpPort(LoraInfo info){
 		StringBuffer loraIpPort = new StringBuffer();
 		StringBuffer loraData = new StringBuffer();
@@ -416,6 +473,7 @@ public class RemoteController {
 		return loraIpPort.toString().toUpperCase();
 	}
 	
+	//同步时间
 	private String syncTimeStr(LoraInfo info){
 		StringBuffer syncTimeStr = new StringBuffer();
 		syncTimeStr.append("7b");
@@ -438,17 +496,23 @@ public class RemoteController {
 		loadStr.append("0004");
 		loadStr.append(info.getSv());
 		loadStr.append("87");
-		loadStr.append("0018");
-		loadStr.append("03");
+		loadStr.append("0024");
+		loadStr.append("10");
 		loadStr.append("04");
 		loadStr.append(numberToHex(info.getNumber()));
-		loadStr.append("04");
-		loadStr.append("04");
-		loadStr.append(numberToHex(info.getNumber()));
-		loadStr.append("05");
+		loadStr.append("11");
 		loadStr.append("04");
 		loadStr.append(numberToHex(info.getNumber()));
-		loadStr.append("06");
+		loadStr.append("12");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("13");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("14");
+		loadStr.append("04");
+		loadStr.append(numberToHex(info.getNumber()));
+		loadStr.append("15");
 		loadStr.append("04");
 		loadStr.append(numberToHex(info.getNumber()));
 		loadStr.append("7d");

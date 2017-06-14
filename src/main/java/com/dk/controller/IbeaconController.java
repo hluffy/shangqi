@@ -73,5 +73,13 @@ public class IbeaconController {
 		result = ibeaconService.getIbeaconForMap();
 		return result;
 	}
+	
+	@RequestMapping("getinfoasuuid.ll")
+	@ResponseBody
+	public Result getInfoAsUuid(@RequestBody IbeaconInfo info){
+		Result result = new Result();
+		result = ibeaconService.getInfoAsUuid(info);
+		return result;
+	}
 
 }

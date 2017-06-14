@@ -22,7 +22,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding" ng-controller="localCtrl" style="height:470px">
-              <table class="table table-hover" style="text-align: center;">
+              <table class="table table-hover" style="text-align: center;overflow: auto;width:1366px">
                 <tr>
                   <th style="border-top: 1px solid #794747;text-align: center;"></th>
                   <th style="border-top: 1px solid #794747;text-align: center;">编号</th>
@@ -31,17 +31,19 @@
                   <th style="border-top: 1px solid #794747;text-align: center;">运行时间间隔(s)</th>
                   <th style="border-top: 1px solid #794747;text-align: center;">GPS超时时间(s)</th>
                   <th style="border-top: 1px solid #794747;text-align: center;">LoRa进入休眠时间(s)</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">有效iBeacon数量</th>
+                  <th style="border-top: 1px solid #794747;text-align: center;">iBeacon超时时间(s)</th>
 <!--                   <th>注册服务器端口</th> -->
 <!--                   <th>登录服务器地址</th> -->
 <!--                   <th>终端号</th> -->
                   <th style="border-top: 1px solid #794747;text-align: center;">时间</th>
                   <th style="border-top: 1px solid #794747"></th>
-<!--                   <th style="border-top: 1px solid #794747"></th> -->
+                  <th style="border-top: 1px solid #794747"></th>
                 </tr>
                 <tr ng-repeat="local in locals">
                 	<input ng-model="local.numberDef" hidden="true" class="input{{local.numberDef}}">
                 	<input ng-model="local.sv" hidden="true" class="input{{local.numberDef}}">
-                	<td style="padding: 4px">{{(indexPage-1)*10+$index+1}}</td>
+                	<td>{{(indexPage-1)*10+$index+1}}</td>
 <!--                 	<td style="padding: 4px;width: 200px"><input style="width:100%;text-align: center;" ng-model="local.number" readonly class="inactive input{{local.numberDef}}"></td> -->
 <!--                 	<td style="padding: 4px;width: 200px"><input style="width:100%;text-align: center;" ng-model="local.svStr" readonly class="inactive input{{local.numberDef}}"></td> -->
 					<td ng-bind="local.number"></td>
@@ -49,21 +51,24 @@
 <!--                 	<td>{{x.UUID}}</td> -->
 <!--                 	<td>{{x.Maior}}</td> -->
 <!--                 	<td>{{x.Minor}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="local.staticTime" readonly class="inactive input{{local.numberDef}}"></td>
 <!--                 	<td ng-bind="local.staticTime"></td> -->
 <!--                 	<td>{{x.RSSI}}</td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="local.runTime" readonly class="inactive input{{local.numberDef}}"></td>
 <!--                 	<td ng-bind="local.runTime"></td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="local.gpsTimeOut" readonly class="inactive input{{local.numberDef}}"></td>
 <!--                 	<td ng-bind="local.gpsTimeOut"></td> -->
-                	<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="local.loraSleepTime" readonly class="inactive input{{local.numberDef}}"></td>
+                	
+                	<td><input style="width:100px;text-align: center;" ng-model="local.ibeaconEffectNum" readonly class="inactive input{{local.numberDef}}"></td>
+                	<td><input style="width:100px;text-align: center;" ng-model="local.ibeaconTimeOut" readonly class="inactive input{{local.numberDef}}"></td>
 <!--                 	<td ng-bind="local.loraSleepTime"></td> -->
 <!--                 	<td>{{x.POWER}}</td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.registPort" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:100px" ng-model="lora.loginAddr" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:50px" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:150px" ng-model="local.timeStr" readonly class="inactive input{{local.number}}"></td> -->
-					<td style="width:150px;padding: 4px" ng-bind="local.timeStr"></td>
+					<td style="width:150px;" ng-bind="local.timeStr"></td>
                 	<td style="padding: 4px">
                 		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow">
 				        	<span class="glyphicon glyphicon-pencil">编辑</span>
@@ -78,14 +83,14 @@
 				        	<span class="glyphicon glyphicon-trash">删除</span>
 				        </localdelete>
                 	</td>
-<!--                 	<td style="padding: 4px"> -->
+                	<td style="padding: 4px">
 <!--                 		<localrestart class="btn btn-primary" ng-model="local"> -->
 <!--                 			<span class="glyphicon glyphicon-refresh">重启</span> -->
 <!--                 		</localrestart> -->
-<!--                 		<localload class="btn btn-primary" ng-model="local"> -->
-<!--                 			<span class="glyphicon glyphicon-refresh">同步参数</span> -->
-<!--                 		</localload> -->
-<!--                 	</td> -->
+                		<localload class="btn btn-primary" ng-model="local">
+                			<span class="glyphicon glyphicon-refresh">同步参数</span>
+                		</localload>
+                	</td>
                 </tr>
                 </table>
             </div>

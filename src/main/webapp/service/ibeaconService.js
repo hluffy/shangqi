@@ -80,4 +80,6 @@ app.service("ibeaconSer",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	
 });

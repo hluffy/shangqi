@@ -39,4 +39,15 @@ app.controller("iBeaconMapCtrl",function($scope,$timeout,mapServ,$rootScope){
 		}
 	});
 	
+	$scope.getIbeaconPosition = function(){
+		mapServ.getinfoasuuid($scope.map).then(function(data){
+			console.log(data);
+			var result = data.data;
+			var marker = L.marker([data.data.lat,data.data.log],{icon: greenIcon});
+			map.setView([data.data.lat,data.data.log],20);
+			map.addLayer(marker);
+			marker.bindPopup("iBeacon编号:"+result.uuid).openPopup();
+		})
+	}
+	
 });

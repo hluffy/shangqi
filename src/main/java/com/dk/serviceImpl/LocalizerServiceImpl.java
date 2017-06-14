@@ -9,7 +9,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -60,6 +62,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 				info.setGpsTimeOut(rs.getString("gps_time_out"));
 				info.setLoraSleepTime(rs.getString("lora_sleep_time"));
 				
+				info.setIbeaconEffectNum(rs.getString("ibeacon_effect_num"));
+				info.setIbeaconTimeOut(rs.getString("ibeacon_timeout"));
+				
 				infos.add(info);
 			}
 			
@@ -104,7 +109,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "insert into localizer(number,static_time,run_time,time,log,lat,area,ele,number_def,gps_time_out,lora_sleep_time) values(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into localizer(number,static_time,run_time,time,log,lat,area,ele,number_def,gps_time_out,lora_sleep_time,ibeacon_effect_num,ibeacon_timeout) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
@@ -125,6 +130,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 			ps.setString(9, info.getNumberDef());
 			ps.setString(10, info.getGpsTimeOut());
 			ps.setString(11, info.getLoraSleepTime());
+			
+			ps.setString(12, info.getIbeaconEffectNum());
+			ps.setString(13, info.getIbeaconTimeOut());
 			
 			ps.execute();
 			
@@ -181,7 +189,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String sql = "update localizer set static_time=?,run_time=?,time=?,gps_time_out=?,lora_sleep_time=? where number=?";
+			String sql = "update localizer set static_time=?,run_time=?,time=?,gps_time_out=?,lora_sleep_time=?,ibeacon_effect_num=?,ibeacon_timeout=? where number=?";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			
@@ -192,7 +200,10 @@ public class LocalizerServiceImpl implements LocalizerService{
 			ps.setString(4, info.getGpsTimeOut());
 			ps.setString(5, info.getLoraSleepTime());
 			
-			ps.setString(6, info.getNumber());
+			ps.setString(6, info.getIbeaconEffectNum());
+			ps.setString(7, info.getIbeaconTimeOut());
+			
+			ps.setString(8, info.getNumber());
 			
 			ps.execute();
 			
@@ -347,6 +358,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 				lInfo.setGpsTimeOut(rs.getString("gps_time_out"));
 				lInfo.setLoraSleepTime(rs.getString("lora_sleep_time"));
 				
+				lInfo.setIbeaconEffectNum(rs.getString("ibeacon_effect_num"));
+				lInfo.setIbeaconTimeOut(rs.getString("ibeacon_timeout"));
+				
 				infos.add(lInfo);
 			}
 			
@@ -385,6 +399,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 		Result result = new Result();
 		Connection conn = null;
 		Statement st = null;
+		Map<String,Integer> map = getMap();
 		List<LocalizerInfo> infos = new ArrayList<LocalizerInfo>();
 		try {
 			String sql = "select area,count(*) as sumcount from localizer group by area";
@@ -403,6 +418,18 @@ public class LocalizerServiceImpl implements LocalizerService{
 			rs = st.executeQuery(sql);
 			if(rs.next()){
 				result.setCount(rs.getInt("sumsum"));
+			}
+			
+			for (LocalizerInfo info : infos) {
+				map.put(info.getArea(),info.getSumCount());
+			}
+			
+			infos = new ArrayList<LocalizerInfo>();
+			for(String key:map.keySet()){
+				LocalizerInfo info = new LocalizerInfo();
+				info.setArea(key);
+				info.setSumCount(map.get(key));
+				infos.add(info);
 			}
 			
 			result.setData(infos);
@@ -660,6 +687,21 @@ public class LocalizerServiceImpl implements LocalizerService{
 			}
 		}
 		return result;
+	}
+	
+	private Map<String,Integer> getMap(){
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("CARE", 0);
+		map.put("DVT", 0);
+		map.put("板链返修区", 0);
+		map.put("内饰一", 0);
+		map.put("底盘三", 0);
+		map.put("底盘一二", 0);
+		map.put("报交区", 0);
+		map.put("滞留区", 0);
+		map.put("物流区", 0);
+		map.put("其他", 0);
+		return map;
 	}
 
 }

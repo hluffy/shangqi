@@ -28,6 +28,9 @@ public class LocalizerInfo implements Serializable{
 	private String gpsTimeOut;//gps超时时间
 	private String loraSleepTime;//lora休眠时间
 	
+	private String ibeaconEffectNum;//有效的ibeacon基站数量，默认为3
+	private String ibeaconTimeOut;//ibeacon超时时间
+	
 	public String getNumber() {
 		return number;
 	}
@@ -123,6 +126,18 @@ public class LocalizerInfo implements Serializable{
 	}
 	public void setLoraSleepTime(String loraSleepTime) {
 		this.loraSleepTime = loraSleepTime;
+	}
+	public String getIbeaconEffectNum() {
+		return ibeaconEffectNum;
+	}
+	public void setIbeaconEffectNum(String ibeaconEffectNum) {
+		this.ibeaconEffectNum = ibeaconEffectNum;
+	}
+	public String getIbeaconTimeOut() {
+		return ibeaconTimeOut;
+	}
+	public void setIbeaconTimeOut(String ibeaconTimeOut) {
+		this.ibeaconTimeOut = ibeaconTimeOut;
 	}
 	
 

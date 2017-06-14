@@ -38,9 +38,13 @@ public class LocalizerController {
 	public Result addInfo(@RequestBody LocalizerInfo info){
 		Result result = new Result();
 		info.setStaticTime("10");
-		info.setRunTime("12*3600");
-		info.setGpsTimeOut("3*60");
+//		info.setRunTime("12*3600");
+		info.setRunTime(String.valueOf(12*3600));
+//		info.setGpsTimeOut("3*60");
+		info.setGpsTimeOut(String.valueOf(3*60));
 		info.setLoraSleepTime("3");
+		info.setIbeaconEffectNum(String.valueOf(3));
+		info.setIbeaconTimeOut(String.valueOf(10));
 		result = localService.addInfo(info);
 		return result;
 	}
