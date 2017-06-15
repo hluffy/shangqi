@@ -61,6 +61,7 @@ app.controller("ibeaconCtrl",function($rootScope,$scope,ibeaconSer){
 	
 	ibeaconSer.getArea().then(function(data){
 		$scope.areanames = data.area;
+		console.log(data.area);
 	});
 	
 	
@@ -205,6 +206,8 @@ app.directive("ibeupdate",function($rootScope,$document,ibeaconSer){
 					obj.removeClass("active");
 					obj.addClass("inactive");
 					obj.attr("readonly",true);
+					var selectid = "select" + ngModel.$modelValue.uuid;
+					$("."+selectid).attr("disabled","true");
 					scope.$apply(function(){
 						ibeaconSer.updateIbeaconInfo(ngModel.$modelValue).then(function(data){
 							scope.isShow = false;

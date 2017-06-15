@@ -270,6 +270,8 @@ app.directive("userupdate",function($rootScope,$document,userService){
 					obj.removeClass("active");
 					obj.addClass("inactive");
 					obj.attr("readonly",true);
+					var selectid = "select" + ngModel.$modelValue.userName;
+					$("."+selectid).attr("disabled","true");
 					scope.$apply(function(){
 						userService.updateUserInfo(ngModel.$modelValue).then(function(data){
 							scope.isShow = false;

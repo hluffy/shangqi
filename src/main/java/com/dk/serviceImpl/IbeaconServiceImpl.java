@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.dk.object.IbeaconInfo;
+import com.dk.object.PieData;
 import com.dk.result.Result;
 import com.dk.service.IbeaconService;
 import com.dk.util.DBUtil;
@@ -157,9 +158,9 @@ public class IbeaconServiceImpl implements IbeaconService{
 			ssql.append(" and minor="+info.getMinor());
 		}
 		if(info.getUuid()!=null&&!info.getUuid().isEmpty()){
-			sql.append(" and uuid='"+info.getUuid()+"'");
-			countSql.append(" and uuid='"+info.getUuid()+"'");
-			ssql.append(" and uuid='"+info.getUuid()+"'");
+			sql.append(" and uuid like '%"+info.getUuid()+"'");
+			countSql.append(" and uuid like '%"+info.getUuid()+"'");
+			ssql.append(" and uuid like '%"+info.getUuid()+"'");
 		}
 		if(info.getEle()!=null){
 			sql.append(" and ele='"+info.getEle()+"'");
@@ -458,6 +459,53 @@ public class IbeaconServiceImpl implements IbeaconService{
 			if(ps!=null){
 				try {
 					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Result getInfoAsArea() {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		Statement st = null;
+		List<PieData> infos = new ArrayList<PieData>();
+		try {
+			String sql = "select area,count(*) as sumcount from ibeacon group by area";
+			conn = DBUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				PieData info = new PieData();
+				info.setName(rs.getString("area"));
+				info.setValue(rs.getInt("sumcount"));
+				infos.add(info);
+			}
+			result.setStates(true);
+			result.setData(infos);
+			result.setMessage("查询成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("查询失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(st!=null){
+				try {
+					st.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

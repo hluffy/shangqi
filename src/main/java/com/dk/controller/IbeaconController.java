@@ -81,5 +81,13 @@ public class IbeaconController {
 		result = ibeaconService.getInfoAsUuid(info);
 		return result;
 	}
+	
+	@RequestMapping("getinfoasarea.ll")
+	@ResponseBody
+	public Result getInfoAsArea(){
+		Result result = new Result();
+		result = ibeaconService.getInfoAsArea();
+		return result;
+	}
 
 }

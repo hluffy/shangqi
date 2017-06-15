@@ -319,22 +319,31 @@
 					  	<input type="radio" ng-model="bind.bindType" name="bindType" value="绑定"> <span>绑定</span>
 					  	&nbsp;&nbsp;&nbsp;&nbsp;
 					  	<input type="radio" ng-model="bind.bindType" name="bindType" value="解绑"> <span>解绑</span>
-					</div>
-					<br/><br/>
-					<div class="input-group input-group-sm">
-						<input style="height: 29px" ng-model="bind.bindStartTime" id="bindStartTime" class="laydate-icon" placeholder=" 绑定开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+					  	&nbsp;&nbsp;&nbsp;&nbsp;
+					  	<input type="radio" ng-model="bind.bindType" name="bindType" value="" ng-checked="true"> <span>全部</span>
+					  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  	<input style="height: 29px" ng-model="bind.bindStartTime" id="bindStartTime" class="laydate-icon" placeholder=" 开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
 						--
-						<input style="height:29px" ng-model="bind.bindEndTime" id="bindEndTime" class="laydate-icon" placeholder=" 绑定结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-					</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="input-group input-group-sm">
-						<input style="height:29px" ng-model="bind.unbindStartTime" id="unbindStartTime" class="laydate-icon" placeholder=" 解绑开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
-						--
-						<input style="height:29px" ng-model="bind.unbindEndTime" id="unbindEndTime" class="laydate-icon" placeholder=" 解绑结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						<input style="height:29px" ng-model="bind.bindEndTime" id="bindEndTime" class="laydate-icon" placeholder=" 结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
 					</div>
 					<div class="pull-right">
 						<button ng-click="getBindInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
 					</div>
+<!-- 					<br/><br/> -->
+<!-- 					<div class="input-group input-group-sm"> -->
+<!-- 						<input style="height: 29px" ng-model="bind.bindStartTime" id="bindStartTime" class="laydate-icon" placeholder=" 开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 						-- -->
+<!-- 						<input style="height:29px" ng-model="bind.bindEndTime" id="bindEndTime" class="laydate-icon" placeholder=" 结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 					</div> -->
+<!-- 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+<!-- 					<div class="input-group input-group-sm"> -->
+<!-- 						<input style="height:29px" ng-model="bind.unbindStartTime" id="unbindStartTime" class="laydate-icon" placeholder=" 解绑开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 						-- -->
+<!-- 						<input style="height:29px" ng-model="bind.unbindEndTime" id="unbindEndTime" class="laydate-icon" placeholder=" 解绑结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 					</div> -->
+<!-- 					<div class="pull-right"> -->
+<!-- 						<button ng-click="getBindInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!-- 					</div> -->
 	              	
 	              </form>
               </div>

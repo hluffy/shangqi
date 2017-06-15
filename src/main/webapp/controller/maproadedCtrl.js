@@ -75,17 +75,20 @@ app.controller("roadedCtr",function($scope,mapServ,$rootScope){
 				var result = data.data;
 				var positions = [];
 				for(var i=0;i<result.length;i++){
-					positions.push([result[i].log,result[i].lat]);
-					var marker = L.marker([result[i].log,result[i].lat]);
-//					map.addLayer(marker);
-					if(i==0){
-						map.addLayer(marker);
-						marker.bindPopup("起点");
-					}else if(i==result.length-1){
-						map.addLayer(marker);
-						marker.bindPopup("终点").openPopup();
-					}else{
+					if(result[i].log!=0&&result[i].lat!=0){
+						positions.push([result[i].log,result[i].lat]);
 						
+						var marker = L.marker([result[i].log,result[i].lat]);
+//						map.addLayer(marker);
+						if(i==0){
+							map.addLayer(marker);
+							marker.bindPopup("起点");
+						}else if(i==result.length-1){
+							map.addLayer(marker);
+							marker.bindPopup("终点").openPopup();
+						}else{
+							
+						}
 					}
 					
 				}

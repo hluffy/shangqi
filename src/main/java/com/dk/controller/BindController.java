@@ -62,21 +62,21 @@ public class BindController {
 //		info.getFrameNum();
 		
 		String bindType = info.getBindType();
-//		if("绑定".equals(bindType)){
-//			//查询该设备是否已绑定其他车辆
-//			BindInfo queryInfo = new BindInfo();
-//			queryInfo.setEquipmentNum(info.getEquipmentNum());
-//			queryInfo.setBindType("绑定");
-//			queryInfo.setPage(0);
-//			Object bindInfos = bindService.getBindInfo(queryInfo).getData();
-//			List<BindInfo> infos = (ArrayList<BindInfo>)bindInfos;
-//			if(infos.size()>0){
-//				result.setStates(false);
-//				result.setMessage("该设备已绑定");
-//				return result;
-//			}
-//			info.setBindTime(new Timestamp(System.currentTimeMillis()));
-//		}
+		if("绑定".equals(bindType)){
+			//查询该设备是否已绑定其他车辆
+			BindInfo queryInfo = new BindInfo();
+			queryInfo.setEquipmentNum(info.getEquipmentNum());
+			queryInfo.setBindType("绑定");
+			queryInfo.setPage(0);
+			Object bindInfos = bindService.getBindInfo(queryInfo).getData();
+			List<BindInfo> infos = (ArrayList<BindInfo>)bindInfos;
+			if(infos.size()>0){
+				result.setStates(false);
+				result.setMessage("该设备已绑定");
+				return result;
+			}
+			info.setBindTime(new Timestamp(System.currentTimeMillis()));
+		}
 		BindInfo queryInfo = new BindInfo();
 		queryInfo.setFrameNum(info.getFrameNum());
 		queryInfo.setEquipmentNum(info.getEquipmentNum());
@@ -157,6 +157,12 @@ public class BindController {
 		Result result = new Result();
 		if(info.getPage()==null){
 			info.setPage(0);
+		}
+		if("解绑".equals(info.getBindType())){
+			info.setUnbindStartTime(info.getBindStartTime());
+			info.setUnbindEndTime(info.getBindEndTime());
+			info.setBindStartTime("");
+			info.setBindEndTime("");
 		}
 		result = bindService.getBindInfo(info);
 		return result;

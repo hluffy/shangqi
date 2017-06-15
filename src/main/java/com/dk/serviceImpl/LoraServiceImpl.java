@@ -262,9 +262,9 @@ public class LoraServiceImpl implements LoraService{
 			StringBuffer countSql = new StringBuffer("select count(*) as sumcount from lora where 1 = 1 ");
 			StringBuffer ssql = new StringBuffer();
 			if(info.getNumber()!=null&&!info.getNumber().isEmpty()){
-				sql.append(" and number ='"+info.getNumber()+"'");
-				countSql.append(" and number='"+info.getNumber()+"'");
-				ssql.append(" and number ='"+info.getNumber()+"'");
+				sql.append(" and number like '%"+info.getNumber()+"'");
+				countSql.append(" and number like '%"+info.getNumber()+"'");
+				ssql.append(" and number like '%"+info.getNumber()+"'");
 			}
 			if(info.getIp()!=null&&!info.getIp().isEmpty()){
 				sql.append(" and ip = '"+info.getIp()+"'");

@@ -13,5 +13,7 @@ public interface IbeaconService {
 	Result getIbeaconForMap();
 	
 	Result getInfoAsUuid(IbeaconInfo info);
+	
+	Result getInfoAsArea();
 
 }

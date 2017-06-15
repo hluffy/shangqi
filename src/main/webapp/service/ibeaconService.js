@@ -3,6 +3,8 @@ app.service("ibeaconSer",function($http,$q){
 		var deferred = $q.defer();
 		$http.get("data/area.json").success(function(data){
 			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("查询失败");
 		});
 		return deferred.promise;
 	}
@@ -76,6 +78,17 @@ app.service("ibeaconSer",function($http,$q){
 			deferred.resolve(data);
 		}).error(function(){
 			deferred.reject("删除失败");
+		});
+		
+		return deferred.promise;
+	}
+	
+	this.getInfoAsArea = function(){
+		var deferred = $q.defer();
+		$http.get("/shangqi/ibeacon/getinfoasarea.ll").success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("查询失败");
 		});
 		
 		return deferred.promise;
