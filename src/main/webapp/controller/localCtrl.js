@@ -50,15 +50,18 @@ app.controller("localCtrl",function($rootScope,$scope,localService){
 	
 	$scope.addLocal = function(){
 		if($scope.local.numberDef==null){
-			alert("定位器编号不允许为空");
+//			alert("定位器编号不允许为空");
+			window.wxc.xcConfirm("定位器编号不允许为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if($scope.local.numberDef.length!=12){
-			alert("定位器编号格式不正确，请核对");
+//			alert("定位器编号格式不正确，请核对");
+			window.wxc.xcConfirm("定位器编号格式不正确，请核对", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		localService.addInfo($scope.local).then(function(data){
-			alert(data.message);
+//			alert(data.message);
+			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 			$scope.local = {};
 		});
 	}
@@ -147,28 +150,57 @@ app.directive("localdelete",function($document,localService,$rootScope){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.locals.length;i++){
-							if(scope.locals[i].number==id){
-								localService.deleteInfo(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-									localService.getInfos().then(function(data){
-										$rootScope.locals = data.data;
-										$rootScope.count = data.count;
-										var optInit = getOptionsFromForm();
-										$("#Pagination").pagination($rootScope.count, optInit);
-								        
-									});
-								});
-//								scope.locals.splice(i,1);
-							}
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.locals.length;i++){
+									if(scope.locals[i].number==id){
+										localService.deleteInfo(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+											localService.getInfos().then(function(data){
+												$rootScope.locals = data.data;
+												$rootScope.count = data.count;
+												var optInit = getOptionsFromForm();
+												$("#Pagination").pagination($rootScope.count, optInit);
+										        
+											});
+										});
+//										scope.locals.splice(i,1);
+									}
+								}
+							});
 						}
-					});
-				}
+					}
+				window.wxc.xcConfirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.locals.length;i++){
+//							if(scope.locals[i].number==id){
+//								localService.deleteInfo(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//									localService.getInfos().then(function(data){
+//										$rootScope.locals = data.data;
+//										$rootScope.count = data.count;
+//										var optInit = getOptionsFromForm();
+//										$("#Pagination").pagination($rootScope.count, optInit);
+//								        
+//									});
+//								});
+////								scope.locals.splice(i,1);
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -181,21 +213,44 @@ app.directive("localload",function($document,localService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否同步参数编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					console.log(ngModel.$modelValue);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.locals.length;i++){
-							if(scope.locals[i].number==id){
-								localService.loadParame(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-								});
-							}
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+//							console.log("确认啦");
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							console.log(ngModel.$modelValue);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.locals.length;i++){
+									if(scope.locals[i].number==id){
+										localService.loadParame(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+										});
+									}
+								}
+							});
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否同步参数编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否同步参数编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					console.log(ngModel.$modelValue);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.locals.length;i++){
+//							if(scope.locals[i].number==id){
+//								localService.loadParame(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//								});
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -208,21 +263,43 @@ app.directive("localrestart",function($document,localService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					console.log(ngModel.$modelValue);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.locals.length;i++){
-							if(scope.locals[i].number==id){
-								localService.restartLoraMac(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-								});
-							}
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							console.log(ngModel.$modelValue);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.locals.length;i++){
+									if(scope.locals[i].number==id){
+										localService.restartLoraMac(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+										});
+									}
+								}
+							});
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					console.log(ngModel.$modelValue);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.locals.length;i++){
+//							if(scope.locals[i].number==id){
+//								localService.restartLoraMac(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//								});
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -235,33 +312,68 @@ app.directive("localupdate",function($rootScope,$document,localService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否保存?")){
-					var id = "input" + ngModel.$modelValue.numberDef;
-					console.log(id);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					scope.$apply(function(){
-						localService.setEquipPara(ngModel.$modelValue).then(function(data){
-							scope.isShow = false;
-							console.log(data);
-							alert(data.message);
-							localService.getInfos().then(function(data){
-								$rootScope.locals = data.data;
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = "input" + ngModel.$modelValue.numberDef;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								localService.setEquipPara(ngModel.$modelValue).then(function(data){
+									scope.isShow = false;
+									console.log(data);
+//									alert(data.message);
+									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+									localService.getInfos().then(function(data){
+										$rootScope.locals = data.data;
+									});
+								});
 							});
-						});
-					});
-				}else{
-					var id = "input" + ngModel.$modelValue.numberDef;
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					scope.$apply(function(){
-						scope.isShow = false;
-					})
+						},
+						onCancel: function(){
+							var id = "input" + ngModel.$modelValue.numberDef;
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								scope.isShow = false;
+							})
+						}
 				}
+				window.wxc.xcConfirm("是否保存?", "custom", option);
+//				if(confirm("是否保存?")){
+//					var id = "input" + ngModel.$modelValue.numberDef;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						localService.setEquipPara(ngModel.$modelValue).then(function(data){
+//							scope.isShow = false;
+//							console.log(data);
+////							alert(data.message);
+//							window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//							localService.getInfos().then(function(data){
+//								$rootScope.locals = data.data;
+//							});
+//						});
+//					});
+//				}else{
+//					var id = "input" + ngModel.$modelValue.numberDef;
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						scope.isShow = false;
+//					})
+//				}
 				
 				
 			});

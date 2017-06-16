@@ -208,14 +208,14 @@ public class BindServiceImpl implements BindService{
 		StringBuffer countSql = new StringBuffer("select count(*) as countBind from binding where 1 =1 ");
 		StringBuffer ssql = new StringBuffer();
 		if(info.getEquipmentNum()!=null&&!info.getEquipmentNum().isEmpty()){
-			sql.append(" and equipment_num='"+info.getEquipmentNum()+"'");
-			countSql.append(" and equipment_num='"+info.getEquipmentNum()+"'");
-			ssql.append(" and equipment_num='"+info.getEquipmentNum()+"'");
+			sql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'");
+			countSql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'");
+			ssql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'");
 		}
 		if(info.getFrameNum()!=null&&!info.getFrameNum().isEmpty()){
-			sql.append(" and frame_num ='"+info.getFrameNum()+"'");
-			countSql.append(" and frame_num ='"+info.getFrameNum()+"'");
-			ssql.append(" and frame_num ='"+info.getFrameNum()+"'");
+			sql.append(" and frame_num like '%"+info.getFrameNum()+"'");
+			countSql.append(" and frame_num like '%"+info.getFrameNum()+"'");
+			ssql.append(" and frame_num like '%"+info.getFrameNum()+"'");
 		}
 		if(info.getBindType()!=null&&!info.getBindType().isEmpty()){
 			sql.append(" and bing_type = '"+info.getBindType()+"'");

@@ -56,12 +56,14 @@ app.controller("loraCtrl",function($rootScope,$scope,loraService){
 	
 	$scope.addLora = function(){
 		if($scope.lora.number==null){
-			alert("编号不能为空");
+//			alert("编号不能为空");
+			window.wxc.xcConfirm("编号不能为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		loraService.addInfo($scope.lora).then(function(data){
 			console.log(data);
-			alert(data.message);
+//			alert(data.message);
+			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 			$scope.lora = {};
 		});
 	}
@@ -156,27 +158,58 @@ app.directive("loradelete",function($document,loraService,$rootScope){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.loras.length;i++){
-							if(scope.loras[i].number==id){
-								loraService.deleteInfo(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-									loraService.getInfos().then(function(data){
-										$rootScope.loras = data.data;
-										$rootScope.count = data.count;
-									    var optInit = getOptionsFromForm();
-									    $("#Pagination").pagination(data.count, optInit);
-									});
-								});
-								scope.loras.splice(i,1);
-							}
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.loras.length;i++){
+									if(scope.loras[i].number==id){
+										loraService.deleteInfo(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+											loraService.getInfos().then(function(data){
+												$rootScope.loras = data.data;
+												$rootScope.count = data.count;
+											    var optInit = getOptionsFromForm();
+											    $("#Pagination").pagination(data.count, optInit);
+											});
+										});
+										scope.loras.splice(i,1);
+									}
+								}
+							});
+						},
+						onCancel: function(){
+							console.log("取消");
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否删除编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.loras.length;i++){
+//							if(scope.loras[i].number==id){
+//								loraService.deleteInfo(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//									loraService.getInfos().then(function(data){
+//										$rootScope.loras = data.data;
+//										$rootScope.count = data.count;
+//									    var optInit = getOptionsFromForm();
+//									    $("#Pagination").pagination(data.count, optInit);
+//									});
+//								});
+//								scope.loras.splice(i,1);
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -190,20 +223,44 @@ app.directive("lorasync",function($document,loraService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.loras.length;i++){
-							if(scope.loras[i].number==id){
-								loraService.loraSyncTime(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-								});
-							}
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.loras.length;i++){
+									if(scope.loras[i].number==id){
+										loraService.loraSyncTime(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+										});
+									}
+								}
+							});
+						},
+						onCancel: function(){
+							console.log("取消");
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否同步时间编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.loras.length;i++){
+//							if(scope.loras[i].number==id){
+//								loraService.loraSyncTime(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//								});
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -215,20 +272,44 @@ app.directive("lorarestart",function($document,loraService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
-					var id = ngModel.$modelValue.number;
-					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.loras.length;i++){
-							if(scope.loras[i].number==id){
-								loraService.loraRestart(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-								});
-							}
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.number;
+							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.loras.length;i++){
+									if(scope.loras[i].number==id){
+										loraService.loraRestart(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+										});
+									}
+								}
+							});
+						},
+						onCancel: function(){
+							console.log("取消");
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?", "custom", option);
+//				if(confirm("是否重启编号为"+ngModel.$modelValue.number+"的设备?")){
+//					var id = ngModel.$modelValue.number;
+//					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.loras.length;i++){
+//							if(scope.loras[i].number==id){
+//								loraService.loraRestart(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//								});
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -241,34 +322,70 @@ app.directive("loraupdate",function($rootScope,$document,loraService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("你确定要保存吗?")){
-					var id = "input" + ngModel.$modelValue.number;
-					console.log(id);
-					console.log(ngModel.$modelValue);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					scope.$apply(function(){
-						loraService.setIpAndPort(ngModel.$modelValue).then(function(data){
-							scope.isShow = false;
-							alert(data.message);
-							loraService.getInfos().then(function(data){
-								$rootScope.loras = data.data;
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = "input" + ngModel.$modelValue.number;
+							console.log(id);
+							console.log(ngModel.$modelValue);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								loraService.setIpAndPort(ngModel.$modelValue).then(function(data){
+									scope.isShow = false;
+//									alert(data.message);
+									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+									loraService.getInfos().then(function(data){
+										$rootScope.loras = data.data;
+									});
+								});
 							});
-						});
-					});
-				}else{
-					var id = "input" + ngModel.$modelValue.number;
-					console.log(id);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					scope.$apply(function(){
-						scope.isShow = false;
-					})
+						},
+						onCancel: function(){
+							var id = "input" + ngModel.$modelValue.number;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								scope.isShow = false;
+							})
+						}
 				}
+				window.wxc.xcConfirm("您确定要保存吗?", "custom", option);
+//				if(confirm("你确定要保存吗?")){
+//					var id = "input" + ngModel.$modelValue.number;
+//					console.log(id);
+//					console.log(ngModel.$modelValue);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						loraService.setIpAndPort(ngModel.$modelValue).then(function(data){
+//							scope.isShow = false;
+////							alert(data.message);
+//							window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//							loraService.getInfos().then(function(data){
+//								$rootScope.loras = data.data;
+//							});
+//						});
+//					});
+//				}else{
+//					var id = "input" + ngModel.$modelValue.number;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						scope.isShow = false;
+//					})
+//				}
 				
 			});
 		}

@@ -137,6 +137,7 @@ public class RoleFilter implements Filter{
 		//IBeacon
 		RoleList.addList("ibeacon/getinfos.ll");
 		RoleList.addList("ibeacon/getinfo.ll");
+		RoleList.addList("ibeacon/getinfoasarea.ll");
 		
 		RoleList.addList("car/getinfos.ll");
 		RoleList.addList("user/getinfos.ll");

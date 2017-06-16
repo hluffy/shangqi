@@ -68,29 +68,35 @@ app.controller("userCtrl",function($rootScope,$scope,$http,userService){
 		if(valid){
 			console.log($scope.user);
 			if($scope.user.password!=$scope.user.confirmpassword){
-				alert("你两次输入的密码不同，请确认");
+//				alert("你两次输入的密码不同，请确认");
+				window.wxc.xcConfirm("你两次输入的密码不同，请确认", window.wxc.xcConfirm.typeEnum.info);
 				$scope.user.password="";
 				$scope.user.confirmpassword="";
 				return;
 			}
 			userService.saveUserInfo($scope.user).then(function(data){
-				alert(data.message);
+//				alert(data.message);
+				window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 				$scope.user = {};
 			});
 		}else{
 			if($scope.user.userName==null){
-				alert("用户名不能为空");
+//				alert("用户名不能为空");
+				window.wxc.xcConfirm("用户名不能为空", window.wxc.xcConfirm.typeEnum.info);
 				return;
 			}
 			if($scope.user.password==null){
-				alert("密码不能为空");
+//				alert("密码不能为空");
+				window.wxc.xcConfirm("密码不能为空", window.wxc.xcConfirm.typeEnum.info);
 				return;
 			}
 			if($scope.user.confirmpassword==null){
-				alert("确认密码不能为空");
+//				alert("确认密码不能为空");
+				window.wxc.xcConfirm("确认密码不能为空", window.wxc.xcConfirm.typeEnum.info);
 				return;
 			}else{
-				alert("邮箱地址不合法");
+//				alert("邮箱地址不合法");
+				window.wxc.xcConfirm("邮箱地址不合法", window.wxc.xcConfirm.typeEnum.info);
 				$scope.user.email="";
 				return;
 			}
@@ -230,28 +236,58 @@ app.directive("userdelete",function($rootScope,$document,userService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("你确定要删除吗?")){
-					var id = ngModel.$modelValue.userName;
-//					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.users.length;i++){
-							if(scope.users[i].userName==id){
-								userService.deleteUserInfo(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-									$rootScope.count = $rootScope.count-1;
-									if(data.states){
-										userService.getUserInfos().then(function(data){
-											$rootScope.users = data.data;
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+//							console.log("确认啦");
+							var id = ngModel.$modelValue.userName;
+//							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.users.length;i++){
+									if(scope.users[i].userName==id){
+										userService.deleteUserInfo(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+											$rootScope.count = $rootScope.count-1;
+											if(data.states){
+												userService.getUserInfos().then(function(data){
+													$rootScope.users = data.data;
+												});
+											}
 										});
+//										scope.users.splice(i,1);
+										
 									}
-								});
-//								scope.users.splice(i,1);
-								
-							}
+								}
+							});
 						}
-					});
-				}
+					}
+				window.wxc.xcConfirm("您确定要删除吗？", "custom", option);
+//				if(confirm("你确定要删除吗?")){
+//					var id = ngModel.$modelValue.userName;
+////					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.users.length;i++){
+//							if(scope.users[i].userName==id){
+//								userService.deleteUserInfo(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//									$rootScope.count = $rootScope.count-1;
+//									if(data.states){
+//										userService.getUserInfos().then(function(data){
+//											$rootScope.users = data.data;
+//										});
+//									}
+//								});
+////								scope.users.splice(i,1);
+//								
+//							}
+//						}
+//					});
+//				}
 			});
 		}
 	}
@@ -263,28 +299,69 @@ app.directive("userupdate",function($rootScope,$document,userService){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel,index){
 			element.bind("click",function(){
-				if(confirm("你确定要保存吗?")){
-					var id = "input" + ngModel.$modelValue.userName;
-					console.log(id);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					var selectid = "select" + ngModel.$modelValue.userName;
-					$("."+selectid).attr("disabled","true");
-					scope.$apply(function(){
-						userService.updateUserInfo(ngModel.$modelValue).then(function(data){
-							scope.isShow = false;
-							console.log(data);
-							alert(data.message);
-							if(data.states){
-								userService.getUserInfos().then(function(data){
-									$rootScope.users = data.data;
+				var option = {
+						title: "确认信息",
+						btn: parseInt("0011",2),
+						onOk: function(){
+//							console.log("确认啦");
+							var id = "input" + ngModel.$modelValue.userName;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							var selectid = "select" + ngModel.$modelValue.userName;
+							$("."+selectid).attr("disabled","true");
+							scope.$apply(function(){
+								userService.updateUserInfo(ngModel.$modelValue).then(function(data){
+									scope.isShow = false;
+									console.log(data);
+//									alert(data.message);
+									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+									if(data.states){
+										userService.getUserInfos().then(function(data){
+											$rootScope.users = data.data;
+										});
+									}
 								});
-							}
-						});
-					})
+							})
+						},
+						onCancel: function(){
+							var id = "input" + ngModel.$modelValue.userName;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								scope.isShow = false;
+							})
+						}
 				}
+				window.wxc.xcConfirm("您确定要保存吗?", "custom", option);
+//				if(confirm("你确定要保存吗?")){
+//					var id = "input" + ngModel.$modelValue.userName;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					var selectid = "select" + ngModel.$modelValue.userName;
+//					$("."+selectid).attr("disabled","true");
+//					scope.$apply(function(){
+//						userService.updateUserInfo(ngModel.$modelValue).then(function(data){
+//							scope.isShow = false;
+//							console.log(data);
+////							alert(data.message);
+//							window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//							if(data.states){
+//								userService.getUserInfos().then(function(data){
+//									$rootScope.users = data.data;
+//								});
+//							}
+//						});
+//					})
+//				}
 			});
 		}
 	}

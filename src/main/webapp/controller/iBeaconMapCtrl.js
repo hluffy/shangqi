@@ -17,7 +17,7 @@ app.controller("iBeaconMapCtrl",function($scope,$timeout,mapServ,$rootScope){
 
 	var marker = L.marker();
 		var greenIcon = L.icon({
-            iconUrl: 'img/ibeacon.png',
+            iconUrl: 'img/ibeacon1.png',
 //            shadowUrl: 'img/caricon.jpg',
 
             iconSize:     [10, 10], // size of the icon

@@ -589,7 +589,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 		PreparedStatement ps = null;
 		
 		try {
-			String sql = "update localizer set area=?,ele=?,time=?,sv=?,sv_str=? where number=?";
+			String sql = "update localizer set area=?,ele=?,time=?,sv=?,sv_str=?,log=?,lat=? where number=?";
 			conn = DBUtil.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, info.getArea());
@@ -597,7 +597,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 			ps.setString(4, info.getSv());
 			ps.setString(5, info.getSvStr());
-			ps.setString(6, info.getNumber());
+			ps.setString(6, info.getLog());
+			ps.setString(7, info.getLat());
+			ps.setString(8, info.getNumber());
 			
 			ps.execute();
 			result.setMessage("更新成功");

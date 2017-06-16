@@ -55,11 +55,13 @@ app.controller("roadedCtr",function($scope,mapServ,$rootScope){
 		$scope.map.startTime = $("#mapStartTime").val();
 		$scope.map.endTime = $("#mapEndTime").val();
 		if(!$scope.map.frameNum){
-			alert("车架号不允许为空")
+//			alert("车架号不允许为空")
+			window.wxc.xcConfirm("车架号不允许为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if(!$scope.map.startTime||!$scope.map.endTime){
-			alert("时间不允许为空");
+//			alert("时间不允许为空");
+			window.wxc.xcConfirm("时间不允许为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		map.remove();

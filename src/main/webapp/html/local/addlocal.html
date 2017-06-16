@@ -1,8 +1,9 @@
 <section class="content-header">
-	<h1>车载定位器添加</h1>
+<!-- 	<h1>车载定位器添加</h1> -->
+	<b style="font-size:20px">车载定位器添加</b>
 </section>
 <section class="content">
-	<div style="padding-top: 100px">
+	<div style="padding-top: 0px">
 		<form action="">
 			<div class="form-group">
 			  <label class="col-sm-2 control-label" style="margin-left: 250px">车载定位器编号:</label>
@@ -10,21 +11,52 @@
 			  	<input required="required" ng-model="local.numberDef" style="width:100%" type="text" class="form-control" id="inputSuccess1">
 			  </div>
 			</div>
-			<br/><br/><br/><br/>
+			<br/><br/><br/>
 			<div class="form-group">
 			  <label class="col-sm-2 control-label" style="margin-left: 250px">静止时上报时间间隔:</label>
 			  <div class="col-sm-2">
-			  	<input ng-model="local.staticTime" style="width:100%" type="text" class="form-control" id="inputWarning1">
+			  	<input value="10" style="width:100%" type="text" class="form-control" id="inputWarning1" readonly="readonly">
 			  </div>
-			  <label class="col-sm-0">分钟</label>
+			  <label class="col-sm-0">秒</label>
 			</div>
-			<br/><br/>
+			<br/>
 			<div class="form-group">
 			  <label class="col-sm-2 control-label" style="margin-left: 250px">运行时上报时间间隔:</label>
 			  <div class="col-sm-2">
-			  	<input ng-model="local.runTime" style="width:100%" type="text" class="form-control" id="inputError1">
+			  	<input value="43200" style="width:100%" type="text" class="form-control" id="inputError1" readonly="readonly">
 			  </div>
-			  <label class="col-sm-0">分钟</label>
+			  <label class="col-sm-0">秒</label>
+			</div>
+			<br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">GPS超时时间:</label>
+			  <div class="col-sm-2">
+			  	<input value="180" style="width:100%" type="text" class="form-control" id="inputError1" readonly="readonly">
+			  </div>
+			  <label class="col-sm-0">秒</label>
+			</div>
+			<br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">LoRa进入休眠时间:</label>
+			  <div class="col-sm-2">
+			  	<input value="3" style="width:100%" type="text" class="form-control" id="inputError1" readonly="readonly">
+			  </div>
+			  <label class="col-sm-0">秒</label>
+			</div>
+			<br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">有效iBeacon数量:</label>
+			  <div class="col-sm-2">
+			  	<input value="3" style="width:100%" type="text" class="form-control" id="inputError1" readonly="readonly">
+			  </div>
+			  <label class="col-sm-0">秒</label>
+			</div>
+			<br/>
+			<div class="form-group">
+			  <label class="col-sm-2 control-label" style="margin-left: 250px">iBeacon超时时间:</label>
+			  <div class="col-sm-2">
+			  	<input value="10" style="width:100%" type="text" class="form-control" id="inputError1" readonly="readonly">
+			  </div>
 			</div>
 			<br/><br/>
 			<div class="form-group">

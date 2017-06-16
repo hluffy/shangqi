@@ -1,18 +1,20 @@
 <section class="content-header">
-	<h1>车载定位器信息查询</h1>
+<!-- 	<h1>车载定位器信息查询</h1> -->
+	<b style="font-size:20px">定位设备信息</b>
 	</section>
 	<section class="content">
 	 <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">车载定位设备编号</h3>
+<!--               <h3 class="box-title">车载定位设备编号</h3> -->
+              <span>车辆定位设备编号</span>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <!--               <a ui-sref="addlocal" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a> -->
 
               <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" ng-model="local.number" name="table_search" class="form-control pull-right" placeholder="编号">
+                <div class="input-group input-group-sm">
+                  <input style="width: 150px" type="text" ng-model="local.number" name="table_search" class="form-control pull-right" placeholder="编号">
 
                   <div class="input-group-btn">
                     <button ng-click="getLocalInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -22,7 +24,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding" ng-controller="localCtrl" style="height:410px;">
-              <table class="table table-hover table1" style="text-align: center;overflow: auto;width:1366px">
+              <table class="table table-hover table1" style="text-align: center;overflow: auto;width:1500px">
                 <tr>
                   <th style="border-top: 1px solid #794747"></th>
                   <th style="border-top: 1px solid #794747;text-align: center;">编号</th>

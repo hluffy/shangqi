@@ -1,5 +1,7 @@
 app.controller("ibeaconPieCtrl",function($scope,$rootScope,ibeaconSer){
 	ibeaconSer.getInfoAsArea().then(function(result){
+		console.log(22222);
+		console.log(result);
 		$scope.datas = result.data;
 		$scope.data = new Array();
 		$scope.legdata = new Array();

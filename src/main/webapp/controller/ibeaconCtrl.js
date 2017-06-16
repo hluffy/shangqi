@@ -67,24 +67,29 @@ app.controller("ibeaconCtrl",function($rootScope,$scope,ibeaconSer){
 	
 	$scope.addIbeacon = function(ibeacon){
 		if($scope.ibeacon.uuid==null){
-			alert("iBeacon编号不允许为空");
+//			alert("iBeacon编号不允许为空");
+			window.wxc.xcConfirm("iBeacon编号不允许为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if($scope.ibeacon.log==null){
-			alert("经度不能为空");
+//			alert("经度不能为空");
+			window.wxc.xcConfirm("经度不能为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if($scope.ibeacon.lat==null){
-			alert("纬度不能为空");
+//			alert("纬度不能为空");
+			window.wxc.xcConfirm("纬度不能为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if($scope.ibeacon.area==null||$scope.ibeacon.area==""){
-			alert("请选择区域");
+//			alert("请选择区域");
+			window.wxc.xcConfirm("请选择区域", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		ibeaconSer.addIbeaconInfo($scope.ibeacon).then(function(data){
 			console.log(data);
-			alert(data.message);
+//			alert(data.message);
+			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 			$scope.ibeacon = {};
 		});
 	}
@@ -168,25 +173,54 @@ app.directive("ibedelete",function($document,ibeaconSer,$rootScope){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否删除iBeacon编号为"+ngModel.$modelValue.uuid+"的设备?")){
-					var id = ngModel.$modelValue.uuid;
-					console.log(id);
-					scope.$apply(function(){
-						for(var i = 0;i<scope.ibeacons.length;i++){
-							if(scope.ibeacons[i].uuid==id){
-								ibeaconSer.deleteIbeaconInfo(ngModel.$modelValue).then(function(data){
-									console.log(data);
-									alert(data.message);
-									ibeaconSer.getIbeaconInfos().then(function(data){
-										$rootScope.ibeacons = data.data;
-										$rootScope.count = data.count;
-									});
-								});
-								scope.ibeacons.splice(i,1);
-							}
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = ngModel.$modelValue.uuid;
+							console.log(id);
+							scope.$apply(function(){
+								for(var i = 0;i<scope.ibeacons.length;i++){
+									if(scope.ibeacons[i].uuid==id){
+										ibeaconSer.deleteIbeaconInfo(ngModel.$modelValue).then(function(data){
+											console.log(data);
+//											alert(data.message);
+											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+											ibeaconSer.getIbeaconInfos().then(function(data){
+												$rootScope.ibeacons = data.data;
+												$rootScope.count = data.count;
+											});
+										});
+										scope.ibeacons.splice(i,1);
+									}
+								}
+							});
+						},
+						onCancel: function(){
+							console.log("取消");
 						}
-					});
 				}
+				window.wxc.xcConfirm("是否删除iBeacon编号为"+ngModel.$modelValue.uuid+"的设备?", "custom", option);
+//				if(confirm("是否删除iBeacon编号为"+ngModel.$modelValue.uuid+"的设备?")){
+//					var id = ngModel.$modelValue.uuid;
+//					console.log(id);
+//					scope.$apply(function(){
+//						for(var i = 0;i<scope.ibeacons.length;i++){
+//							if(scope.ibeacons[i].uuid==id){
+//								ibeaconSer.deleteIbeaconInfo(ngModel.$modelValue).then(function(data){
+//									console.log(data);
+////									alert(data.message);
+//									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//									ibeaconSer.getIbeaconInfos().then(function(data){
+//										$rootScope.ibeacons = data.data;
+//										$rootScope.count = data.count;
+//									});
+//								});
+//								scope.ibeacons.splice(i,1);
+//							}
+//						}
+//					});
+//				}
 				
 			});
 		}
@@ -199,36 +233,74 @@ app.directive("ibeupdate",function($rootScope,$document,ibeaconSer){
 		require:"ngModel",
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
-				if(confirm("是否保存?")){
-					var id = "input" + ngModel.$modelValue.uuid;
-					console.log(id);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					var selectid = "select" + ngModel.$modelValue.uuid;
-					$("."+selectid).attr("disabled","true");
-					scope.$apply(function(){
-						ibeaconSer.updateIbeaconInfo(ngModel.$modelValue).then(function(data){
-							scope.isShow = false;
-							console.log(data);
-							alert(data.message);
-							ibeaconSer.getIbeaconInfos().then(function(data){
-								$rootScope.ibeacons = data.data;
+				var option = {
+						title: "自定义",
+						btn: parseInt("0011",2),
+						onOk: function(){
+							var id = "input" + ngModel.$modelValue.uuid;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							var selectid = "select" + ngModel.$modelValue.uuid;
+							$("."+selectid).attr("disabled","true");
+							scope.$apply(function(){
+								ibeaconSer.updateIbeaconInfo(ngModel.$modelValue).then(function(data){
+									scope.isShow = false;
+									console.log(data);
+//									alert(data.message);
+									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+									ibeaconSer.getIbeaconInfos().then(function(data){
+										$rootScope.ibeacons = data.data;
+									});
+								});
 							});
-						});
-					});
-				}else{
-					var id = "input" + ngModel.$modelValue.uuid;
-					console.log(id);
-					var obj = $("."+id);
-					obj.removeClass("active");
-					obj.addClass("inactive");
-					obj.attr("readonly",true);
-					scope.$apply(function(){
-						scope.isShow = false;
-					})
+						},
+						onCancel: function(){
+							var id = "input" + ngModel.$modelValue.uuid;
+							console.log(id);
+							var obj = $("."+id);
+							obj.removeClass("active");
+							obj.addClass("inactive");
+							obj.attr("readonly",true);
+							scope.$apply(function(){
+								scope.isShow = false;
+							})
+						}
 				}
+				window.wxc.xcConfirm("是否保存？", "custom", option);
+//				if(confirm("是否保存?")){
+//					var id = "input" + ngModel.$modelValue.uuid;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					var selectid = "select" + ngModel.$modelValue.uuid;
+//					$("."+selectid).attr("disabled","true");
+//					scope.$apply(function(){
+//						ibeaconSer.updateIbeaconInfo(ngModel.$modelValue).then(function(data){
+//							scope.isShow = false;
+//							console.log(data);
+////							alert(data.message);
+//							window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+//							ibeaconSer.getIbeaconInfos().then(function(data){
+//								$rootScope.ibeacons = data.data;
+//							});
+//						});
+//					});
+//				}else{
+//					var id = "input" + ngModel.$modelValue.uuid;
+//					console.log(id);
+//					var obj = $("."+id);
+//					obj.removeClass("active");
+//					obj.addClass("inactive");
+//					obj.attr("readonly",true);
+//					scope.$apply(function(){
+//						scope.isShow = false;
+//					})
+//				}
 				
 				
 			});

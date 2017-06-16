@@ -227,7 +227,9 @@ public class StringAnalysis {
 							logsum += gis.getLongitude();
 						}
 						positioning.setLatitude(latsum/giss.size());
+						localInfo.setLat(String.valueOf(latsum/giss.size()));
 						positioning.setLongitude(logsum/giss.size());
+						localInfo.setLog(String.valueOf(logsum/giss.size()));
 						positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
 //						HsqldbUtil.updatePositioning(positioning);
 						
@@ -331,6 +333,7 @@ public class StringAnalysis {
 //						longitude = Double.parseDouble(longitudeDD+"."+longitudeMM);
 //						gps.setLongitude(longitude);
 						positioning.setLongitude(longitude);
+						localInfo.setLog(String.valueOf(longitude));
 						System.out.println("longitude:"+longitude);
 						
 //						System.out.println("longitude:"+we+":"+longitude);
@@ -348,6 +351,7 @@ public class StringAnalysis {
 //						latitude = Double.parseDouble(latitudeDD+"."+latitudeMM);
 //						gps.setLatitude(latitude);
 						positioning.setLatitude(latitude);
+						localInfo.setLat(String.valueOf(latitude));
 						System.out.println("latiude:"+latitude);
 						
 //						System.out.println("latitude:"+ns+":"+latitude);
