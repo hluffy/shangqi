@@ -1,4 +1,4 @@
-<section class="content-header">
+<section class="content-header" style="widht:100%">
 <!-- 	<h1>车载定位器设置</h1> -->
 	<b style="font-size: 20px">车载定位器设置</b>
 	</section>
@@ -22,8 +22,8 @@
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding" ng-controller="localCtrl" style="height:470px">
-              <table class="table table-hover" style="text-align: center;overflow: auto;width:1500px">
+            <div class="box-body table-responsive no-padding" ng-controller="localCtrl" style="height:470px;overflow: scroll;">
+              <table class="table table-hover" style="text-align: center;width:1500px;">
                 <tr>
                   <th style="border-top: 1px solid #794747;text-align: center;"></th>
                   <th style="border-top: 1px solid #794747;text-align: center;">编号</th>
@@ -38,7 +38,7 @@
 <!--                   <th>登录服务器地址</th> -->
 <!--                   <th>终端号</th> -->
                   <th style="border-top: 1px solid #794747;text-align: center;">时间</th>
-                  <th style="border-top: 1px solid #794747"></th>
+                  <th style="border-top: 1px solid #794747;width:200px"></th>
                   <th style="border-top: 1px solid #794747"></th>
                 </tr>
                 <tr ng-repeat="local in locals">
@@ -70,7 +70,7 @@
 <!-- 					<td><input style="width:50px" ng-model="lora.terNum" readonly class="inactive input{{lora.number}}"></td> -->
 <!-- 					<td><input style="width:150px" ng-model="local.timeStr" readonly class="inactive input{{local.number}}"></td> -->
 					<td style="width:150px;" ng-bind="local.timeStr"></td>
-                	<td style="padding: 4px">
+                	<td style="padding: 4px;width: 200px">
                 		<localedit class="btn btn-primary" ng-model="local" ng-show="!isShow">
 				        	<span class="glyphicon glyphicon-pencil">编辑</span>
 				        </localedit>

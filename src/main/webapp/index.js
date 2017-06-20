@@ -234,6 +234,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
         	url: '/ibeaconmap',
         	templateUrl:'html/map/ibeaconmap.html'
         })
+        .state('employee',{
+        	url: '/employee',
+        	templateUrl: 'html/employ/emptable.html',
+        	controller: 'employCtrl'
+        })
+        .state('addemploy',{
+        	url: '/addemploy',
+        	templateUrl: 'html/employ/addemploy.html',
+        	controller: 'employCtrl'
+        })
         
 //        .state('login',{
 //        	url:'login',

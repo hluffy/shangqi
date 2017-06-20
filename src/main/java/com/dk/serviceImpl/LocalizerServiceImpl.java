@@ -303,9 +303,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 			StringBuffer countSql = new StringBuffer("select count(*) as sumcount from localizer where 1 =1 ");
 			StringBuffer ssql = new StringBuffer();
 			if(info.getNumber()!=null&&!info.getNumber().isEmpty()){
-				sql.append(" and number = '"+info.getNumber()+"'");
-				countSql.append(" and number = '"+info.getNumber()+"'");
-				ssql.append(" and number = '"+info.getNumber()+"'");
+				sql.append(" and number like '%"+info.getNumber()+"'");
+				countSql.append(" and number like '%"+info.getNumber()+"'");
+				ssql.append(" and number like '%"+info.getNumber()+"'");
 			}
 			if(info.getStaticTime()!=null&&!info.getStaticTime().isEmpty()){
 				sql.append(" and static_time='"+info.getStaticTime()+"'");

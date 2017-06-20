@@ -170,9 +170,9 @@ public class PositionServiceImpl implements PositonService{
 			StringBuffer ssql = new StringBuffer();
 			
 			if(info.getEquipmentNum()!=null&&!info.getEquipmentNum().isEmpty()){
-				sql.append(" and equipment_num='"+info.getEquipmentNum()+"'"); 
-				countsql.append(" and equipment_num='"+info.getEquipmentNum()+"'");
-				ssql.append(" and equipment_num='"+info.getEquipmentNum()+"'");
+				sql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'"); 
+				countsql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'");
+				ssql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'");
 			}
 			if(info.getElec()!=null){
 				sql.append(" and electricity="+info.getElec());
