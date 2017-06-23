@@ -18,17 +18,18 @@ public class EmployInfo implements Serializable{
 	private String lastUseTimeStr;
 	private String file;
 	
+	private Integer page;
+	
 	public EmployInfo(){
 		
 	}
 	
-	public EmployInfo(String employeeId,String employeeName,String employeeShiftGroup,String employeeSite,String employeeShift,Timestamp lastUseTime){
+	public EmployInfo(String employeeId,String employeeName,String employeeShiftGroup,String employeeSite,String employeeShift){
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.employeeShiftGroup = employeeShiftGroup;
 		this.employeeSite = employeeSite;
 		this.employeeShift = employeeShift;
-		this.lastUseTime = lastUseTime;
 	}
 	
 	public String getEmployeeId() {
@@ -82,6 +83,14 @@ public class EmployInfo implements Serializable{
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
 	}
 	
 	

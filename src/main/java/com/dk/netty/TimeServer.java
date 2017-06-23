@@ -39,7 +39,8 @@ public class TimeServer {
         protected void initChannel(SocketChannel arg0) throws Exception {
             System.out.println("server initChannel..");
             arg0.pipeline().addLast(new TimeServerHandler());
-            arg0.pipeline().addLast(new LengthFieldBasedFrameDecoder(1536,16,2,1,0,false));
+//            arg0.pipeline().addLast(new LengthFieldBasedFrameDecoder(1536,16,2,1,0,false));
+            arg0.pipeline().addLast(new LengthFieldBasedFrameDecoder(3000, 15, 2, 0, 8));
         }
     }
     

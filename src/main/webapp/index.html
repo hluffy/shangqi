@@ -33,6 +33,8 @@
 <!--   <script src="js/angular-1.5.8.js"></script> -->
   <script src="js/angular.min.js"></script>
   <script src="js/angular-ui-router.min.js"></script>
+  <script src="js/ng-file-upload.min.js"></script>
+  <script src="js/ng-file-upload-shim.min.js"></script>
 <!--   <script src="js/angular-ui-bootstrap.js"></script> -->
   
   
@@ -91,6 +93,11 @@
     }
     .xcConfirm .popBox .txtBox{
     	height:110px
+    }
+    .xcConfirm .popBox .txtBox p{
+    	margin-top:35px;
+    	margin-left:65px;
+    	font-size:20px;
     }
   </style>
 
@@ -213,6 +220,7 @@
 <script src="controller/ibeaconPieCtrl.js"></script>
 <script src="controller/employCtrl.js"></script>
 <script src="service/employService.js"></script>
+<script src="controller/fileCtrl.js"></script>
 <script>
 	
 // 	$('#datetimepicker').datetimepicker({  

@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat;
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private String basePath = "http://www.1000van.com:8080/dkvan-api-rest";
+//  private String basePath = "http://localhost:8090/dkvan-api-rest";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 

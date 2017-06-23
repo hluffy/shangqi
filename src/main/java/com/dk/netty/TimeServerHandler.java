@@ -184,6 +184,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
             ctx.writeAndFlush(resp);
         }
 //        ctx.close();
+//        cause.printStackTrace();
     }
 
 }

@@ -43,5 +43,25 @@ public class ChannelServer {
     public static int getInt(){
     	return status;
     }
+    
+    private static boolean isSend = false;
+    
+    public static void setIsSend(boolean isSent){
+    	isSend = isSent;
+    }
+    
+    public static boolean getIsSend(){
+    	return isSend;
+    }
+    
+    private static String number = null;
+    
+    public static void setNumber(String num){
+    	number = num;
+    }
+    
+    public static String getNumber(){
+    	return number;
+    }
 
 }

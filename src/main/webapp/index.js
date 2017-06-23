@@ -1,5 +1,7 @@
+angular.module("myApp",['ngFileUpload']);
 angular.module("myApp",['ui.bootstrap']);
 angular.module("myApp",['ui.router']);
+
 var app = angular.module("myApp");
 
 

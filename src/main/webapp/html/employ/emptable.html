@@ -283,29 +283,30 @@
               <a ui-sref="addemploy" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a>
               <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">excel导入</button>
               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-								&times;
-							</button>
-							<h4 class="modal-title" id="myModalLabel">
-								Excel导入
-							</h4>
-						</div>
-						<div class="form-group" style="padding-left: 30px">
-							<label for="inputfile">文件输入</label>
-							<input type="file" id="inputfile" ng-model="employ.file">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-							</button>
-							<button type="button" class="btn btn-primary" ng-click="leadin()">
-								导入
-							</button>
-						</div>
-					</div><!-- /.modal-content -->
-				</div><!-- /.modal -->
+              		<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title" id="myModalLabel">
+									Excel导入
+								</h4>
+							</div>
+							<div class="form-group" style="padding-left: 30px">
+								<label for="inputfile">文件输入</label>
+								<input type="file" id="inputfile" file-model="fileToUpload">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" id="close">关闭
+								</button>
+								<button id="myleadin" type="button" class="btn btn-primary" ng-click="leadIn()">
+									导入
+								</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				
 			</div>
               <br/>
               <p/>
@@ -343,7 +344,7 @@
 <!--                 	<td><input readonly ng-model="user.password" class="inactive input{{user.userName}}"></td> -->
 <!--                 	<td style="padding: 4px" ng-bind="user.password"></td> -->
 <!--                 	<td>{{x.age}}</td> -->
-                	<td><input style="text-align: center;" readonly ng-model="employ.employeeName" class="inactive input{{employ.employeeId}}"></td>
+                	<td><input style="text-align: center;width:60px" readonly ng-model="employ.employeeName" class="inactive input{{employ.employeeId}}"></td>
 <!--                 	<td>{{x.gender}}</td> -->
                 	<td><input style="text-align: center;" readonly ng-model="employ.employeeShiftGroup" class="inactive input{{employ.employeeId}}"></td>
 <!--                 	<td>{{x.telnum}}</td> -->
@@ -351,7 +352,7 @@
 <!--                 	<td>{{x.other}}</td> -->
 <!-- 					<td style="padding: 4px"><input style="width: 60px;text-align: center;" readonly ng-model="user.role" class="inactive input{{user.userName}}"></td> -->
 					<td>
-						<input style="text-align: center;" readonly ng-model="employ.employeeShift" class="inactive input{{employ.employeeId}}">
+						<input style="text-align: center;width:20px" readonly ng-model="employ.employeeShift" class="inactive input{{employ.employeeId}}">
 					</td>
 					<td ng-bind="employ.lastUseTimeStr">
 					</td>

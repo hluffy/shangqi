@@ -1,8 +1,50 @@
 app.controller("employCtrl",function($scope,$rootScope,employService){
+	$rootScope.countId="625px";
 	$scope.employ = {};
 	$rootScope.indexPage = 1;
+	
+	function pageselectCallback(page_index, jq){
+		$scope.employ.page = page_index;
+		employService.getEmployInfo($scope.employ).then(function(data){
+			$scope.employs = data.data;
+//			$rootScope.count = data.count;
+			$rootScope.indexPage = page_index+1;
+		})
+        return false;
+    }
+    
+    function getOptionsFromForm(){
+        var opt = {callback: pageselectCallback};
+        opt.prev_text = "上一页";
+        opt.next_text = "下一页";
+        opt.items_per_page=10;
+        opt.num_display_entries=4;
+        opt.num_edge_entries=2;
+        return opt;
+    }
+	
+//    $(document).ready(function(){
+//        var optInit = getOptionsFromForm();
+//        $("#Pagination").pagination(members.length, optInit);
+//        
+//		$("#setoptions").click(function(){
+//            var opt = getOptionsFromForm();
+//            $("#Pagination").pagination(members.length, opt);
+//        }); 
+//
+//    });
+	
 	employService.getEmployInfos().then(function(data){
+        var optInit = getOptionsFromForm();
+        $("#Pagination").pagination(data.count, optInit);
+        
+		$("#setoptions").click(function(){
+            var opt = getOptionsFromForm();
+            $("#Pagination").pagination(data.count, opt);
+        }); 
+
 		$rootScope.employs = data.data;
+		$rootScope.count = data.count;
 	});
 	
 	
@@ -14,17 +56,64 @@ app.controller("employCtrl",function($scope,$rootScope,employService){
 	}
 	
 	$scope.getEmployInfo = function(){
-		console.log(1212);
 		employService.getEmployInfo($scope.employ).then(function(data){
 			$rootScope.employs = data.data;
+			$rootScope.count = data.count;
+			var opt = getOptionsFromForm();
+            $("#Pagination").pagination(data.count, opt);
 		});
 	}
 	
-	$scope.leadin = function(){
-		employService.leadIn($scope.employ).then(function(data){
+	$scope.leadIn = function(){
+		file = $scope.fileToUpload;
+		if(file==null||file==""){
+			window.wxc.xcConfirm("文件不能为空");
+			return;
+		}
+		var id = $("#myleadin");
+		id.attr("disabled","disabled");
+		var text = "<i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;&nbsp;正在导入，请稍等！";
+		window.wxc.xcConfirm(text);
+		employService.uploadFileToUrl(file).then(function(data){
+			$(".ok").click();
+			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+			$("#close").click();
+			employService.getEmployInfos().then(function(data){
+				$rootScope.employs = data.data;
+			});
+		});
+	}
+	
+	$scope.submit = function(){
+		console.log(3322);
+		console.log($scope.file);
+		employService.leadIn($scope.file).then(function(data){
 			console.log(data);
 		});
 	}
+//	$scope.leadin = function(){
+//		console.log(322323);
+//		console.log($scope.file);
+//		Upload.upload({
+//            //服务端接收
+//            url: '/shangqi/file/uploadfile.ll',
+//            //上传的同时带的参数
+////            data: {'username': $scope.username},
+//            //上传的文件
+//            file: $scope.file
+//        }).progress(function (evt) {
+//            //进度条
+////            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+////            console.log('progess:' + progressPercentage + '%' + evt.config.file.name);
+//        }).success(function (data, status, headers, config) {
+//            //上传成功
+////            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+////            $scope.uploadImg = data;
+//        }).error(function (data, status, headers, config) {
+//            //上传失败
+////            console.log('error status: ' + status);
+//        });
+//	}
 });
 
 app.directive("employedit",function($document){
@@ -102,6 +191,7 @@ app.directive("employdelete",function($rootScope,$document,employService){
 											if(data.states){
 												employService.getEmployInfos().then(function(data){
 													$rootScope.employs = data.data;
+													$rootScope.count = data.count;
 												});
 											}
 										});
@@ -211,4 +301,21 @@ app.directive("employupdate",function($rootScope,$document,employService){
 			});
 		}
 	}
+});
+
+app.directive( "fileModel",function( $parse ){
+	  return {
+	    restrict: "A",
+	    link: function( scope, element, attrs ){
+	      var model = $parse( attrs.fileModel );
+	      var modelSetter = model.assign;
+
+	      element.bind( "change", function(){
+	        scope.$apply( function(){
+	          modelSetter( scope, element[0].files[0] );
+	          console.log( scope );
+	        } )
+	      } )
+	    }
+	  }
 });

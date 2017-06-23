@@ -15,5 +15,7 @@ public interface IbeaconService {
 	Result getInfoAsUuid(IbeaconInfo info);
 	
 	Result getInfoAsArea();
+	
+	Result updateInfoEtc(IbeaconInfo info);
 
 }

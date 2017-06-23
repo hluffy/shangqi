@@ -10,11 +10,11 @@ app.controller("headerCtrl",function($rootScope,$scope,localService,$interval){
 //	$interval(function(){
 //		console.log("interval");
 //	},2000);
-	$interval(function(){
-		localService.getInfo($scope.local).then(function(data){
-		$scope.warningNum = data.count;
-		$scope.warningInfos = data.data;
-		console.log($scope.warningInfos);
-	});
-	},10000)
+//	$interval(function(){
+//		localService.getInfo($scope.local).then(function(data){
+//		$scope.warningNum = data.count;
+//		$scope.warningInfos = data.data;
+//		console.log($scope.warningInfos);
+//	});
+//	},10000)
 });

@@ -52,6 +52,9 @@ public class EmployController {
 	@RequestMapping("getinfo.ll")
 	@ResponseBody
 	public Result getInfo(@RequestBody EmployInfo info){
+		if(info.getPage()==null){
+			info.setPage(0);
+		}
 		Result result = new Result();
 		result = server.getInfo(info);
 		return result;

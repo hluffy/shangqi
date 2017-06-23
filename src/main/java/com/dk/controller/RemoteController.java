@@ -87,6 +87,8 @@ public class RemoteController {
 	public Result setEquipPara(@RequestBody LocalizerInfo info){
 		Result result = new Result();
 		ChannelServer.setString(null);
+		ChannelServer.setNumber(null);
+		ChannelServer.setIsSend(false);
 		if(info.getSv()==null||info.getSv().isEmpty()){
 			result.setMessage("连接不存在");
 			return result;
@@ -99,13 +101,22 @@ public class RemoteController {
 		
 		System.out.println(setEquipmentPara(info));
 		String equipmentPara = setEquipmentPara(info);
+		ChannelServer.setNumber(info.getNumber());
 		ByteBuf resp = Unpooled.copiedBuffer(getByte(equipmentPara));
+		long sendStart = System.currentTimeMillis();
+//		while(!ChannelServer.getIsSend()){
+//			System.out.println(ChannelServer.getIsSend());
+//			long sendEnd = System.currentTimeMillis();
+//			if(sendEnd-sendStart>1000*60){
+//				break;
+//			}
+//		}
 		ctx.writeAndFlush(resp);
 		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>10000){
+			if(end-start>20000){
 				break;
 			}
 			
@@ -135,7 +146,7 @@ public class RemoteController {
 			result.setStates(false);
 			result.setMessage("更新失败");
 		}
-		
+		ChannelServer.setIsSend(false);
 		return result;
 	}
 	
@@ -282,6 +293,8 @@ public class RemoteController {
 	public Result loadLocal(@RequestBody LocalizerInfo info){
 		Result result = new Result();
 		ChannelServer.setString(null);
+		ChannelServer.setNumber(null);
+		ChannelServer.setIsSend(false);
 		if(info.getSv()==null){
 			result.setMessage("连接不存在");
 			return result;
@@ -292,7 +305,16 @@ public class RemoteController {
 			result.setMessage("连接不存在,请稍后再试");
 			return result;
 		}
+		ChannelServer.setNumber(info.getNumber());
 		ByteBuf resp = Unpooled.copiedBuffer(getByte(loadStr(info)));
+		long sendStart = System.currentTimeMillis();
+		while(!ChannelServer.getIsSend()){
+			System.out.println(ChannelServer.getIsSend());
+			long sendEnd = System.currentTimeMillis();
+			if(sendEnd-sendStart>1000*60){
+				break;
+			}
+		}
 		ctx.writeAndFlush(resp);
 		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
@@ -380,7 +402,7 @@ public class RemoteController {
 		equipPara.append(hexSleepTime);
 		
 		equipPara.append("14");
-		equipPara.append("05");
+		equipPara.append("06");
 		equipPara.append(numberStr.toString());
 		String ibeaconEffectNum = info.getIbeaconEffectNum();
 		String hexEffectNum = Integer.toHexString(Integer.parseInt(ibeaconEffectNum));

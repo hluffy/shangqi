@@ -515,4 +515,46 @@ public class IbeaconServiceImpl implements IbeaconService{
 		return result;
 	}
 
+	@Override
+	public Result updateInfoEtc(IbeaconInfo info) {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "update ibeacon set ele=? where uuid=?";
+			conn = DBUtil.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, info.getEle());
+			ps.setString(2, info.getUuid());
+			
+			ps.execute();
+			result.setStates(true);
+			result.setMessage("更新成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("更新失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null){
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
 }

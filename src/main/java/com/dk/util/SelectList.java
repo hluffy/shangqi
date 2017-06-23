@@ -37,7 +37,7 @@ public class SelectList {
 						List<IBeaconSignal> s = new ArrayList<IBeaconSignal>(hashSet);
 						//s = hashSet;
 						list1.add(s);
-						if(list1.size()>=10){
+						if(list1.size()>=20){
 							return list1;
 						}
 						hashSet.remove(list.get(t));;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>上传文件</title>
+		<script src="js/angular.min.js"></script>
+		<script src="js/ng-file-upload.min.js"></script>
+		<script src="js/ng-file-upload-shim.min.js"></script>
+		<script>
+			var app1 = angular.module('app', ['ngFileUpload']);
+		</script>
+	</head>
+	<body ng-app="app">
+		<div ng-controller="myCtrl">
+			<input type="file" file-model="fileToUpload">
+			<button ng-click="send()">提交</button>
+		</div>
+		<script>
+				app1.service( "fileUpload", ["$http", function( $http ){
+					  this.uploadFileToUrl = function(file){
+					    var fd = new FormData();
+					    fd.append( "file", file )
+					    $http.post( "http://localhost:8080/shangqi/file/uploadfile.ll", fd, {
+					      transformRequest: angular.identity,
+					      headers: { "Content-Type": undefined }
+					    })
+					    .success(function(data){
+					    	console.log(data);
+					      // blabla...
+					    })
+					    .error( function(){
+					      // blabla...
+					    })
+					  }
+				}]);
+				
+				app1.directive( "fileModel",function( $parse ){
+					  return {
+					    restrict: "A",
+					    link: function( scope, element, attrs ){
+					      var model = $parse( attrs.fileModel );
+					      var modelSetter = model.assign;
+
+					      element.bind( "change", function(){
+					        scope.$apply( function(){
+					          modelSetter( scope, element[0].files[0] );
+					          console.log( scope );
+					        } )
+					      } )
+					    }
+					  }
+				});
+				
+				app1.controller("myCtrl",function($scope,fileUpload){
+					$scope.send = function(){
+						file = $scope.fileToUpload;
+						console.log(file);
+						fileUpload.uploadFileToUrl(file);
+					}
+				});
+				
+				
+			</script>
+	</body>
+</html>

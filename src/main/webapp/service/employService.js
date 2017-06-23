@@ -84,7 +84,7 @@ app.service("employService",function($http,$q){
 		var deferred = $q.defer();
 		$http({
 			method:"post",
-			url:"/shangqi/employ/leadin.ll",
+			url:"/shangqi/file/uploadfile.ll",
 			data:employ,
 			dataType:"json"
 		}).success(function(data){
@@ -95,5 +95,25 @@ app.service("employService",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	this.uploadFileToUrl = function(file){
+		var deferred = $q.defer();
+	    var fd = new FormData();
+	    fd.append( "file", file )
+	    $http.post( "http://localhost:8080/shangqi/file/uploadfile.ll", fd, {
+	      transformRequest: angular.identity,
+	      headers: { "Content-Type": undefined }
+	    })
+	    .success(function(data){
+	    	deferred.resolve(data);
+	      // blabla...
+	    })
+	    .error( function(){
+	      // blabla...
+	    	deferred.reject("导入失败");
+	    });
+	    
+	    return deferred.promise;
+	  }
 	
 });

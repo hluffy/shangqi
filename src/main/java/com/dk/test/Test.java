@@ -116,7 +116,8 @@ public class Test {
 		
 //		System.out.println(Integer.toHexString(36));
 	        
-	      
+//	    System.out.println((char)0);
+//	    System.out.println(Integer.valueOf("f",16));
 	}
 
 }

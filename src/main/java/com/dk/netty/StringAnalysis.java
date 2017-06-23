@@ -19,8 +19,11 @@ import com.dk.gis.client.model.GISLocation;
 import com.dk.object.IbeaconInfo;
 import com.dk.object.LocalizerInfo;
 import com.dk.result.Result;
+import com.dk.service.IbeaconService;
 import com.dk.service.LocalizerService;
+import com.dk.serviceImpl.IbeaconServiceImpl;
 import com.dk.serviceImpl.LocalizerServiceImpl;
+import com.dk.util.DBUtil;
 import com.dk.util.IsInArea;
 import com.dk.util.MyComparator;
 import com.dk.util.SelectList;
@@ -28,6 +31,7 @@ import com.dk.util.SelectList;
 public class StringAnalysis {
 	public static String stringAnalysis(String[] args,ChannelHandlerContext ctx){
 		LocalizerService localService = new LocalizerServiceImpl();
+		IbeaconService ibeaconService = new IbeaconServiceImpl();
 		Positioning positioning = new Positioning();
 		LocalizerInfo localInfo = new LocalizerInfo();
 		List<IBeaconSignal> signals = new ArrayList<IBeaconSignal>();
@@ -63,9 +67,11 @@ public class StringAnalysis {
 			
 			//保存连接
 			ChannelServer.addGatewayChannel(localInfo.getSv(), ctx);
+			ChannelServer.setIsSend(false);
 			
 			switch (instructions) {
 			case "05":
+				ChannelServer.setIsSend(true);
 				returnString.append("85");
 //				int length = Integer.parseInt(strs[15]+strs[16],16);
 				String length = "0003";
@@ -87,6 +93,9 @@ public class StringAnalysis {
 				positioning.setEquipmentNum(mac.toString());
 				localInfo.setNumber(mac.toString());
 				System.out.println("mac:"+mac.toString());
+				if(mac.toString().equals(ChannelServer.getNumber())){
+					ChannelServer.setIsSend(true);
+				}
 				int quantity = Integer.parseInt(strs[23]+strs[24],16);
 				lora.setQuantity(quantity);
 				positioning.setElectricity(quantity);
@@ -104,6 +113,168 @@ public class StringAnalysis {
 					for(int i =25;i<strs.length-1;i++){
 						Vdatas.append(strs[i]);
 					}
+					
+					/////////////////////////////////////////////////
+					if(Vdatas.toString().length()%50!=0){
+						List<String> ibeaconList = new ArrayList<String>();
+						int ibeaconLength = Vdatas.toString().length()/50;
+						for(int i=0;i<ibeaconLength;i++){
+							String ss = Vdatas.toString().substring(i*50,i*50+50);
+							ibeaconList.add(ss.substring(2));
+						}
+						String gpsStr = Vdatas.substring(ibeaconLength*50);
+						int gpsLength = Integer.valueOf(gpsStr.substring(0,2),16);
+						String isPosition = gpsStr.substring(2,4);
+						if("A".equals(isPosition)){
+							positioning.setPositioningMode("北斗");
+							double longitude = 0.0;//经度
+							int longitudeDD = Integer.parseInt(gpsStr.substring(16,18),16);
+							int mm = Integer.parseInt(gpsStr.substring(18,20),16);
+							int mm1 = Integer.parseInt(gpsStr.substring(20,22),16);
+							int mm2 = Integer.parseInt(gpsStr.substring(22,24),16);
+							double longitudeMM = Double.parseDouble(mm+"."+mm1+mm2)/60.0;
+							longitude = longitudeDD+longitudeMM;
+							positioning.setLongitude(longitude);
+							localInfo.setLog(String.valueOf(longitude));
+							
+							double latitude = 0.0;//纬度
+							int latitudeDD = Integer.parseInt(gpsStr.substring(26,28),16);
+							int lamm = Integer.parseInt(gpsStr.substring(28,30),16);
+							int lamm1 = Integer.parseInt(gpsStr.substring(30,32),16);
+							int lamm2 = Integer.parseInt(gpsStr.substring(32,34),16);
+							double latitudeMM = Double.parseDouble(lamm+"."+lamm1+lamm2)/60.0;
+							latitude = latitudeDD + latitudeMM;
+							positioning.setLatitude(latitude);
+							localInfo.setLat(String.valueOf(latitude));
+							positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
+							
+							positioning.setArea(IsInArea.whereArea(positioning.getLongitude(), positioning.getLatitude()));
+							localInfo.setArea(IsInArea.whereArea(positioning.getLongitude(), positioning.getLatitude()));
+							HsqldbUtil.addPositioning(positioning);
+							localService.updateLocalInfo(localInfo);//更新区域和电量信息
+							System.out.println("gps保存成功");
+							
+							break;
+						}else if("V".equals(isPosition)){
+							if(ibeaconList.size()==1){
+								String ss = ibeaconList.get(0);
+								int dataLengths = Integer.parseInt(ss.substring(0, 2),16);
+								int dataActiveLengths = ss.substring(2,ss.length()).length()/2;
+								if(dataLengths==dataActiveLengths){
+									IbeaconInfo ibeaconInfo = new IbeaconInfo();
+									String data = ss.substring(2,ss.length());
+									String uuid = data.substring(0,32);
+									int maior = Integer.parseInt(data.substring(32,36),16);
+									System.out.println("maior:"+maior);
+									int minor = Integer.parseInt(data.substring(36,40),16);
+									System.out.println("minor:"+minor);
+									int rssi = Integer.parseInt(data.substring(40,42),16);
+									System.out.println("rssi:"+(rssi-255));
+									int power = Integer.parseInt(data.substring(42,44),16);
+									System.out.println("power:"+power);
+									int bat = Integer.parseInt(data.substring(44,46),16);
+									System.out.println("bat:"+bat);
+									ibeaconInfo.setEle(bat);
+									
+									String maiorStr;
+									if((maiorStr=String.valueOf(maior)).length()<2){
+										maiorStr = "0"+maiorStr;
+									}
+									String minorStr = String.valueOf(minor);
+									if(minorStr.length()==1){
+										minorStr = "00"+minorStr;
+									}
+									if(minorStr.length()==2){
+										minorStr = "0"+minorStr;
+									}
+									System.out.println("uuid------IBCSAIC-"+maiorStr+"-"+minorStr);
+									ibeaconInfo.setUuid("IBCSAIC-"+maiorStr+"-"+minorStr);
+									
+									ibeaconService.updateInfoEtc(ibeaconInfo);
+									
+									IBeacon ib = HsqldbUtil.getIbeacon(ibeaconInfo.getUuid());
+									positioning.setLatitude(ib.getLatitude());
+									localInfo.setLat(String.valueOf(ib.getLatitude()));
+									positioning.setLongitude(ib.getLongitude());
+									localInfo.setLog(String.valueOf(ib.getLongitude()));
+									positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
+									positioning.setArea(IsInArea.whereArea(Double.valueOf(ib.getLongitude()),Double.valueOf(ib.getLatitude())));
+									localInfo.setArea(IsInArea.whereArea(Double.valueOf(ib.getLongitude()),Double.valueOf(ib.getLatitude())));
+									
+									HsqldbUtil.addPositioning(positioning);
+									localService.updateLocalInfo(localInfo);//更新区域和电量信息
+									System.out.println("保存成功");
+									break;
+							}else if(ibeaconList.size()==2){
+								double lat = 0;
+								double lng = 0;
+								for(String s:ibeaconList){
+									int dataLength = Integer.parseInt(s.substring(0, 2),16);
+									int dataActiveLength = s.substring(2,s.length()).length()/2;
+									if(dataLength==dataActiveLength){
+										IbeaconInfo ibeaconInfo = new IbeaconInfo();
+										String data = s.substring(2,s.length());
+										String uuid = data.substring(0,32);
+										int maior = Integer.parseInt(data.substring(32,36),16);
+										System.out.println("maior:"+maior);
+										int minor = Integer.parseInt(data.substring(36,40),16);
+										System.out.println("minor:"+minor);
+										int rssi = Integer.parseInt(data.substring(40,42),16);
+										System.out.println("rssi:"+(rssi-255));
+										int power = Integer.parseInt(data.substring(42,44),16);
+										System.out.println("power:"+power);
+										int bat = Integer.parseInt(data.substring(44,46),16);
+										System.out.println("bat:"+bat);
+										ibeaconInfo.setEle(bat);
+										
+										String maiorStr;
+										if((maiorStr=String.valueOf(maior)).length()<2){
+											maiorStr = "0"+maiorStr;
+										}
+										String minorStr = String.valueOf(minor);
+										if(minorStr.length()==1){
+											minorStr = "00"+minorStr;
+										}
+										if(minorStr.length()==2){
+											minorStr = "0"+minorStr;
+										}
+										System.out.println("uuid------IBCSAIC-"+maiorStr+"-"+minorStr);
+										ibeaconInfo.setUuid("IBCSAIC-"+maiorStr+"-"+minorStr);
+										
+										ibeaconService.updateInfoEtc(ibeaconInfo);
+										
+										IBeacon ib = HsqldbUtil.getIbeacon(ibeaconInfo.getUuid());
+										lat += ib.getLatitude();
+										lng += ib.getLongitude();
+									}
+									
+								}
+								if(lat!=0&&lng!=0){
+									positioning.setLatitude(lat/2);
+									localInfo.setLat(String.valueOf(lat/2));
+									localInfo.setLog(String.valueOf(lng/2));
+									positioning.setLongitude(lng/2);
+									positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
+									positioning.setArea(IsInArea.whereArea(lng/2, lat/2));
+									localInfo.setArea(IsInArea.whereArea(lng/2, lat/2));
+									HsqldbUtil.addPositioning(positioning);
+									localService.updateLocalInfo(localInfo);//更新区域和电量信息
+									System.out.println("保存成功");
+								}
+							}else{
+								
+							}
+								
+							break;	
+							}
+								
+						}else{
+							break;
+						}
+					}
+					/////////////////////////////////////////////////
+					
+					
 					System.out.println("length:"+(Vdatas.toString().length()/50));
 					List<String> lists = new ArrayList<String>();
 					for(int i = 0;i<Vdatas.toString().length()/50;i++){
@@ -169,6 +340,7 @@ public class StringAnalysis {
 							ibeaconInfo.setUuid("IBCSAIC-"+maiorStr+"-"+minorStr);
 							strData.append("uuid:IBCSAIC-"+maiorStr+"-"+minorStr+" ");
 							
+							ibeaconService.updateInfoEtc(ibeaconInfo);
 //							HsqldbUtil.updateIbeacon(ibeaconInfo);
 //							if(signals.size()<3){
 							signals.add(signal);
@@ -194,17 +366,17 @@ public class StringAnalysis {
 						IBeacon ib2 = HsqldbUtil.getIbeacon(listSignals.get(i).get(1).getUuid());
 						IBeacon ib3 = HsqldbUtil.getIbeacon(listSignals.get(i).get(2).getUuid());
 						inputGroup.setRssi1(listSignals.get(i).get(0).getRssi());
-						inputGroup.setTxPower1(listSignals.get(i).get(0).getPower());
+//						inputGroup.setTxPower1(listSignals.get(i).get(0).getPower());
 						inputGroup.setLatitude1(ib1.getLatitude());
 						inputGroup.setLongitude1(ib1.getLongitude());
 						
 						inputGroup.setRssi2(listSignals.get(i).get(1).getRssi());
-						inputGroup.setTxPower2(listSignals.get(i).get(1).getPower());
+//						inputGroup.setTxPower2(listSignals.get(i).get(1).getPower());
 						inputGroup.setLatitude2(ib2.getLatitude());
 						inputGroup.setLongitude2(ib2.getLongitude());
 						
 						inputGroup.setRssi3(listSignals.get(i).get(2).getRssi());
-						inputGroup.setTxPower3(listSignals.get(i).get(2).getPower());
+//						inputGroup.setTxPower3(listSignals.get(i).get(2).getPower());
 						inputGroup.setLatitude3(ib3.getLatitude());
 						inputGroup.setLongitude3(ib3.getLongitude());
 						
@@ -226,9 +398,9 @@ public class StringAnalysis {
 							latsum += gis.getLatitude();
 							logsum += gis.getLongitude();
 						}
-						positioning.setLatitude(latsum/giss.size());
+						positioning.setLongitude(latsum/giss.size());
 						localInfo.setLat(String.valueOf(latsum/giss.size()));
-						positioning.setLongitude(logsum/giss.size());
+						positioning.setLatitude(logsum/giss.size());
 						localInfo.setLog(String.valueOf(logsum/giss.size()));
 						positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
 //						HsqldbUtil.updatePositioning(positioning);
@@ -310,8 +482,15 @@ public class StringAnalysis {
 					if(dataLength==dataActiveLength){
 						String data = Vdatas.toString();
 						String isLocation = data.substring(0,2);
-						gps.setIsLocation(isLocation);
-						System.out.println("isLocation:"+isLocation);
+						
+						/////////////////////////////////
+						if(!"A".equals(isLocation)){
+							gps.setIsLocation(isLocation);
+							System.out.println("isLocation:"+isLocation);
+							break;
+						}
+						/////////////////////////////////
+						
 						
 						
 //						Date date = new Date();
@@ -410,24 +589,24 @@ public class StringAnalysis {
 					
 					for(int i=0;i<loadData.toString().length()/16;i++){
 						String loadStr = loadData.toString().substring(i*16,i*16+16);
-						if("0010".equals(loadStr.substring(0,2))){
+						if("10".equals(loadStr.substring(0,2))){
 							number = loadStr.substring(4,13);
-							int runTime = Integer.parseInt(loadStr.substring(13,17),16);
+							int runTime = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setRunTime(String.valueOf(runTime));
-						}else if("0011".equals(loadStr.substring(0,2))){
-							int staticTime = Integer.parseInt(loadStr.substring(13,17),16);
+						}else if("11".equals(loadStr.substring(0,2))){
+							int staticTime = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setStaticTime(String.valueOf(staticTime));
-						}else if("0012".equals(loadStr.substring(0,2))){
-							int gpsTimeOut = Integer.parseInt(loadStr.substring(13,17),16);
+						}else if("12".equals(loadStr.substring(0,2))){
+							int gpsTimeOut = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setGpsTimeOut(String.valueOf(gpsTimeOut));
-						}else if("0013".equals(loadStr.substring(0,2))){
-							int loraSleepTime = Integer.parseInt(loadStr.substring(13,17),16);
+						}else if("13".equals(loadStr.substring(0,2))){
+							int loraSleepTime = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setLoraSleepTime(String.valueOf(loraSleepTime));
-						}else if("0014".equals(loadStr.substring(0,2))){
-							int ibeaconEffectNum = Integer.parseInt(loadStr.substring(13,17),16);
+						}else if("14".equals(loadStr.substring(0,2))){
+							int ibeaconEffectNum = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setIbeaconEffectNum(String.valueOf(ibeaconEffectNum));
-						}else if("0015".equals(loadStr.subSequence(0, 2))){
-							int ibeaconTimeOut = Integer.parseInt(loadStr.substring(13,17),16);
+						}else if("15".equals(loadStr.subSequence(0, 2))){
+							int ibeaconTimeOut = Integer.parseInt(loadStr.substring(12,16),16);
 							info.setIbeaconTimeOut(String.valueOf(ibeaconTimeOut));
 						}else{
 							

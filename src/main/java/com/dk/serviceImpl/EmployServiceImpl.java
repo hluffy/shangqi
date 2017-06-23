@@ -30,10 +30,17 @@ public class EmployServiceImpl implements EmployService{
 		Statement st = null;
 		
 		try {
-			String sql = "select * from employee order by last_use_time desc";
+			String countsql = "select count(*) as sumcount from employee";
+			String sql = "select top 10 * from employee order by last_use_time desc";
 			conn = DBUtil.getConnection();
 			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(countsql);
+			
+			if(rs.next()){
+				result.setCount(rs.getInt("sumcount"));
+			}
+			
+			rs = st.executeQuery(sql);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			while(rs.next()){
 				EmployInfo info = new EmployInfo();
@@ -233,25 +240,45 @@ public class EmployServiceImpl implements EmployService{
 		Statement st = null;
 		List<EmployInfo> infos = new ArrayList<EmployInfo>();
 		try {
-			StringBuffer sql = new StringBuffer("select * from employee where 1 =1 ");
+			StringBuffer sql = new StringBuffer("select top 10 * from employee where 1 =1 ");
+			StringBuffer countsql = new StringBuffer("select count(*) as sumcount from employee where 1 = 1 ");
+			StringBuffer ssql = new StringBuffer();
 			if(info.getEmployeeId()!=null&&!info.getEmployeeId().isEmpty()){
 				sql.append(" and employee_id = '"+info.getEmployeeId()+"'");
+				countsql.append(" and employee_id = '"+info.getEmployeeId()+"'");
+				ssql.append(" and employee_id = '"+info.getEmployeeId()+"'");
 			}
 			if(info.getEmployeeName()!=null&&!info.getEmployeeName().isEmpty()){
 				sql.append(" and employee_name = '"+info.getEmployeeName()+"'");
+				countsql.append(" and employee_name = '"+info.getEmployeeName()+"'");
+				ssql.append(" and employee_name = '"+info.getEmployeeName()+"'");
 			}
 			if(info.getEmployeeShiftGroup()!=null&&info.getEmployeeShiftGroup().isEmpty()){
 				sql.append(" and employee_shift_group = '"+info.getEmployeeShiftGroup()+"'");
+				countsql.append(" and employee_shift_group = '"+info.getEmployeeShiftGroup()+"'");
+				ssql.append(" and employee_shift_group = '"+info.getEmployeeShiftGroup()+"'");
 			}
 			if(info.getEmployeeSite()!=null&&!info.getEmployeeSite().isEmpty()){
 				sql.append(" and employee_site = '"+info.getEmployeeSite()+"'");
+				countsql.append(" and employee_site = '"+info.getEmployeeSite()+"'");
+				ssql.append(" and employee_site = '"+info.getEmployeeSite()+"'");
 			}
 			if(info.getEmployeeShift()!=null&&!info.getEmployeeShift().isEmpty()){
 				sql.append(" and employee_shift = '"+info.getEmployeeSite()+"'");
+				countsql.append(" and employee_shift = '"+info.getEmployeeSite()+"'");
+				ssql.append(" and employee_shift = '"+info.getEmployeeSite()+"'");
 			}
+			
+			sql.append(" and employee_id not in(select top "+info.getPage()*10+" employee_id from employee  where 1 = 1 "+ssql.toString()+" order by last_use_time desc) order by last_use_time desc");
 			conn = DBUtil.getConnection();
 			st = conn.createStatement();
-			ResultSet rs = st.executeQuery(sql.toString());
+			ResultSet rs = st.executeQuery(countsql.toString());
+			
+			if(rs.next()){
+				result.setCount(rs.getInt("sumcount"));
+			}
+			
+			rs = st.executeQuery(sql.toString());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			while(rs.next()){
 				EmployInfo einfo = new EmployInfo();
