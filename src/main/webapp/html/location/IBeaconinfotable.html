@@ -100,7 +100,7 @@
 <!--                 	<td>{{x.RSSI}}</td> -->
 <!--                 	<td><input ng-model="ibeacon.lat" readonly class="inactive input{{ibeacon.minor}}"></td> -->
                 	<td style="padding: 8px" ng-bind="ibeacon.lat"></td>
-                	<td style="padding: 8px" ng-bind="ibeacon.ele"></td>
+                	<td style="padding: 8px" ng-bind="ibeacon.ele" ng-class="{true:'red',false:'green'}[ibeacon.low]"></td>
                 	<td style="padding: 8px" ng-bind="ibeacon.area"></td>
                 	<td style="padding: 8px" ng-bind="ibeacon.lastUseTimeStr"></td>
 <!--                 	<td>{{x.POWER}}</td> -->

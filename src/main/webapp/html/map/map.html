@@ -1,31 +1,206 @@
-<div  ng-controller="mapCtrl">
-<!-- 	<section class="content-header"> -->
-<!-- 	<h1>map</h1> -->
-<!-- 	</section> -->
+<div ng-controller="mapCtrl">
+	<!-- 	<section class="content-header"> -->
+	<!-- 	<h1>map</h1> -->
+	<!-- 	</section> -->
 	<section class="content">
-	 <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header" style="background-color: #ccc">
-<!--               <h3 class="box-title">位置查找</h3> -->
-              <b>位置查找</b>
 
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 300px;">
-                  <input ng-model="map.framenum" type="text" name="table_search" class="form-control pull-right" placeholder="输入车架号">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="box">
+					<div class="box-header" style="background-color: #ccc;height:260px">
+						<h3 class="box-title" style="margin-bottom:20px">位置查找</h3>
+						<form class="form-inline">
+							<div class="box-tools">
+								<div class="container">
+								<div class="input-group input-group-sm">
+									<select style="width: 150px; height: 30px"
+										ng-model="map.defectcar"
+										class="inactive selectIBCSAIC-01-077 ng-not-empty ng-touched">
+										<option label="" value="">缺陷类型条件选择</option>
+										<option label="缺陷来源" value="DR_FLAG">缺陷来源</option>
+										<option label="缺陷状态" value="DEFECT_STATUS">缺陷状态</option>
+										<option label="中文缺陷描述" value="CUSTOM_NAME_CN">缺陷中文描述</option>
+										<option label="英文缺陷描述" value="CUSTOM_NAME_EN">缺陷英文描述</option>
+										<option label="一级部件" value="PART_NAME_FIRST">一级部件</option>
+										<option label="二级部件" value="PART_NAME_SECONT">二级部件</option>
+										<option label="三级部件" value="PART_NAME_THIRD">三级部件</option>
+									</select>
+									</div>
+									<!-- 								</div> -->
+									<div class="input-group input-group-sm">
+										<input type="text"
+											class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+											ng-model="map.vehicledefects" style="width: 200px;height:32px"
+											placeholder=" 车辆缺陷">
+									</div>
 
-                  <div class="input-group-btn">
-                    <button ng-click="getPositionInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-header -->
-<!--             <div id="leafletMap" class="box-body table-responsive no-padding" ng-controller="mapCtrl"> -->
-				<div id="leafletMap" style="width:100%;height:550px">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+									<div class="input-group input-group-sm">
+									<select ng-model="map.thistime"
+										style="width: 172px; height: 30px"
+										class="inactive selectIBCSAIC-01-077 ng-not-empty ng-touched">
+										<option label="" value="">时间选择</option>
+										<option label="创建时间" value="CREATE_TIME">创建时间</option>
+										<option label="删除时间" value="DELETE_TIME">删除信息时间</option>
+										<option label="修改时间" value="UPDATE_TIME">修改信息时间</option>
+										<option label="不合格退回时间" value="BACK_TIME">不合格退回时间</option>
+										<option label="质保确认时间" value="UPDATE_TIME">质保确认时间</option>
+										<option label="返修时间" value="REPAIR_TIME">返修时间</option>
+										<!-- 									<option label="其他" value="string:其他" selected="selected">其他</option> -->
+									</select>
+									</div>
+									<br><br/>
+									<div class="input-group input-group-sm">
+									<select style="width: 150px; height: 30px"
+											ng-model="map.defectpeople"
+											class="inactive selectIBCSAIC-01-077 ng-not-empty ng-touched">
+											<option label="" value="">报缺陷人条件选择</option>
+											<option label="报缺陷人人名" value="CREATE_USER">报缺陷人人名</option>
+											<option label="报缺陷人工号" value="employee_id">报缺陷人工号</option>
+											<option label="报缺陷人班组" value="employee_shift_group">报缺陷人班组</option>
+											<option label="报缺陷人工段" value="employee_site">报缺陷人工段</option>
+											<option label="报缺陷人班次" value="employee_shift">报缺陷人班次</option>
+										</select>
+										</div>
+										<div class="input-group input-group-sm">
+												<input type="text"
+													class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+													ng-model="map.newspaperdefect" style="width: 200px"
+													placeholder=" 报缺陷人">
+											</div>
+
+											<div class="input-group input_group-sm">
+												<input style="height: 29px" id="statittime"
+													class="laydate-icon" placeholder=" 开始时间"
+													onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+												-- <input style="height: 29px" id="endtime"
+													class="laydate-icon" placeholder=" 结束时间"
+													onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+											</div>
+										<br/><br/>
+										<div class="input-group input-group-sm">
+										<select ng-model="map.repairpeople"
+											style="width: 150px; height: 30px"
+											class="inactive selectIBCSAIC-01-077 ng-not-empty ng-touched">
+											<option label="" value="">返修人条件选择</option>
+											<option label="返修人人名" value="REPAIR_USER">返修人人名</option>
+											<option label="返修人工号" value="employee_id">返修人工号</option>
+											<option label="返修人班组" value="employee_shift_group">返修人班组</option>
+											<option label="返修人工段" value="employee_site">返修人工段</option>
+											<option label="返修人班次" value="employee_shift">返修人班次</option>
+										</select>
+										</div>
+										<div class="input-group input-group-sm">
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="map.repairman" style="width: 200px"
+												placeholder=" 返修人">
+										</div>
+										<div class="input-group input-group-sm">
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="map.vinnumber" style="width: 174px"
+												placeholder=" vin">
+										</div>
+										<br/>
+										
+										<h3 style="margin-top:8px">维护人员设备号单独查询</h3>
+										<div class="input-group input-group-sm">
+											<input type="text"
+												class="form-control ng-pristine ng-untouched ng-valid ng-empty"
+												ng-model="map.devicenumber" style="width: 200px"
+												placeholder=" 设备号查询">
+										</div>
+								</div>
+<!-- 								<div class="container" style="height:150px"> -->
+<!-- 									<div class="ont" style="position: relative; top: -40px; right:-145px;"> -->
+										
+<!-- 										<div class="box-header" style="background-color: #ccc"> -->
+<!-- 											<div class="input-group input-group-sm"> -->
+<!-- 												<input type="text" -->
+<!-- 													class="form-control ng-pristine ng-untouched ng-valid ng-empty" -->
+<!-- 													ng-model="map.newspaperdefect" style="width: 200px" -->
+<!-- 													placeholder=" 报缺陷人"> -->
+<!-- 											</div> -->
+
+<!-- 											<div class="input-group input_group-sm"> -->
+<!-- 												<input style="height: 29px" id="statittime" -->
+<!-- 													class="laydate-icon" placeholder=" 开始时间" -->
+<!-- 													onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 												-- <input style="height: 29px" id="endtime" -->
+<!-- 													class="laydate-icon" placeholder=" 结束时间" -->
+<!-- 													onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 										</div> -->
+										<!-- 								<div class="demo2"> -->
+<!-- 										<div class="ant2" style="position: relative; top: -40px; right:0px;"> -->
+<!-- 										<br> -->
+<!-- 										<select ng-model="map.repairpeople" -->
+<!-- 											style="width: 150px; height: 30px" -->
+<!-- 											class="inactive selectIBCSAIC-01-077 ng-not-empty ng-touched"> -->
+<!-- 											<option label="" value="">返修人条件选择</option> -->
+<!-- 											<option label="返修人人名" value="REPAIR_USER">返修人人名</option> -->
+<!-- 											<option label="返修人工号" value="employee_id">返修人工号</option> -->
+<!-- 											<option label="返修人班组" value="employee_shift_group">返修人班组</option> -->
+<!-- 											<option label="返修人工段" value="employee_site">返修人工段</option> -->
+<!-- 											<option label="返修人班次" value="employee_shift">返修人班次</option> -->
+<!-- 										</select> -->
+
+<!-- 																		</div> -->
+<!-- 										<div class="input-group input-group-sm"> -->
+<!-- 											<input type="text" -->
+<!-- 												class="form-control ng-pristine ng-untouched ng-valid ng-empty" -->
+<!-- 												ng-model="map.repairman" style="width: 200px" -->
+<!-- 												placeholder=" 返修人"> -->
+<!-- 										</div> -->
+<!-- 										<div class="input-group input-group-sm"> -->
+<!-- 											<input type="text" -->
+<!-- 												class="form-control ng-pristine ng-untouched ng-valid ng-empty" -->
+<!-- 												ng-model="map.vinnumber" style="width: 200px" -->
+<!-- 												placeholder=" vin"> -->
+<!-- 										</div> -->
+<!-- 										</div> -->
+<!-- 										<br/> -->
+<!-- 										<div class="end3" style="position: relative; left: 2px; top: -50px;"> -->
+<!-- 										<h3 style="margin-top:-26px">维护人员设备号单独查询</h3> -->
+<!-- 										<div class="input-group input-group-sm"> -->
+<!-- 											<input type="text" -->
+<!-- 												class="form-control ng-pristine ng-untouched ng-valid ng-empty" -->
+<!-- 												ng-model="map.devicenumber" style="width: 200px" -->
+<!-- 												placeholder=" 设备号查询"> -->
+<!-- 										</div> -->
+<!-- 										</div> -->
+										<!--  -->
+										<!-- 								<div class="demo3"> -->
+
+										<!-- 								</div> -->
+
+										<div class="input-group input-group-sm" style="width: 200px;"></div>
+
+										<!-- onfocus=this.blur() -->
+
+
+										<div ng-show="map.devicenumber !=null">
+											<div ng:bind="customHtml"></div>
+										</div>
+
+										<div class="input-group-btn"
+											style="position: relative; left: 984px; top: -56px;">
+
+											<button ng-click="getPositionInfo()" class="btn btn-default">
+												<i class="fa fa-search"></i>
+
+											</button>
+										</div>
+									
+								</div>
+						</form>
+					</div>
+					<!-- /.box-header -->
+					<!--             <div id="leafletMap" class="box-body table-responsive no-padding" ng-controller="mapCtrl"> -->
+					<div id="leafletMap" style="width: 100%; height: 550px"></div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>

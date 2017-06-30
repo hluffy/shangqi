@@ -48,6 +48,12 @@ public class IbeaconServiceImpl implements IbeaconService{
 				info.setUuid(rs.getString("uuid"));
 				info.setLog(rs.getDouble("longitude"));
 				info.setLat(rs.getDouble("latitude"));
+				int ele = rs.getInt("ele");
+				if(ele<=20){
+					info.setLow(true);
+				}else{
+					info.setLow(false);
+				}
 				info.setEle(rs.getInt("ele"));
 				info.setArea(rs.getString("area"));
 				Timestamp lastUseTime = rs.getTimestamp("last_use_time");
@@ -203,6 +209,12 @@ public class IbeaconServiceImpl implements IbeaconService{
 				ibeaconInfo.setUuid(rs.getString("uuid"));
 				ibeaconInfo.setLat(rs.getDouble("latitude"));
 				ibeaconInfo.setLog(rs.getDouble("longitude"));
+				int ele = rs.getInt("ele");
+				if(ele<=20){
+					ibeaconInfo.setLow(true);
+				}else{
+					ibeaconInfo.setLow(false);
+				}
 				ibeaconInfo.setEle(rs.getInt("ele"));
 				ibeaconInfo.setArea(rs.getString("area"));
 				Timestamp lastUseTime = rs.getTimestamp("last_use_time");

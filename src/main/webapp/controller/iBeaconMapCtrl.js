@@ -40,13 +40,20 @@ app.controller("iBeaconMapCtrl",function($scope,$timeout,mapServ,$rootScope){
 	});
 	
 	$scope.getIbeaconPosition = function(){
+		if($scope.map.uuid==null){
+			return;
+		}
 		mapServ.getinfoasuuid($scope.map).then(function(data){
-			console.log(data);
+//			var ii = 2;
+//			console.log(data);
 			var result = data.data;
 			var marker = L.marker([data.data.lat,data.data.log],{icon: greenIcon});
 			map.setView([data.data.lat,data.data.log],20);
 			map.addLayer(marker);
 			marker.bindPopup("iBeacon编号:"+result.uuid).openPopup();
+//			marker.bindPopup("iBeacon编号:"+result.uuid+"<br/><br/>"
+//					+"<div style='text-align:center'><img style='width:100px;height:100px' src='img/user"+ii+"-160x160.jpg'></div>").openPopup();
+			$scope.map={};
 		})
 	}
 	

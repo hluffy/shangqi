@@ -71,7 +71,7 @@
 <!--                 	<td>{{x.RSSI}}</td> -->
                 	<td><input style="width:100px;text-align: center;" ng-model="ibeacon.lat" readonly class="inactive input{{ibeacon.uuid}}"></td>
 <!--                 	<td>{{x.POWER}}</td> -->
-					<td ng-bind="ibeacon.ele"></td>
+					<td ng-bind="ibeacon.ele" ng-class="{true:'red',false:'green'}[ibeacon.low]"></td>
 <!-- 					<td style="padding: 4px"><input style="width:100px;text-align: center;" ng-model="ibeacon.area" readonly class="inactive input{{ibeacon.uuid}}"></td> -->
 					<td>
 						<select ng-model="ibeacon.area"  ng-options="x for x in areanames" class="inactive select{{ibeacon.uuid}}" disabled>

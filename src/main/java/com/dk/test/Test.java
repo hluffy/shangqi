@@ -1,8 +1,6 @@
 package com.dk.test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.sql.Timestamp;
 
 public class Test {
 	public static void main(String[] args){
@@ -118,6 +116,23 @@ public class Test {
 	        
 //	    System.out.println((char)0);
 //	    System.out.println(Integer.valueOf("f",16));
+//		char a = 'A';
+//		System.out.println((int)a);
+//		System.out.println("A".equals('A'));
+//		int i = 65;
+//		char a = 'A';
+//		System.out.println(i==a);
+		String time = "2017-06-26 16:42:59";
+		Timestamp t1 = Timestamp.valueOf(time);
+//		Timestamp t1 = new Timestamp(System.currentTimeMillis());
+		Timestamp t2 = new Timestamp(System.currentTimeMillis());
+		System.out.println(t2.getTime()-t1.getTime());
 	}
+	
+//	@SuppressWarnings("unused")
+//	private static void main(String[] args){
+//		System.out.println(1111);
+//		
+//	}
 
 }

@@ -20,6 +20,14 @@ public class IbeaconInfo implements Serializable{
 	private String startTimeStr;//开始时间
 	private String endTimeStr;//结束时间
 	
+	private boolean isLow;
+	
+	public boolean isLow() {
+		return isLow;
+	}
+	public void setLow(boolean isLow) {
+		this.isLow = isLow;
+	}
 	private Integer page;
 	public Integer getMinor() {
 		return minor;

@@ -1,6 +1,7 @@
 app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 	$rootScope.countId="100%";
 	$scope.map = {};
+	$scope.A = {};
 // 		function initmap(){
 //		var centerPoint = [31.1707739,121.406607];
 		var centerPoint = [30.8853,121.8258];
@@ -12,6 +13,40 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 		});
 		aerial.addTo(map);
 		
+		
+//		$scope.getPositionInfo = function(){
+//			$rootScope.pages = new Array();
+//			$scope.map.page=0;
+//			$scope.map.statittime = $("#statittime").val();
+//			$scope.map.endtime = $("#endtime").val();
+////			$rootScope.indexPage=1;
+//				 map.remove();
+//				 map = L.map('leafletMap').setView(centerPoint, 25);
+//					var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
+//					});
+//					aerial.addTo(map);
+//				map.removeLayer(marker);
+//				console.log(23423);
+//				console.log($scope.map);
+//				mapServ.getPositionInfoAsFrameNum($scope.map).then(function(data){
+//					if(data.data!=null){
+//						console.log(data);
+//						for(var i=0;i<data.data.length;i++){
+//							map.setView([data.data[i].log,data.data[i].lat],19);
+//							marker = L.marker([data.data[i].log,data.data[i].lat]);
+//							map.addLayer(marker);
+//							marker.bindPopup('基本信息：'+data.data[i].frameNum+"<br/>"+
+//									"区域："+data.data[i].area).openPopup();
+//						}
+//					}else if (data.tata.lat==null && data.data.log==null) {
+//						alert("该数据没有位置信息,或输入有误");
+//					}
+//					else{
+//						alert("请确认是否绑定定位器");
+//					}
+//				
+//				});
+//		}
 //		//禁区
 //		L.polygon([{  
 //            lat: 30.8907444,  
@@ -132,40 +167,71 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 //        }).addTo(map).bindPopup("F区");
 		
 		L.control.scale().addTo(map);//添加比例尺
-// 		}
-	
-	
-// 		$timeout(function(){
-// 			initmap();
-// 		}, 100);
 		var marker = L.marker();
-//		var greenIcon = L.icon({
-//            iconUrl: 'img/caricon.jpg',
-//            shadowUrl: 'img/caricon.jpg',
-
-//            iconSize:     [30, 30], // size of the icon
-//            shadowSize:   [20, 20], // size of the shadow
-//            iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-//            shadowAnchor: [0, 0],  // the same for the shadow
-//            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-//        });
-//        L.marker([40, 112], {icon: greenIcon}).addTo(map);
+		var number=0;
 		$scope.getPositionInfo = function(){
-			
+			$rootScope.pages = new Array();
+			$scope.map.page=0;
+			$scope.map.statittime = $("#statittime").val();
+			$scope.map.endtime = $("#endtime").val();
+			 number++;
+			 map.remove();
+			 map = L.map('leafletMap').setView(centerPoint, 25);
+				var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
+				});
+				aerial.addTo(map);
 			map.removeLayer(marker);
 			mapServ.getPositionInfoAsFrameNum($scope.map).then(function(data){
+				console.log(53546);
+				console.log(data.data);
+				if(data.data !=null){
+					console.log(data);
+					for(var i=0;i<data.data.length;i++){
+						map.setView([data.data[i].log,data.data[i].lat],19);
+						marker = L.marker([data.data[i].log,data.data[i].lat]);
+						map.addLayer(marker);
+//						marker.bindPopup('基本信息：'+data.data[i].frameNum+"<br/>"+
+//								"区域："+data.data[i].area).openPopup();
+						marker.bindPopup('中文描述:'+data.data[i].chinesedescription+"<br/>"+
+								'报缺陷人:'+data.data[i].personliable+"<br/>"+
+								'返修人:'+data.data[i].repairman+"<br/>"+
+								'vin号:'+data.data[i].vin+"<br/>"+
+								'设备号:'+data.data[i].frameNum+"<br/>"+
+								'区域:'+data.data[i].area).openPopup();
+					}
+				}else if (data.data.lat==0 && data.data.log==0) {
+//					alert("该数据没有位置信息,或输入有误");
+					window.wxc.xcConfirm("该数据没有位置信息,或输入有误", window.wxc.xcConfirm.typeEnum.info);
+				}
+				else{
+//					alert("请确认是否绑定定位器");
+					window.wxc.xcConfirm("请确认是否绑定定位器", window.wxc.xcConfirm.typeEnum.info);
+					
+				}
+			
+			});
+//			 }else{
+		}
+		
+		$scope.getdamagedcar=function(){
+			mapServ.getdamagedcardata($scope.A).then(function(data){
+//				if (dada.dada!=null) {
+//					alert("成功");
+//				} else {
+//                   alert("测试中");
+//				}
 				console.log(data);
 				if(data.data!=null){
-//					marker = L.marker([data.data.log,data.data.lat],{icon: greenIcon});
+				marker= L.marker([data.data.log,data.data.lat]);
 					map.setView([data.data.log,data.data.lat],19);
 					marker = L.marker([data.data.log,data.data.lat]);
 					map.addLayer(marker);
-					marker.bindPopup('车架号：'+data.data.frameNum+"<br/>"+
-							"区域："+data.data.area).openPopup();
+					marker.bindPopup('缺陷车辆信息：'+data.data.Theinputdata+"<br/>"+
+							"区域："+data.data).openPopup();
 				}else{
-					alert("该车架号没有位置信息,请确认是否绑定定位器");
+					alert("没有找到该类型的车辆");
 				}
-				
 			});
 		}
+		
 });

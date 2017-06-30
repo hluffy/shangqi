@@ -37,9 +37,9 @@ public class LocalizerController {
 	@ResponseBody
 	public Result addInfo(@RequestBody LocalizerInfo info){
 		Result result = new Result();
-		info.setStaticTime("10");
+		info.setStaticTime(String.valueOf(12*3600));
 //		info.setRunTime("12*3600");
-		info.setRunTime(String.valueOf(12*3600));
+		info.setRunTime("10");
 //		info.setGpsTimeOut("3*60");
 		info.setGpsTimeOut(String.valueOf(3*60));
 		info.setLoraSleepTime("3");

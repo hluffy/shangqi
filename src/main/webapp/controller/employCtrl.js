@@ -75,6 +75,7 @@ app.controller("employCtrl",function($scope,$rootScope,employService){
 		var text = "<i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;&nbsp;正在导入，请稍等！";
 		window.wxc.xcConfirm(text);
 		employService.uploadFileToUrl(file).then(function(data){
+			id.removeAttr("disabled");
 			$(".ok").click();
 			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 			$("#close").click();
