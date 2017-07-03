@@ -360,6 +360,7 @@ public class LocalizerServiceImpl implements LocalizerService{
 				
 				lInfo.setIbeaconEffectNum(rs.getString("ibeacon_effect_num"));
 				lInfo.setIbeaconTimeOut(rs.getString("ibeacon_timeout"));
+				lInfo.setEle(rs.getInt("ele"));
 				
 				infos.add(lInfo);
 			}

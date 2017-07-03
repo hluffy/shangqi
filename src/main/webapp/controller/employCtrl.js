@@ -49,6 +49,14 @@ app.controller("employCtrl",function($scope,$rootScope,employService){
 	
 	
 	$scope.addEmploy = function(){
+		if($scope.employ.employeeId==null){
+			window.wxc.xcConfirm("工号不允许为空!", window.wxc.xcConfirm.typeEnum.info);
+			return;
+		}
+		if($scope.employ.employeeName==null){
+			window.wxc.xcConfirm("姓名不允许为空!",window.wxc.xcConfirm.typeEnum.info);
+			return;
+		}
 		employService.saveEmployInfo($scope.employ).then(function(data){
 			window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
 			$scope.employ = {};

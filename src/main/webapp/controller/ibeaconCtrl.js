@@ -174,7 +174,7 @@ app.directive("ibedelete",function($document,ibeaconSer,$rootScope){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = ngModel.$modelValue.uuid;
@@ -234,7 +234,7 @@ app.directive("ibeupdate",function($rootScope,$document,ibeaconSer){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = "input" + ngModel.$modelValue.uuid;

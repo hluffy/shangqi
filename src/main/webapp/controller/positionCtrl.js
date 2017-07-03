@@ -19,8 +19,8 @@ app.controller("positionCtrl",function($rootScope,$scope,positionSer,$log,$timeo
         opt.prev_text = "上一页";
         opt.next_text = "下一页";
         opt.items_per_page=10;
-        opt.num_display_entries=4;
-        opt.num_edge_entries=2;
+        opt.num_display_entries=2;
+        opt.num_edge_entries=1;
         return opt;
     }
 	
@@ -39,6 +39,7 @@ app.controller("positionCtrl",function($rootScope,$scope,positionSer,$log,$timeo
 	positionSer.getPositionInfos().then(function(data){
 		console.log(data.data.length);
 		$rootScope.positions = data.data;
+		$rootScope.count = data.count;
         var optInit = getOptionsFromForm();
         $("#Pagination").pagination(data.count, optInit);
         

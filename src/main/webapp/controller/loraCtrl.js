@@ -159,7 +159,7 @@ app.directive("loradelete",function($document,loraService,$rootScope){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = ngModel.$modelValue.number;
@@ -224,7 +224,7 @@ app.directive("lorasync",function($document,loraService){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = ngModel.$modelValue.number;
@@ -273,7 +273,7 @@ app.directive("lorarestart",function($document,loraService){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = ngModel.$modelValue.number;
@@ -323,7 +323,7 @@ app.directive("loraupdate",function($rootScope,$document,loraService){
 		link:function(scope,element,attrs,ngModel){
 			element.bind("click",function(){
 				var option = {
-						title: "自定义",
+						title: "确认信息",
 						btn: parseInt("0011",2),
 						onOk: function(){
 							var id = "input" + ngModel.$modelValue.number;

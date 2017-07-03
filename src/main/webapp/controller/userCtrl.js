@@ -8,7 +8,7 @@
 //});
 
 app.controller("userCtrl",function($rootScope,$scope,$http,userService){
-	$rootScope.countId="625px";
+	$rootScope.countId="645px";
 //	$scope.roles = ["op","admin"];
 	$scope.master = {};
 	$scope.user = {};
