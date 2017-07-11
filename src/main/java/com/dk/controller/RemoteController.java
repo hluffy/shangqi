@@ -192,7 +192,7 @@ public class RemoteController {
 		if(ChannelServer.getString()==null){
 			result.setStates(false);
 			result.setMessage("连接超时，请稍后再试");
-		}else if(ipPortData.subSequence(6, ipPortData.length()).equals(ChannelServer.getString().substring(6, ChannelServer.getString().length()))){
+		}else if(ipPortData.substring(6, ipPortData.length()).equals(ChannelServer.getString().substring(6, ChannelServer.getString().length()))){
 			result = loraServer.updateInfo(lora);
 			result.setMessage("设置成功，重启后生效");
 //			ChannelServer.removeGatewayChannel(lora.getNumberDef());
