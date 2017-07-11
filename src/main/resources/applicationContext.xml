@@ -15,22 +15,53 @@
 <!-- 开启组件扫描 -->
 	<mvc:annotation-driven/>
 	<context:component-scan base-package="com.dk.*"/>
+	
+	
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"         -->
+<!--         destroy-method="close">         -->
+<!-- 	    <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />        -->
+<!-- 	    <property name="url" value="jdbc:sqlserver://101.37.34.43:1433;databasename=shangqi" />        -->
+<!-- 	    <property name="username" value="f" />        -->
+<!-- 	    <property name="password" value="f" />        -->
+<!-- 	</bean>    -->
+	
+	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	     <property name="maxUploadSize" value="104857600" />
 	     <property name="maxInMemorySize" value="4096" />
 	     <property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
-<!-- 	<tx:advice id="txAdvice" transaction-manager="txManager" > -->
+<!-- 	<bean id="MyException" class="java.lang.Exception"></bean>   -->
+	
+<!-- 	<bean id="transactionManager" -->
+<!-- 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+<!-- 	</bean> -->
+	
+<!-- 	<tx:advice id="txAdvice" transaction-manager="transactionManager" > -->
 <!--        <tx:attributes> -->
 <!--             <tx:method name="find*" read-only="true"/> -->
-<!--             <tx:method name="add*" propagation="REQUIRED"/> -->
+<!--             <tx:method name="uploadFile" read-only="false"/> -->
 <!--             <tx:method name="update*" propagation="REQUIRED"/> -->
 <!--             <tx:method name="delete*" propagation="REQUIRED"/> -->
 <!--        </tx:attributes>  -->
 <!-- 	</tx:advice> -->
 <!-- 	<aop:config proxy-target-class="true"> -->
-<!-- 		<aop:advisor advice-ref="txAdvice" pointcut="within(controller..*)" /> -->
+<!-- 		<aop:advisor advice-ref="txAdvice" pointcut="within(com.dk.controller.FileController)"/> -->
 <!-- 	</aop:config> -->
 	
+<!-- 	<aop:config>   -->
+    
+<!-- 	     <aop:pointcut expression="execution(* com.dk.controller.*.*(..))" id="perform"/>   -->
+	    
+<!-- 	     配置事務提交   -->
+<!-- 	     <aop:advisor advice-ref="txAdvice" pointcut-ref="perform"/>   -->
+	  
+<!-- 	     <AOP:ASPECT REF="MYEXCEPTION">   -->
+<!-- 	        <AOP:AFTER-THROWING METHOD="PRINTEXCEPTION" POINTCUT-REF="PERFORM"/>   -->
+<!-- 	     </AOP:ASPECT>   -->
+	       
+<!-- 	  </aop:config>   -->
+
 </beans>

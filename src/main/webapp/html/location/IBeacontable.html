@@ -9,10 +9,25 @@
             <div class="box-header">
 <!--               <h3 class="box-title">IBeacon信息</h3> -->
 <!--               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-              <a ui-sref="addibeacon" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a>
-              <br/>
+              
+              <form class="form-inline">
+              	<a ui-sref="addibeacon" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a>
+	              <div class="pull-right">
+						<label class="sr-only">IBeacon序号</label>
+						<input type="text" class="form-control" ng-model="ibeacon.uuid" placeholder="IBeacon序号">
+						<button ng-click="getIbeaconInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
+					</div>
+				</form>
+<!--               <br/> -->
               <p/>
                  
+<!--                  <form class="form-inline"> -->
+<!--                  	<div class="pull-right"> -->
+<!-- 						<label class="sr-only">IBeacon序号</label> -->
+<!-- 						<input type="text" class="form-control" ng-model="ibeacon.uuid" placeholder="IBeacon序号"> -->
+<!-- 						<button ng-click="getIbeaconInfo()" class="btn btn-default"><i class="fa fa-search"></i></button> -->
+<!-- 					</div> -->
+<!--                  </form> -->
 	              
 <!-- 	              <form class="form-inline"> -->
 <!--               		<div class="input-group input-group-sm"> -->
@@ -47,7 +62,7 @@
 <!--               </div> -->
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding" ng-controller="ibeaconCtrl" style="height:470px">
+            <div class="box-body table-responsive no-padding" ng-controller="ibeaconCtrl" style="height:490px">
               <table class="table table-hover" style="text-align: center;min-width:1080px">
                 <tr>
                   <th style="border-top: 1px solid #794747"></th>

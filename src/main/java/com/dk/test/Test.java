@@ -1,6 +1,14 @@
 package com.dk.test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
 import java.sql.Timestamp;
+
+import org.apache.commons.io.input.ReaderInputStream;
 
 public class Test {
 	public static void main(String[] args){
@@ -122,11 +130,29 @@ public class Test {
 //		int i = 65;
 //		char a = 'A';
 //		System.out.println(i==a);
-		String time = "2017-06-26 16:42:59";
-		Timestamp t1 = Timestamp.valueOf(time);
+//		String time = "2017-06-26 16:42:59";
+//		Timestamp t1 = Timestamp.valueOf(time);
 //		Timestamp t1 = new Timestamp(System.currentTimeMillis());
-		Timestamp t2 = new Timestamp(System.currentTimeMillis());
-		System.out.println(t2.getTime()-t1.getTime());
+//		Timestamp t2 = new Timestamp(System.currentTimeMillis());
+//		System.out.println(t2.getTime()-t1.getTime());
+		
+		Runtime cmd = Runtime.getRuntime();
+		try {
+//			Process p = cmd.exec("mysqldump -t -uroot -phanxiao test score -r D://test1.sql".toString());
+			Process p = cmd.exec("ipconfig");
+//			System.out.println("导出成功");
+			byte[] by = new byte[102400000];
+			InputStream input = p.getInputStream();
+			InputStreamReader in = new InputStreamReader(input,"gbk");
+			BufferedReader reader = new BufferedReader(in);
+			while(reader.read()!=-1){
+				System.out.println(reader.readLine());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 //	@SuppressWarnings("unused")

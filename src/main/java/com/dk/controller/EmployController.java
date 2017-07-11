@@ -29,6 +29,20 @@ public class EmployController {
 	@ResponseBody
 	public Result addInfo(@RequestBody EmployInfo info){
 		Result result = new Result();
+		if(info.getEmployeeId()==null||info.getEmployeeId().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不允许为空");
+			return result;
+		}
+		EmployInfo queryInfo = new EmployInfo();
+		queryInfo.setEmployeeId(info.getEmployeeId());
+		queryInfo.setPage(0);
+		result = server.getInfo(queryInfo);
+		if(result.getData()!=null){
+			result.setStates(false);
+			result.setMessage("该工号已存在");
+			return result;
+		}
 		result = server.addInfo(info);
 		return result;
 	}

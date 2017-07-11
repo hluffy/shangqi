@@ -26,6 +26,7 @@ import com.dk.result.Result;
 import com.dk.service.PositonService;
 import com.dk.util.DBUtil;
 import com.dk.util.myutils;
+import com.mysql.fabric.xmlrpc.base.Data;
 import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 @Service
@@ -285,12 +286,12 @@ public class PositionServiceImpl implements PositonService {
 
 			if (info.getEquipmentNum() != null
 					&& !info.getEquipmentNum().isEmpty()) {
-				sql.append(" and equipment_num='" + info.getEquipmentNum()
-						+ "'");
-				countsql.append(" and equipment_num='" + info.getEquipmentNum()
-						+ "'");
-				ssql.append(" and equipment_num='" + info.getEquipmentNum()
-						+ "'");
+				sql.append(" and equipment_num like '%" + info.getEquipmentNum()
+						+ "%'");
+				countsql.append(" and equipment_num like '%" + info.getEquipmentNum()
+						+ "%'");
+				ssql.append(" and equipment_num like '%" + info.getEquipmentNum()
+						+ "%'");
 			}
 			if(info.getEquipmentNum()!=null&&!info.getEquipmentNum().isEmpty()){
 				sql.append(" and equipment_num like '%"+info.getEquipmentNum()+"'"); 
@@ -743,7 +744,7 @@ public class PositionServiceImpl implements PositonService {
 //				infos.add(position);
 //			}
 			//根据设备号取经纬度的语句
-			StringBuffer sql1=new StringBuffer("select top 1 AREA,equipment_num,longitude,latitude from positioning where 1=1 ");
+			StringBuffer sql1=new StringBuffer("select top 1 AREA,equipment_num,longitude,latitude,POSITIONING_TIME from positioning where 1=1 ");
 				sql1.append("and equipment_num like'%"+info.getDevicenumber()+"%'");
 				sql1.append(" order by POSITIONING_TIME desc");
 		    conn = DBUtil.getConnection();
@@ -751,11 +752,16 @@ public class PositionServiceImpl implements PositonService {
 			ResultSet rs1 = st1.executeQuery(sql1.toString());
 			System.out.println(sql1.toString());
 			PositionInfo position1 = new PositionInfo();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if (rs1.next()) {
 				position1.setLog(rs1.getDouble("LONGITUDE"));
 				position1.setLat(rs1.getDouble("LATITUDE"));
 				position1.setArea(rs1.getString("AREA"));
 				position1.setFrameNum(rs1.getString("equipment_num"));
+				Timestamp timestamp = rs1.getTimestamp("POSITIONING_TIME");
+				if (timestamp!=null) {
+					position1.setResultpositionTime(sdf.format((Date)timestamp));
+				}
 				infos.add(position1);
 			}
 			StringBuffer sql2=new StringBuffer("select top 1  vin,CUSTOM_NAME_CN,CREATE_USER,REPAIR_USER from pqiadatacar a where  vin in(select FRAME_NUM from BINDING where EQUIPMENT_NUM ='"+position1.getFrameNum()+"') order by CREATE_TIME");
@@ -1172,7 +1178,7 @@ public class PositionServiceImpl implements PositonService {
 //		    	sql1.append("and equipment_num ='"+it.next()+"' order by POSITIONING_TIME desc");
 //			}
 			//根据设备号取经纬度的语句
-			StringBuffer sql1=new StringBuffer("select top 1 AREA,equipment_num,longitude,latitude from positioning where 1=1 ");
+			StringBuffer sql1=new StringBuffer("select top 1 AREA,equipment_num,longitude,latitude,POSITIONING_TIME from positioning where 1=1 ");
 //			if (it.next()!=null) {
 				sql1.append("and equipment_num ='"+frameNumbr+"'");
 //			}else{
@@ -1189,11 +1195,17 @@ public class PositionServiceImpl implements PositonService {
 			ResultSet rs1 = st1.executeQuery(sql1.toString());
 			System.out.println(sql1.toString());
 			PositionInfo position1 = new PositionInfo();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if (rs1.next()) {
 				position1.setLog(rs1.getDouble("LONGITUDE"));
 				position1.setLat(rs1.getDouble("LATITUDE"));
 				position1.setArea(rs1.getString("AREA"));
 				position1.setFrameNum(rs1.getString("equipment_num"));
+//				position1.setResultpositionTime(rs1.getString("POSITIONING_TIME"));
+				Timestamp timestamp = rs1.getTimestamp("POSITIONING_TIME");
+				if (timestamp!=null) {
+					position1.setResultpositionTime(sdf.format((Date)timestamp));
+				}
 //				infos.add(position1);
 			}
 			StringBuffer sql2=new StringBuffer("select top 1  vin,CUSTOM_NAME_CN,CREATE_USER,REPAIR_USER from pqiadatacar a where  vin in(select FRAME_NUM from BINDING where EQUIPMENT_NUM ='"+frameNumbr+"' and BING_TYPE='绑定') order by CREATE_TIME");

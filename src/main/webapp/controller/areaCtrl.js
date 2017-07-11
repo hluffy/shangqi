@@ -1,6 +1,7 @@
 app.controller("areaCtrl",function($rootScope,$scope,localService){
 	$scope.area={};
 	$rootScope.areainfo = false;
+	$rootScope.countId = "100%";
 	$rootScope.areas={};
 	$rootScope.indexPage = 1;
 	localService.getAreaDatas().then(function(data){

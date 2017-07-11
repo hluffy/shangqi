@@ -37,6 +37,20 @@ public class LoraController {
 	@ResponseBody
 	public Result addInfo(@RequestBody LoraInfo info){
 		Result result = new Result();
+		if(info.getNumber()==null||info.getNumber().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不允许为空");
+			return result;
+		}
+		LoraInfo queryInfo = new LoraInfo();
+		queryInfo.setNumber(info.getNumber());
+		queryInfo.setPage(0);
+		result = loraService.getInfo(queryInfo);
+		if(result.getData()!=null){
+			result.setStates(false);
+			result.setMessage("该设备号已存在");
+			return result;
+		}
 		result = loraService.addInfo(info);
 		return result;
 	}

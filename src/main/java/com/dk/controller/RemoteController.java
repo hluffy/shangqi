@@ -63,7 +63,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>5000){
+			if(end-start>20000){
 				break;
 			}
 		}
@@ -183,7 +183,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>10000){
+			if(end-start>20000){
 				break;
 			}
 		}
@@ -230,7 +230,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>10000){
+			if(end-start>20000){
 				break;
 			}
 		}
@@ -271,7 +271,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>10000){
+			if(end-start>20000){
 				break;
 			}
 			
@@ -320,7 +320,7 @@ public class RemoteController {
 		while(ChannelServer.getString()==null){
 			System.out.println(ChannelServer.getString());
 			long end = System.currentTimeMillis();
-			if(end-start>10000){
+			if(end-start>20000){
 				break;
 			}
 		}

@@ -38,11 +38,25 @@ public class IbeaconController {
 		result = ibeaconService.updateInfo(info);
 		return result;
 	}
-	
+	//*
 	@RequestMapping("addinfo.ll")
 	@ResponseBody
 	public Result addInfo(@RequestBody IbeaconInfo info){
 		Result result = new Result();
+		if(info.getUuid()==null||info.getUuid().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不允许为空");
+			return result;
+		}
+		IbeaconInfo queryInfo = new IbeaconInfo();
+		queryInfo.setUuid(info.getUuid());
+		queryInfo.setPage(0);
+		result = ibeaconService.getInfo(queryInfo);
+		if(result.getData()!=null){
+			result.setStates(false);
+			result.setMessage("该设备已存在");
+			return result;
+		}
 		result = ibeaconService.addInfo(info);
 		return result;
 	}
@@ -73,7 +87,7 @@ public class IbeaconController {
 		result = ibeaconService.getIbeaconForMap();
 		return result;
 	}
-	
+	//*
 	@RequestMapping("getinfoasuuid.ll")
 	@ResponseBody
 	public Result getInfoAsUuid(@RequestBody IbeaconInfo info){

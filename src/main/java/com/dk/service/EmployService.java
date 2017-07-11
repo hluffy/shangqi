@@ -1,5 +1,7 @@
 package com.dk.service;
 
+import java.util.List;
+
 import com.dk.object.EmployInfo;
 import com.dk.result.Result;
 
@@ -9,5 +11,6 @@ public interface EmployService {
 	Result updateInfo(EmployInfo info);
 	Result deleteInfo(EmployInfo info);
 	Result getInfo(EmployInfo info);
+	Result addFileInfo(List<EmployInfo> infos);
 
 }

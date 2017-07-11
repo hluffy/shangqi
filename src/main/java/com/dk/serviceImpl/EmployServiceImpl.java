@@ -324,4 +324,61 @@ public class EmployServiceImpl implements EmployService{
 		return result;
 	}
 
+	@Override
+	public Result addFileInfo(List<EmployInfo> infos){
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			String sql = "insert into employee(employee_id,employee_name,employee_shift_group,employee_site,employee_shift,last_use_time) values(?,?,?,?,?,?)";
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			for (EmployInfo info : infos) {
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, info.getEmployeeId());
+				ps.setString(2, info.getEmployeeName());
+				ps.setString(3, info.getEmployeeShiftGroup());
+				ps.setString(4, info.getEmployeeSite());
+				ps.setString(5, info.getEmployeeShift());
+				ps.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+				
+				ps.execute();
+			}
+			
+			conn.commit();
+			result.setStates(true);
+			result.setMessage("导入成功！");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			result.setStates(false);
+			result.setMessage("导入失败,请检查数据！");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(ps!=null){
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
 }

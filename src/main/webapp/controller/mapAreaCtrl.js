@@ -14,23 +14,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//CARE
 		$scope.car = L.polygon([{
-			lat:30.8866104,
-			lng:121.8266308
+			lat:30.8866138,
+			lng:121.8269695
 		},{
-			lat:30.8862329,
-			lng:121.8266255
+			lat:30.8866132,
+			lng:121.8272799
 		},{
-			lat:30.8862329,
-			lng:121.8270063
+			lat:30.8862029,
+			lng:121.8272796
 		},{
-			lat:30.886165,
-			lng:121.8270037
-		},{
-			lat:30.8861615,
-			lng:121.8272813
-		},{
-			lat:30.8866092,
-			lng:121.8272786
+			lat:30.8862015,
+			lng:121.8269711
 		}]);
 		$scope.car.addTo($scope.map);
 //		.bindPopup("CAR")
@@ -90,23 +84,23 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//DVT
 		$scope.dvt = L.polygon([{
-			lat:30.8862352,
-			lng:121.8266281
+			lat:30.8860992,
+			lng:121.8266307
 		},{
-			lat:30.8851671,
-			lng:121.8266281
+			lat:30.8860992,
+			lng:121.8267125
 		},{
-			lat:30.8851684,
-			lng:121.8268454
+			lat:30.8851775,
+			lng:121.8267121
 		},{
-			lat:30.8862352,
-			lng:121.8268427
+			lat:30.8851776,
+			lng:121.8266307
 		}]);
 		$scope.dvt.addTo($scope.map);
 		$scope.dvt.on("click",function(){
 			$scope.$apply(function(){
-				$scope.thisarea="DVT";
-				$scope.local={"area":"DVT"};
+				$scope.thisarea="DVT返修区";
+				$scope.local={"area":"DVT返修区"};
 				localService.getInfo($scope.local).then(function(data){
 					$scope.areainfos = data.data;
 				});
@@ -117,17 +111,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//板链返修区
 		$scope.banlian = L.polygon([{
-			lat:30.885296,
-			lng:121.8268454
+			lat:30.8851772,
+			lng:121.8269735
 		},{
-			lat:30.8851717,
-			lng:121.8268481
+			lat:30.8852733,
+			lng:121.8269738
 		},{
-			lat:30.8851694,
-			lng:121.827229
+			lat:30.8852753,
+			lng:121.8272028
 		},{
-			lat:30.885296,
-			lng:121.8272263
+			lat:30.8851795,
+			lng:121.8272045
 		}]);
 //		.addTo($scope.map).bindPopup("板链返修区")
 		$scope.banlian.addTo($scope.map);
@@ -142,26 +136,26 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 			$("#myButton").click();
 		});
 		
-		//内饰一
+		//内饰门线
 		$scope.neishier = L.polygon([{
-			lat:30.8851671,
-			lng:121.8269339
+			lat:30.8851769,
+			lng:121.826895
 		},{
-			lat:30.884152,
-			lng:121.8269339
+			lat:30.8851772,
+			lng:121.827058
 		},{
-			lat:30.8841497,
-			lng:121.8270653
+			lat:30.8841428,
+			lng:121.827064
 		},{
-			lat:30.8851717,
-			lng:121.8270573
+			lat:30.8841428,
+			lng:121.8268977
 		}]);
 //		.addTo($scope.map).bindPopup("内饰二")
 		$scope.neishier.addTo($scope.map);
 		$scope.neishier.on("click",function(){
 			$scope.$apply(function(){
-				$scope.thisarea="内饰一";
-				$scope.local = {"area":"内饰一"};
+				$scope.thisarea="内饰门线";
+				$scope.local = {"area":"内饰门线"};
 				localService.getInfo($scope.local).then(function(data){
 					$scope.areainfos = data.data;
 				});
@@ -171,23 +165,23 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//底盘三
 		$scope.dipansan = L.polygon([{
-			lat:30.8862352,
-			lng:121.8268427
+			lat:30.885273,
+			lng:121.8269738
 		},{
-			lat:30.8862352,
-			lng:121.827001
+//			lat:30.8851775,
+//			lng:121.8269738
+//		},{
+//			lat:30.8851798,
+//			lng:121.8272042
+//		},{
+			lat:30.885275,
+			lng:121.8272031
 		},{
-			lat:30.8861615,
-			lng:121.8270037
+			lat:30.8862029,
+			lng:121.8272031
 		},{
-			lat:30.8861615,
-			lng:121.8270358
-		},{
-			lat:30.885296,
-			lng:121.8270385
-		},{
-			lat:30.8852983,
-			lng:121.8268427
+			lat:30.8862015,
+			lng:121.8269711
 		}]);
 //		.addTo($scope.map).bindPopup("底盘三")
 		$scope.dipansan.addTo($scope.map);
@@ -204,17 +198,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//底盘一二
 		$scope.other = L.polygon([{
-			lat:30.8852879,
-			lng:121.8289322
+			lat:30.8851694,
+			lng:121.8289429
 		},{
-			lat:30.8851752,
-			lng:121.8289335
+			lat:30.8851691,
+			lng:121.8290441
 		},{
-			lat:30.8851775,
-			lng:121.8290462
+			lat:30.8853121,
+			lng:121.8290441
 		},{
-			lat:30.8852914,
-			lng:121.8290462
+			lat:30.8853121,
+			lng:121.8289426
 		}]);
 //		.addTo($scope.map).bindPopup("物流区下方")
 		$scope.other.addTo($scope.map);
@@ -231,17 +225,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//报交区
 		$scope.baojiao = L.polygon([{
-			lat:30.8867246,
-			lng:121.827126
+			lat:30.8872365,
+			lng:121.8267904
 		},{
-			lat:30.8866621,
-			lng:121.8271254
+			lat:30.8868877,
+			lng:121.8267904
 		},{
-			lat:30.8866621,
-			lng:121.8272548
+			lat:30.8868889,
+			lng:121.8271284
 		},{
-			lat:30.8867243,
-			lng:121.8272541
+			lat:30.8872365,
+			lng:121.8271257
 		}]);
 //		.addTo($scope.map).bindPopup("报交区")
 		$scope.baojiao.addTo($scope.map);
@@ -256,26 +250,26 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 			$("#myButton").click();
 		});
 		
-		//滞留区
+		//总装滞留区
 		$scope.zhiliu = L.polygon([{
-			lat:30.886657,
-			lng:121.8272672
+			lat:30.8868564,
+			lng:121.8271093
 		},{
-			lat:30.886619,
-			lng:121.8272679
+			lat:30.8866515,
+			lng:121.8271093
 		},{
-			lat:30.886619,
-			lng:121.8273282
+			lat:30.8866518,
+			lng:121.8272652
 		},{
-			lat:30.8866573,
-			lng:121.8273275
+			lat:30.8868578,
+			lng:121.8272648
 		}]);
 //		.addTo($scope.map).bindPopup("滞留区")
 		$scope.zhiliu.addTo($scope.map);
 		$scope.zhiliu.on("click",function(){
 			$scope.$apply(function(){
-				$scope.thisarea = "滞留区";
-				$scope.local = {"area":"滞留区"};
+				$scope.thisarea = "总装滞留区";
+				$scope.local = {"area":"总装滞留区"};
 				localService.getInfo($scope.local).then(function(data){
 					$scope.areainfos = data.data;
 				});
@@ -285,29 +279,29 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//物流区
 		$scope.wuliu = L.polygon([{
-			lat:30.8900999,
+			lat:30.8874482,
 			lng:121.8267596
 		},{
-			lat:30.8883689,
-			lng:121.826781
+			lat:30.8874482,
+			lng:121.8271565
 		},{
-			lat:30.8883551,
-			lng:121.827127
+			lat:30.8883321,
+			lng:121.8271458
 		},{
-			lat:30.8867715,
-			lng:121.8271217
+			lat:30.8883321,
+			lng:121.827575
 		},{
-			lat:30.8867646,
-			lng:121.8275374
+			lat:30.888903,
+			lng:121.8275642
 		},{
-			lat:30.8887971,
-			lng:121.8275616
+			lat:30.8889122,
+			lng:121.8296778
 		},{
-			lat:30.8888063,
-			lng:121.8297556
+			lat:30.890772,
+			lng:121.8296778
 		},{
-			lat:30.890093,
-			lng:121.829761
+			lat:30.8907536,
+			lng:121.8267703
 		}],{
 			color: 'red'
 		});
@@ -321,6 +315,176 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 					$scope.areainfos = data.data;
 				});
 			});
+			$("#myButton").click();
+		});
+		
+		//物流2区
+//		$scope.wuliu = L.polygon([{
+//			lat:30.891085,
+//			lng:121.8280363
+//		},{
+//			lat:30.8910666,
+//			lng:121.8300319
+//		},{
+//			lat:30.8946757,
+//			lng:121.8300319
+//		},{
+//			lat:30.8946572,
+//			lng:121.8265128
+//		},{
+//			lat:30.8925029,
+//			lng:121.8265342
+//		},{
+//			lat:30.8924845,
+//			lng:121.8280577
+//		}],{
+//			color: 'red'
+//		});
+////		.addTo($scope.map).bindPopup("物流区")
+//		$scope.wuliu.addTo($scope.map);
+//		$scope.wuliu.on("click",function(){
+//			$scope.$apply(function(){
+//				$scope.thisarea = "物流2区";
+//				$scope.local = {"area":"物流2区"};
+//				localService.getInfo($scope.local).then(function(data){
+//					$scope.areainfos = data.data;
+//				});
+//			});
+//			$("#myButton").click();
+//		});
+		
+		//油漆返修区
+		$scope.dvt = L.polygon([{
+			lat:30.8866145,
+			lng:121.8266318
+		},{
+			lat:30.8866142,
+			lng:121.8267153
+		},{
+			lat:30.8863064,
+			lng:121.8267118
+		},{
+			lat:30.8863064,
+			lng:121.8266327
+		}]);
+		$scope.dvt.addTo($scope.map);
+		$scope.dvt.on("click",function(){
+			$scope.$apply(function(){
+				$scope.thisarea="油漆返修区";
+				$scope.local={"area":"油漆返修区"};
+				localService.getInfo($scope.local).then(function(data){
+					$scope.areainfos = data.data;
+				});
+			});
+//			angular.element("#myButton").click();
+			$("#myButton").click();
+		});
+		
+		//车身返修区
+		$scope.dvt = L.polygon([{
+			lat:30.8863065,
+			lng:121.8266327
+		},{
+			lat:30.8863065,
+			lng:121.8267118
+		},{
+			lat:30.8860993,
+			lng:121.8267126
+		},{
+			lat:30.8860993,
+			lng:121.8266307
+		}]);
+		$scope.dvt.addTo($scope.map);
+		$scope.dvt.on("click",function(){
+			$scope.$apply(function(){
+				$scope.thisarea="车身返修区";
+				$scope.local={"area":"车身返修区"};
+				localService.getInfo($scope.local).then(function(data){
+					$scope.areainfos = data.data;
+				});
+			});
+//			angular.element("#myButton").click();
+			$("#myButton").click();
+		});
+		
+		//检测区
+		$scope.dvt = L.polygon([{
+			lat:30.8851773,
+			lng:121.8267123
+		},{
+			lat:30.8851775,
+			lng:121.826974
+		},{
+			lat:30.8866132,
+			lng:121.8269701
+		},{
+			lat:30.8866138,
+			lng:121.826715
+		}]);
+		$scope.dvt.addTo($scope.map);
+		$scope.dvt.on("click",function(){
+			$scope.$apply(function(){
+				$scope.thisarea="检测区";
+				$scope.local={"area":"检测区"};
+				localService.getInfo($scope.local).then(function(data){
+					$scope.areainfos = data.data;
+				});
+			});
+//			angular.element("#myButton").click();
+			$("#myButton").click();
+		});
+		
+		//车身滞留区
+		$scope.dvt = L.polygon([{
+			lat:30.8867994,
+			lng:121.8266305
+		},{
+			lat:30.8866168,
+			lng:121.8266315
+		},{
+			lat:30.8866165,
+			lng:121.8267163
+		},{
+			lat:30.8867995,
+			lng:121.8267163
+		}]);
+		$scope.dvt.addTo($scope.map);
+		$scope.dvt.on("click",function(){
+			$scope.$apply(function(){
+				$scope.thisarea="车身滞留区";
+				$scope.local={"area":"车身滞留区"};
+				localService.getInfo($scope.local).then(function(data){
+					$scope.areainfos = data.data;
+				});
+			});
+//			angular.element("#myButton").click();
+			$("#myButton").click();
+		});
+		
+		//扣车区
+		$scope.dvt = L.polygon([{
+			lat:30.8871012,
+			lng:121.8263713
+		},{
+			lat:30.8871011,
+			lng:121.8264758
+		},{
+			lat:30.8868258,
+			lng:121.8264775
+		},{
+			lat:30.8868255,
+			lng:121.8263719
+		}]);
+		$scope.dvt.addTo($scope.map);
+		$scope.dvt.on("click",function(){
+			$scope.$apply(function(){
+				$scope.thisarea="扣车区";
+				$scope.local={"area":"扣车区"};
+				localService.getInfo($scope.local).then(function(data){
+					$scope.areainfos = data.data;
+				});
+			});
+//			angular.element("#myButton").click();
 			$("#myButton").click();
 		});
 		

@@ -52,11 +52,26 @@ public class UserController {
 	@RequestMapping("addinfo.ll")
 	@ResponseBody
 	public Result addUserInfo(@RequestBody User user){
+		Result result = new Result();
+		if(user.getUserName()==null||user.getUserName().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不允许为空");
+			return result;
+		}
+		User queryInfo = new User();
+		queryInfo.setUserName(user.getUserName());
+		queryInfo.setPage(0);
+		result = userService.getUserInfo(queryInfo);
+		if(result.getData()!=null){
+			result.setStates(false);
+			result.setMessage("该用户名已存在");
+			return result;
+		}
 		String role = user.getRole();
 		if(role==null||role.isEmpty()){
 			user.setRole("op");
 		}
-		Result result = new Result();
+		
 		result = userService.addUserInfo(user);
 		return result;
 	}

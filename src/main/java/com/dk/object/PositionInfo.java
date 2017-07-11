@@ -29,9 +29,18 @@ public class PositionInfo implements Serializable {
 	private String endTime;
 	private String vin;
 	private PqiaData pqiaData;
+	private String resultpositionTime;//查询返回时间
 	
     
-    public String getVin() {
+    public String getResultpositionTime() {
+		return resultpositionTime;
+	}
+
+	public void setResultpositionTime(String resultpositionTime) {
+		this.resultpositionTime = resultpositionTime;
+	}
+
+	public String getVin() {
 		return vin;
 	}
 

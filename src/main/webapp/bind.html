@@ -109,6 +109,13 @@ function sendBind(){
  		$("#myModalButton").click();
 		$("#body").html("设备编号不允许为空");
 		$("#equipmentNum").focus();
+		return;
+ 	}
+ 	if(equipmentNum.length!=12){
+ 		$("#myModalButton").click();
+ 		$("#body").html("设备编号格式有误，请核对!");
+ 		$("#equipmentNum").focus();
+		return;
  	}
 	if(frameNum!=null&&frameNum.trim()!=""&&equipmentNum!=null&&equipmentNum.trim()!=""){
 		$("#frameNum").attr("readonly",true);

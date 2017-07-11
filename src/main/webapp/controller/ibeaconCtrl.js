@@ -7,7 +7,7 @@
 //});
 
 app.controller("ibeaconCtrl",function($rootScope,$scope,ibeaconSer){
-	$rootScope.countId="625px";
+	$rootScope.countId="645px";
 	$scope.isShow = false;
 	$scope.master = {};
 	$scope.ibeacon = {};

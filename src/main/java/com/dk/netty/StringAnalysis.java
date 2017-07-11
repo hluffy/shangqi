@@ -380,10 +380,10 @@ public class StringAnalysis {
 									
 								}
 								if(lat!=0&&lng!=0){
-									positioning.setLatitude(lat/2);
+									positioning.setLatitude(lng/2);
 									localInfo.setLat(String.valueOf(lat/2));
 									localInfo.setLog(String.valueOf(lng/2));
-									positioning.setLongitude(lng/2);
+									positioning.setLongitude(lat/2);
 									positioning.setPositioningTime(new Timestamp(System.currentTimeMillis()));
 									positioning.setArea(IsInArea.whereArea(lng/2, lat/2));
 									localInfo.setArea(IsInArea.whereArea(lng/2, lat/2));
@@ -744,24 +744,34 @@ public class StringAnalysis {
 						}else{
 							
 						}
-						StringBuffer numberStr = new StringBuffer();
-						if(number!=null){
-							numberStr.append(Integer.parseInt((number.substring(0,2)),16));
-							numberStr.append(".");
-							numberStr.append(Integer.parseInt((number.substring(2,4)),16));
-							numberStr.append(".");
-							numberStr.append(Integer.parseInt((number.substring(4,6)),16));
-							numberStr.append(".");
-							numberStr.append(Integer.parseInt((number.substring(6,8)),16));
-						}
-						info.setNumber(numberStr.toString());
-						Result result = localService.updateInfo(info);
-						if(result.isStates()){
-							ChannelServer.setString("成功");
-						}else{
-							ChannelServer.setString("失败");
-						}
 					}
+					StringBuffer numberStr = new StringBuffer();
+					if(number!=null){
+						numberStr.append(Integer.parseInt((number.substring(0,2)),16));
+						numberStr.append(".");
+						numberStr.append(Integer.parseInt((number.substring(2,4)),16));
+						numberStr.append(".");
+						numberStr.append(Integer.parseInt((number.substring(4,6)),16));
+						numberStr.append(".");
+						int int68 = Integer.parseInt(number.substring(6,8),16);
+						String str68="";
+						if(int68<10){
+							str68 = "00"+int68;
+						}else if(int68<100){
+							str68 = "0"+int68;
+						}else{
+							str68 = String.valueOf(int68);
+						}
+						numberStr.append(str68);
+					}
+					info.setNumber(numberStr.toString());
+					Result result = localService.updateInfo(info);
+					if(result.isStates()){
+						ChannelServer.setString("成功");
+					}else{
+						ChannelServer.setString("失败");
+					}
+//					}
 				}
 				
 				

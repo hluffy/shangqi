@@ -695,14 +695,19 @@ public class LocalizerServiceImpl implements LocalizerService{
 	private Map<String,Integer> getMap(){
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("CARE", 0);
-		map.put("DVT", 0);
+		map.put("DVT返修区", 0);
 		map.put("板链返修区", 0);
-		map.put("内饰一", 0);
+		map.put("内饰门线", 0);
 		map.put("底盘三", 0);
 		map.put("底盘一二", 0);
 		map.put("报交区", 0);
-		map.put("滞留区", 0);
+		map.put("总装滞留区", 0);
 		map.put("物流区", 0);
+		map.put("检测区", 0);
+		map.put("油漆返修区", 0);
+		map.put("车身返修区", 0);
+		map.put("扣车区", 0);
+		map.put("车身滞留区", 0);
 		map.put("其他", 0);
 		return map;
 	}

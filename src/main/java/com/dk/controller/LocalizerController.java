@@ -37,6 +37,20 @@ public class LocalizerController {
 	@ResponseBody
 	public Result addInfo(@RequestBody LocalizerInfo info){
 		Result result = new Result();
+		if(info.getNumberDef()==null||info.getNumberDef().isEmpty()){
+			result.setStates(false);
+			result.setMessage("参数不允许为空");
+			return result;
+		}
+		LocalizerInfo queryInfo = new LocalizerInfo();
+		queryInfo.setNumber(numberToNumberDef(info.getNumberDef()));
+		queryInfo.setPage(0);
+		result = localService.getInfo(queryInfo);
+		if(result.getData()!=null){
+			result.setStates(false);
+			result.setMessage("该设备号已存在");
+			return result;
+		}
 		info.setStaticTime(String.valueOf(12*3600));
 //		info.setRunTime("12*3600");
 		info.setRunTime("10");
@@ -45,6 +59,7 @@ public class LocalizerController {
 		info.setLoraSleepTime("3");
 		info.setIbeaconEffectNum(String.valueOf(3));
 		info.setIbeaconTimeOut(String.valueOf(10));
+		info.setArea("其他");
 		result = localService.addInfo(info);
 		return result;
 	}
@@ -137,6 +152,17 @@ public class LocalizerController {
 		Result result = new Result();
 		result = localService.lowInfo();
 		return result;
+	}
+	
+	private String numberToNumberDef(String str){
+		StringBuffer number = new StringBuffer();
+		for(int i=1;i<=str.length();i++){
+			number.append(str.charAt(i-1));
+			if(i%3==0){
+				number.append(".");
+			}
+		}
+		return number.toString().substring(0,number.toString().length()-1);
 	}
 
 }

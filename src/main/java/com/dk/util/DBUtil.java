@@ -1,5 +1,6 @@
 package com.dk.util;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,6 +8,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 该类用于管理数据库连接
@@ -29,11 +32,11 @@ public class DBUtil {
 		 */
 		Properties prop = new Properties();
 		try {
-			//FileInputStream默认从项目根目录下读取文件，
-			//但现在是web项目，文件放在resource下，编译时
-			//被编译到classes下，所以需要从类路径（classes）
-			//下读取此文件。
-			//prop.load(new  FileInputStream("config.properties"));
+//			FileInputStream默认从项目根目录下读取文件，
+//			但现在是web项目，文件放在resource下，编译时
+//			被编译到classes下，所以需要从类路径（classes）
+//			下读取此文件。
+//			prop.load(new  FileInputStream("config.properties"));
 			prop.load(DBUtil.class.getClassLoader().getResourceAsStream("config.properties"));
 			String className = prop.getProperty("classname");
 			String url = prop.getProperty("url");
@@ -57,6 +60,9 @@ public class DBUtil {
 			ds.setMaxActive(maxActive);
 			//设置最大等待时间
 			ds.setMaxWait(maxWait);
+		
+//			ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");  
+//			ds = (BasicDataSource) ctx.getBean("dataSource"); 
 			
 			
 		} catch (FileNotFoundException e) {

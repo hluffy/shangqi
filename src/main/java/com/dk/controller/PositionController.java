@@ -169,27 +169,27 @@ public class PositionController {
 		return result;
 	}
 	
-//	//根据时间查询位置信息
-//	@SuppressWarnings("unchecked")
-//	@RequestMapping("getinfoastime.ll")
-//	@ResponseBody
-//	public Result getInfoAsTime(@RequestBody PositionInfo info){
-//		Result result = new Result();
-//		BindInfo bInfo = new BindInfo();
-//		bInfo.setFrameNum(info.getFrameNum());
-//		bInfo.setBindType("绑定");
-//		bInfo.setPage(0);
-//		Object data = bindService.getBindInfo(bInfo).getData();
-//		List<BindInfo> bindList = (ArrayList<BindInfo>)data;
-//		if(bindList.size()==0){
-//			result.setStates(false);
-//			result.setMessage("该车架号没有绑定的定位器信息");
-//			return result;
-//		}else{
-//			info.setEquipmentNum(bindList.get(0).getEquipmentNum());
-//			result = positionService.getInfoAsTime(info);
-//		}
-//		return result;
-//	}
+	//根据时间查询位置信息
+	@SuppressWarnings("unchecked")
+	@RequestMapping("getinfoastime.ll")
+	@ResponseBody
+	public Result getInfoAsTime(@RequestBody PositionInfo info){
+		Result result = new Result();
+		BindInfo bInfo = new BindInfo();
+		bInfo.setFrameNum(info.getFrameNum());
+		bInfo.setBindType("绑定");
+		bInfo.setPage(0);
+		Object data = bindService.getBindInfo(bInfo).getData();
+		List<BindInfo> bindList = (ArrayList<BindInfo>)data;
+		if(bindList.size()==0){
+			result.setStates(false);
+			result.setMessage("该车架号没有绑定的定位器信息");
+			return result;
+		}else{
+			info.setEquipmentNum(bindList.get(0).getEquipmentNum());
+			result = positionService.getInfoAsTime(info);
+		}
+		return result;
+	}
 
 }

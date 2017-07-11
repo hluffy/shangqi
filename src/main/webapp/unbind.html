@@ -102,6 +102,11 @@ function sendUnbind(){
 		$("#body").html("设备编号不允许为空");
 		return;
 	}
+	if(equipmentNum.length!=12){
+		$("#myModalButton").click();
+		$("#body").html("设备编号格式有误，请核对!");
+		return;
+	}
 	if(equipmentNum!=null&&equipmentNum.trim()!=""){
 		$("#equipmentNum").attr("readonly",true);
 		$("#equipmentNum").css("background-color","#112220");

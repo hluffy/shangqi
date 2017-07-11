@@ -48,6 +48,8 @@ public class BindController {
 			result.setMessage("参数不能为空");
 			return result;
 		}
+		String number = info.getEquipmentNum();
+		info.setEquipmentNum(numberToNumberDef(number));
 		LocalizerInfo localInfo = new LocalizerInfo();
 		localInfo.setNumber(info.getEquipmentNum());
 		Object data = localService.getInfo(localInfo).getData();
@@ -121,6 +123,8 @@ public class BindController {
 	@ResponseBody
 	@SuppressWarnings("unchecked")
 	public Result updateInfo(BindInfo info){
+		String number = info.getEquipmentNum();
+		info.setEquipmentNum(numberToNumberDef(number));
 		Result result = new Result();
 		BindInfo bInfo = new BindInfo();
 		bInfo.setEquipmentNum(info.getEquipmentNum());
@@ -174,6 +178,17 @@ public class BindController {
 		Result result = new Result();
 		result = bindService.getBindInfoForCharts();
 		return result;
+	}
+	
+	private String numberToNumberDef(String str){
+		StringBuffer number = new StringBuffer();
+		for(int i=1;i<=str.length();i++){
+			number.append(str.charAt(i-1));
+			if(i%3==0){
+				number.append(".");
+			}
+		}
+		return number.toString().substring(0,number.toString().length()-1);
 	}
 
 }

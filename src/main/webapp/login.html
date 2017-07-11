@@ -1,83 +1,98 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp" ng-controller="loginCtrl">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>login</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>login</title>
 
 <!--   <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'> -->
 
 
-  <link href="css/auth.css" rel="stylesheet" type="text/css">
-  <link href="css/login.css" rel="stylesheet" type="text/css">
-  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+<link href="css/auth.css" rel="stylesheet" type="text/css">
+<link href="css/login.css" rel="stylesheet" type="text/css">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="img/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32"
+	href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96"
+	href="img/favicon-96x96.png">
 
-  <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
-  <!-- bower:css -->
-  <!-- run `gulp inject` to automatically populate bower styles dependencies -->
-  <!-- endbower -->
-  <!-- endbuild -->
+<!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+<!-- bower:css -->
+<!-- run `gulp inject` to automatically populate bower styles dependencies -->
+<!-- endbower -->
+<!-- endbuild -->
 
-  <!-- build:css({.tmp/serve,src}) styles/auth.css -->
-  <!-- inject:css -->
-  <!-- css files will be automatically insert here -->
-  <!-- endinject -->
-  <!-- endbuild -->
-  
+<!-- build:css({.tmp/serve,src}) styles/auth.css -->
+<!-- inject:css -->
+<!-- css files will be automatically insert here -->
+<!-- endinject -->
+<!-- endbuild -->
+
 <!--   <script src="https://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script> -->
-  <script src="js/angular.min.js"></script>
-  <script src="http://code.angularjs.org/1.2.9/angular-cookies.min.js"></script>
-  <script src="js/jquery-2.2.3.min.js"></script>
-  <script src="js/cookie.js"></script>
-  <script src="controller/loginCtrl.js"></script>
-  <script src="service/loginService.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.2.9/angular-cookies.min.js"></script>
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/cookie.js"></script>
+<script src="controller/loginCtrl.js"></script>
+<script src="service/loginService.js"></script>
 </head>
 <body>
-<main class="auth-main">
-  <div class="auth-block">
-<!--     <h2>车辆定位系统登录</h2> -->
-	<div style="margin-bottom:10px;text-align:center"><b style="font-size: 24px">车 辆 定 位 系 统</b></div>
-    
-    
-<!--     <a href="" class="auth-link">新用户注册</a> -->
+	<main class="auth-main">
+	<div class="auth-block">
+		<!--     <h2>车辆定位系统登录</h2> -->
+		<div style="margin-bottom: 10px; text-align: center">
+			<b style="font-size: 24px">车 辆 定 位 系 统</b>
+		</div>
 
-    <form class="form-horizontal">
-      <div class="form-group">
-        <div class="col-sm-10" style="text-align: center;margin:10px">
-          <label for="inputEmail3" class="col-sm-2 control-label" style="padding-left: 0px;font-size: 18px">用户名:</label>
-          <input style="width: 50%;text-align: center;" ng-focus="getFocus()" ng-model="user.userName" type="text" class="form-control" id="inputEmail3">
-        </div>
-      </div>
-      <div class="form-group">
-        
 
-        <div class="col-sm-10" style="text-align: center;margin:10px">
-          <label  for="inputPassword3" class="col-sm-2 control-label" style="padding-left: 0px;font-size: 18px">密&emsp;码:</label>
-          <input style="width: 50%;text-align: center" ng-focus="getFocus()" ng-model="user.password" type="password" class="form-control" id="inputPassword3">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button style="margin-left: 345px;margin-top:10px" class="btn btn-default btn-auth" ng-click="userLogin()">登录</button>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="color:red">{{errorImg}}</b>
-<!--           <a href class="forgot-pass">忘记密码?</a> -->
-        </div>
-      </div>
-    </form>
+		<!--     <a href="" class="auth-link">新用户注册</a> -->
 
-<!--     <div class="auth-sep"><span><span>&nbsp;第三方登录&nbsp;</span></span></div> -->
+		<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-10" style="text-align: center; margin: 10px">
+					<label for="inputEmail3" class="col-sm-2 control-label"
+						style="padding-left: 0px; font-size: 18px">用户名:</label> <input
+						style="width: 50%; text-align: center;" ng-focus="getFocus()"
+						ng-model="user.userName" type="text" class="form-control"
+						id="inputEmail3">
+				</div>
+			</div>
+			<div class="form-group">
 
-<!--     <div class="al-share-auth"> -->
-<!--       <ul class="al-share clearfix"> -->
-<!--       	<li><a><img title="QQ" width="40px" height="40px" src="img/qq.jpg"></a></li> -->
-<!--       	<li><a><img title="WeChat" width="40px" height="40px" src="img/wechat.jpg"></a></li> -->
-<!--       	<li><a><img title="微博" width="40px" height="40px" src="img/webo.jpg"></a></li> -->
-<!--       </ul> -->
-<!--     </div> -->
-  </div>
-</main>
+
+				<div class="col-sm-10" style="text-align: center; margin: 10px">
+					<label for="inputPassword3" class="col-sm-2 control-label"
+						style="padding-left: 0px; font-size: 18px">密&emsp;码:</label> <input
+						style="width: 50%; text-align: center" ng-focus="getFocus()"
+						ng-model="user.password" type="password" class="form-control"
+						id="inputPassword3">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button style="margin-left: 345px; margin-top: 10px"
+						class="btn btn-default btn-auth" ng-click="userLogin()">登录</button>
+					<br>
+					<div style="position: relative; left: 150px; top: 1px;">
+						<b style="color: red">{{errorImg}}</b>
+					</div>
+					<!--           <a href class="forgot-pass">忘记密码?</a> -->
+				</div>
+			</div>
+		</form>
+
+		<!--     <div class="auth-sep"><span><span>&nbsp;第三方登录&nbsp;</span></span></div> -->
+
+		<!--     <div class="al-share-auth"> -->
+		<!--       <ul class="al-share clearfix"> -->
+		<!--       	<li><a><img title="QQ" width="40px" height="40px" src="img/qq.jpg"></a></li> -->
+		<!--       	<li><a><img title="WeChat" width="40px" height="40px" src="img/wechat.jpg"></a></li> -->
+		<!--       	<li><a><img title="微博" width="40px" height="40px" src="img/webo.jpg"></a></li> -->
+		<!--       </ul> -->
+		<!--     </div> -->
+	</div>
+	</main>
 </body>
 </html>

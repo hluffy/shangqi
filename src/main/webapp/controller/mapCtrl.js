@@ -2,6 +2,8 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 	$rootScope.countId="100%";
 	$scope.map = {};
 	$scope.A = {};
+	$scope.buttonInfo = "详细条件";
+	$scope.isshowshow = true;
 // 		function initmap(){
 //		var centerPoint = [31.1707739,121.406607];
 		var centerPoint = [30.8853,121.8258];
@@ -192,12 +194,14 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 						map.addLayer(marker);
 //						marker.bindPopup('基本信息：'+data.data[i].frameNum+"<br/>"+
 //								"区域："+data.data[i].area).openPopup();
-						marker.bindPopup('中文描述:'+data.data[i].chinesedescription+"<br/>"+
-								'报缺陷人:'+data.data[i].personliable+"<br/>"+
-								'返修人:'+data.data[i].repairman+"<br/>"+
-								'vin号:'+data.data[i].vin+"<br/>"+
-								'设备号:'+data.data[i].frameNum+"<br/>"+
-								'区域:'+data.data[i].area).openPopup();
+						marker.bindPopup('中文描述  :'+data.data[i].chinesedescription+"<br/>"+
+								'报缺陷人  :'+data.data[i].personliable+"<br/>"+
+								'返修人  :'+data.data[i].repairman+"<br/>"+
+								'vin号  :'+data.data[i].vin+"<br/>"+
+								'设备号  :'+data.data[i].frameNum+"<br/>"+
+								'设备号最新时间  :'+data.data[i].resultpositionTime+"<br/>"+
+								'区域  :'+data.data[i].area
+								).openPopup();
 					}
 				}else if (data.data.lat==0 && data.data.log==0) {
 //					alert("该数据没有位置信息,或输入有误");
@@ -233,5 +237,23 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 				}
 			});
 		}
+		
+		$scope.showQuery = function(){
+			$scope.isshowshow = !($scope.isshowshow);
+			if($scope.isshowshow){
+				$scope.buttonInfo = "详细条件";
+				$scope.map.vehicledefects = "";
+				$scope.map.newspaperdefect = "";
+				$scope.map.repairman = "";
+				$("#statittime").val("");
+				$("#endtime").val("");
+			}else{
+				$scope.buttonInfo = "隐藏";
+			}
+		}
+		
+//		$scope.hideQuery = function(){
+//			$scope.isshowshow = true;
+//		}
 		
 });
