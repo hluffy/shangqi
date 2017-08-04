@@ -28,6 +28,7 @@ import com.dk.util.DBUtil;
 import com.dk.util.myutils;
 import com.mysql.fabric.xmlrpc.base.Data;
 import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+//test
 
 @Service
 public class PositionServiceImpl implements PositonService {
@@ -1339,6 +1340,7 @@ public class PositionServiceImpl implements PositonService {
 				ps.setString(3, info.getEndTime());
 				
 				ResultSet rs = ps.executeQuery();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				while(rs.next()){
 					PositionInfo pInfo = new PositionInfo();
 					pInfo.setEquipmentNum(rs.getString("equipment_num"));
@@ -1346,8 +1348,13 @@ public class PositionServiceImpl implements PositonService {
 					pInfo.setLog(rs.getDouble("longitude"));
 					pInfo.setLat(rs.getDouble("latitude"));
 					pInfo.setPositionMode(rs.getString("positioning_mode"));
-					pInfo.setPositionTime(rs.getTimestamp("positioning_time"));
+					
 					pInfo.setArea(rs.getString("area"));
+					Timestamp positioningTime = rs.getTimestamp("positioning_time");
+					if(positioningTime!=null){
+						pInfo.setPositionTime(positioningTime);
+						pInfo.setPositionTimeStr(sdf.format((Date)positioningTime));
+					}
 					
 					infos.add(pInfo);
 				}

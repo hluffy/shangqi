@@ -1,5 +1,5 @@
 app.controller("equipPieCtrl",function($scope,$rootScope,localService){
-	localService.getEquipPie().then(function(result){
+	localService.getInfoForArea().then(function(result){
 		$scope.datas = result.data;
 		$scope.data = new Array();
 		$scope.legdata = new Array();

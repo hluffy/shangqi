@@ -52,7 +52,7 @@ public class IbeaconController {
 		queryInfo.setUuid(info.getUuid());
 		queryInfo.setPage(0);
 		result = ibeaconService.getInfo(queryInfo);
-		if(result.getData()!=null){
+		if(result.getCount()!=0){
 			result.setStates(false);
 			result.setMessage("该设备已存在");
 			return result;

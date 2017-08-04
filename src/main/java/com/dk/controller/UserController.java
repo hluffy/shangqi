@@ -62,7 +62,7 @@ public class UserController {
 		queryInfo.setUserName(user.getUserName());
 		queryInfo.setPage(0);
 		result = userService.getUserInfo(queryInfo);
-		if(result.getData()!=null){
+		if(result.getCount()!=0){
 			result.setStates(false);
 			result.setMessage("该用户名已存在");
 			return result;

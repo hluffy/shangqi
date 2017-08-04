@@ -175,6 +175,10 @@ public class PositionController {
 	@ResponseBody
 	public Result getInfoAsTime(@RequestBody PositionInfo info){
 		Result result = new Result();
+		if(info.getEquipmentNum()!=null&&!info.getEquipmentNum().isEmpty()){
+			result = positionService.getInfoAsTime(info);
+			return result;
+		}
 		BindInfo bInfo = new BindInfo();
 		bInfo.setFrameNum(info.getFrameNum());
 		bInfo.setBindType("绑定");

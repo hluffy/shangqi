@@ -225,17 +225,17 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 		
 		//报交区
 		$scope.baojiao = L.polygon([{
-			lat:30.8872365,
-			lng:121.8267904
+			lat:30.8870851,
+			lng:121.8269004
 		},{
-			lat:30.8868877,
-			lng:121.8267904
+			lat:30.8870857,
+			lng:121.8270586
 		},{
-			lat:30.8868889,
-			lng:121.8271284
+			lat:30.8869142,
+			lng:121.8270573
 		},{
-			lat:30.8872365,
-			lng:121.8271257
+			lat:30.8869153,
+			lng:121.8269001
 		}]);
 //		.addTo($scope.map).bindPopup("报交区")
 		$scope.baojiao.addTo($scope.map);
@@ -303,6 +303,10 @@ app.controller("mapAreaCtrl",function($rootScope,$scope,$timeout,mapServ,localSe
 			lat:30.8907536,
 			lng:121.8267703
 		}],{
+//			strokeWeight:'0',
+//			strokeOpacity:'0',
+//			strokeColor:'red',
+//			fillColor:'red',
 			color: 'red'
 		});
 //		.addTo($scope.map).bindPopup("物流区")

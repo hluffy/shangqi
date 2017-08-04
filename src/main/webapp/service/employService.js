@@ -100,7 +100,7 @@ app.service("employService",function($http,$q){
 		var deferred = $q.defer();
 	    var fd = new FormData();
 	    fd.append( "file", file )
-	    $http.post( "http://localhost:8080/shangqi/file/uploadfile.ll", fd, {
+	    $http.post( "/shangqi/file/uploadfile.ll", fd, {
 	      transformRequest: angular.identity,
 	      headers: { "Content-Type": undefined }
 	    })

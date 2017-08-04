@@ -46,7 +46,7 @@ public class IsInArea {
 		//底盘一二
 		String dpyeArea = "[{'lat':30.8851694,'lng':121.8289429},{'lat':30.8851691,'lng':121.8290441},{'lat':30.8853121,'lng':121.8290441},{'lat':30.8853121,'lng':121.8289426}]";
 		//报交区
-		String bjArea = "[{'lat':30.8867246,'lng':121.827126},{'lat':30.8866621,'lng':121.8271254},{'lat':30.8866621,'lng':121.8272548},{'lat':30.8867243,'lng':121.8272541}]";
+		String bjArea = "[{'lat':30.8870851,'lng':121.8269004},{'lat':30.8870857,'lng':121.8270586},{'lat':30.8869142,'lng':121.8270573},{'lat':30.8869153,'lng':121.8269001}]";
 		//总装滞留区
 		String zlArea = "[{'lat':30.8868564,'lng':121.8271093},{'lat':30.8866515,'lng':121.8271093},{'lat':30.8866518,'lng':121.8272652},{'lat':30.8868578,'lng':121.8272648}]";
 		//物流区
@@ -101,6 +101,41 @@ public class IsInArea {
 	}
 	
 	public static boolean isInArea(double ALon,double ALat,String str){
+		JSONArray APoints = JSONArray.fromObject(str);
+		int iSum = 0,  
+		        iCount;  
+		    double dLon1, dLon2, dLat1, dLat2, dLon;  
+		    if (APoints.size() < 3) return false;  
+		    iCount = APoints.size();  
+		    for (int i = 0; i < iCount; i++) {  
+		        if (i == iCount - 1) {  
+		            dLon1 = APoints.getJSONObject(i).getDouble("lng");
+		            dLat1 = APoints.getJSONObject(i).getDouble("lat");
+		            dLon2 = APoints.getJSONObject(0).getDouble("lng");
+		            dLat2 = APoints.getJSONObject(0).getDouble("lat");
+		        } else {  
+		            dLon1 = APoints.getJSONObject(i).getDouble("lng");
+		            dLat1 = APoints.getJSONObject(i).getDouble("lat");
+		            dLon2 = APoints.getJSONObject(i+1).getDouble("lng");
+		            dLat2 = APoints.getJSONObject(i+1).getDouble("lat");
+		        }  
+		        //以下语句判断A点是否在边的两端点的水平平行线之间，在则可能有交点，开始判断交点是否在左射线上  
+		        if (((ALat >= dLat1) && (ALat < dLat2)) || ((ALat >= dLat2) && (ALat < dLat1))) {  
+		            if (Math.abs(dLat1 - dLat2) > 0) {  
+		                //得到 A点向左射线与边的交点的x坐标：  
+		                dLon = dLon1 - ((dLon1 - dLon2) * (dLat1 - ALat)) / (dLat1 - dLat2);  
+		                if (dLon < ALon)  
+		                    iSum++;  
+		            }  
+		        }  
+		    }  
+		    if (iSum % 2 != 0)  
+		        return true;  
+		    return false; 
+	}
+	
+	public static boolean isInAll(double ALon,double ALat){
+		String str = "[{'lat':30.894823,'lng':121.8210411},{'lat':30.8818961,'lng':121.8208694},{'lat':30.8819698,'lng':121.8301391},{'lat':30.8948598,'lng':121.8301391}]";
 		JSONArray APoints = JSONArray.fromObject(str);
 		int iSum = 0,  
 		        iCount;  

@@ -1,7 +1,7 @@
 app.controller("dashboardCtrl",function($rootScope,$scope,localService,positionSer){
 //	$scope.bind={};
 //	$scope.bind.bindType = "绑定";
-	$rootScope.countId="775px";
+	$rootScope.countId="800px";
 //	$scope.bindCarNum = 12;
 //	$scope.surEquipNum = 24;
 //	$scope.lowEleNum = 12;

@@ -46,7 +46,7 @@ public class LocalizerController {
 		queryInfo.setNumber(numberToNumberDef(info.getNumberDef()));
 		queryInfo.setPage(0);
 		result = localService.getInfo(queryInfo);
-		if(result.getData()!=null){
+		if(result.getCount()!=0){
 			result.setStates(false);
 			result.setMessage("该设备号已存在");
 			return result;
@@ -151,6 +151,14 @@ public class LocalizerController {
 	public Result getLowInfo(){
 		Result result = new Result();
 		result = localService.lowInfo();
+		return result;
+	}
+	
+	@RequestMapping("getinfoforarea.ll")
+	@ResponseBody
+	public Result getInfoForArea(){
+		Result result = new Result();
+		result = localService.getInfoForArea();
 		return result;
 	}
 	

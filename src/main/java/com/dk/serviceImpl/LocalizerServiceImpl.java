@@ -188,6 +188,9 @@ public class LocalizerServiceImpl implements LocalizerService{
 		}
 		Connection conn = null;
 		PreparedStatement ps = null;
+		if(info.getRunTime()==null||info.getRunTime().isEmpty()){
+			info.setRunTime(String.valueOf(3*60));
+		}
 		try {
 			String sql = "update localizer set static_time=?,run_time=?,time=?,gps_time_out=?,lora_sleep_time=?,ibeacon_effect_num=?,ibeacon_timeout=? where number=?";
 			conn = DBUtil.getConnection();
@@ -710,6 +713,55 @@ public class LocalizerServiceImpl implements LocalizerService{
 		map.put("车身滞留区", 0);
 		map.put("其他", 0);
 		return map;
+	}
+
+	@Override
+	public Result getInfoForArea() {
+		// TODO Auto-generated method stub
+		Result result = new Result();
+		Connection conn = null;
+		Statement st = null;
+		List<PieData> infos = new ArrayList<PieData>();
+		try {
+			String sql = "select area,count(*) as sumcount from localizer group by area";
+			conn = DBUtil.getConnection();
+			st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				PieData info = new PieData();
+				info.setName(rs.getString("area"));
+				info.setValue(rs.getInt("sumcount"));
+				
+				infos.add(info);
+			}
+			
+			result.setData(infos);
+			result.setMessage("查询成功");
+			result.setStates(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			result.setStates(false);
+			result.setMessage("查询失败");
+			e.printStackTrace();
+		} finally{
+			if(conn!=null){
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(st!=null){
+				try {
+					st.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
 	}
 
 }

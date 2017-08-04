@@ -1,6 +1,7 @@
 app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 	$rootScope.countId="100%";
 	$scope.map = {};
+	$scope.map.devicenumber='test';
 	$scope.A = {};
 	$scope.buttonInfo = "详细条件";
 	$scope.isshowshow = true;
@@ -177,11 +178,13 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 			$scope.map.statittime = $("#statittime").val();
 			$scope.map.endtime = $("#endtime").val();
 			 number++;
-			 map.remove();
-			 map = L.map('leafletMap').setView(centerPoint, 25);
-				var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
-				});
-				aerial.addTo(map);
+//			 map.remove();
+//			 map = L.map('leafletMap').setView(centerPoint, 25);
+//				var aerial = new L.tileLayer("/Tiles/{z}/{x}/{y}.png", {
+//					maxZoom: 21,
+//		    		minZoom: 15,
+//				});
+//				aerial.addTo(map);
 			map.removeLayer(marker);
 			mapServ.getPositionInfoAsFrameNum($scope.map).then(function(data){
 				console.log(53546);
@@ -199,7 +202,7 @@ app.controller("mapCtrl",function($scope,$timeout,mapServ,$rootScope){
 								'返修人  :'+data.data[i].repairman+"<br/>"+
 								'vin号  :'+data.data[i].vin+"<br/>"+
 								'设备号  :'+data.data[i].frameNum+"<br/>"+
-								'设备号最新时间  :'+data.data[i].resultpositionTime+"<br/>"+
+								'最后一次定位时间  :'+data.data[i].resultpositionTime+"<br/>"+
 								'区域  :'+data.data[i].area
 								).openPopup();
 					}

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import org.apache.commons.io.input.ReaderInputStream;
 
@@ -137,21 +138,28 @@ public class Test {
 //		System.out.println(t2.getTime()-t1.getTime());
 		
 		Runtime cmd = Runtime.getRuntime();
-		try {
-//			Process p = cmd.exec("mysqldump -t -uroot -phanxiao test score -r D://test1.sql".toString());
-			Process p = cmd.exec("ipconfig");
-//			System.out.println("导出成功");
-			byte[] by = new byte[102400000];
-			InputStream input = p.getInputStream();
-			InputStreamReader in = new InputStreamReader(input,"gbk");
-			BufferedReader reader = new BufferedReader(in);
-			while(reader.read()!=-1){
-				System.out.println(reader.readLine());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+////			Process p = cmd.exec("mysqldump -t -uroot -phanxiao test score -r D://test1.sql".toString());
+//			Process p = cmd.exec("ipconfig");
+////			System.out.println("导出成功");
+//			byte[] by = new byte[102400000];
+//			InputStream input = p.getInputStream();
+//			InputStreamReader in = new InputStreamReader(input,"gbk");
+//			BufferedReader reader = new BufferedReader(in);
+//			while(reader.read()!=-1){
+//				System.out.println(reader.readLine());
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		Calendar c = Calendar.getInstance();
+		System.out.println(c.get(Calendar.YEAR));
+		System.out.println(c.get(Calendar.MONTH));
+		c.setTimeInMillis(System.currentTimeMillis()-1000*60*60*24*365);
+		System.out.println(c.getWeekYear());
+		
 		
 	}
 	

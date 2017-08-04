@@ -131,6 +131,7 @@ public class RoleFilter implements Filter{
 		RoleList.addList("local/getinfoofarea.ll");
 		RoleList.addList("local/getequippie.ll");
 		RoleList.addList("local/lowinfo.ll");
+		RoleList.addList("local/getinfoforarea.ll");
 		//Lora网关
 		RoleList.addList("lora/getinfos.ll");
 		RoleList.addList("lora/getinfo.ll");
@@ -138,6 +139,7 @@ public class RoleFilter implements Filter{
 		RoleList.addList("ibeacon/getinfos.ll");
 		RoleList.addList("ibeacon/getinfo.ll");
 		RoleList.addList("ibeacon/getinfoasarea.ll");
+		RoleList.addList("ibeacon/getinbeaconmap.ll");
 		
 		RoleList.addList("car/getinfos.ll");
 		RoleList.addList("user/getinfos.ll");
@@ -155,6 +157,9 @@ public class RoleFilter implements Filter{
 		RoleList.addList("position/getinfo.ll");
 		RoleList.addList("position/getlowinfo.ll");
 		RoleList.addList("position/getinfoastime.ll");
+		RoleList.addList("position/getinfoasframenum.ll");
+		RoleList.addList("position/getpositioninfo.ll");
+		
 	}
 
 

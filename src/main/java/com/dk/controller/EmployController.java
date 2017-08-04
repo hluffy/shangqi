@@ -38,7 +38,7 @@ public class EmployController {
 		queryInfo.setEmployeeId(info.getEmployeeId());
 		queryInfo.setPage(0);
 		result = server.getInfo(queryInfo);
-		if(result.getData()!=null){
+		if(result.getCount()!=0){
 			result.setStates(false);
 			result.setMessage("该工号已存在");
 			return result;

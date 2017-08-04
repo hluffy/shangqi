@@ -174,4 +174,15 @@ app.service("localService",function($http,$q){
 		
 		return deferred.promise;
 	}
+	
+	this.getInfoForArea = function(){
+		var deferred = $q.defer();
+		$http.get("/shangqi/local/getinfoforarea.ll").success(function(data){
+			deferred.resolve(data);
+		}).error(function(){
+			deferred.reject("查询失败");
+		});
+		
+		return deferred.promise;
+	}
 });

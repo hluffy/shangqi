@@ -104,13 +104,15 @@ public class RemoteController {
 		ChannelServer.setNumber(info.getNumber());
 		ByteBuf resp = Unpooled.copiedBuffer(getByte(equipmentPara));
 		long sendStart = System.currentTimeMillis();
-//		while(!ChannelServer.getIsSend()){
-//			System.out.println(ChannelServer.getIsSend());
-//			long sendEnd = System.currentTimeMillis();
-//			if(sendEnd-sendStart>1000*60){
-//				break;
-//			}
-//		}
+		while(!ChannelServer.getIsSend()){
+			System.out.println(ChannelServer.getIsSend());
+			long sendEnd = System.currentTimeMillis();
+			if(sendEnd-sendStart>1000*60*3){
+				result.setStates(false);
+				result.setMessage("连接超时");
+				return result;
+			}
+		}
 		ctx.writeAndFlush(resp);
 		long start = System.currentTimeMillis();
 		while(ChannelServer.getString()==null){
@@ -311,8 +313,10 @@ public class RemoteController {
 		while(!ChannelServer.getIsSend()){
 			System.out.println(ChannelServer.getIsSend());
 			long sendEnd = System.currentTimeMillis();
-			if(sendEnd-sendStart>1000*60){
-				break;
+			if(sendEnd-sendStart>1000*60*3){
+				result.setStates(false);
+				result.setMessage("连接超时");
+				return result;
 			}
 		}
 		ctx.writeAndFlush(resp);
@@ -518,13 +522,13 @@ public class RemoteController {
 		loadStr.append("0004");
 		loadStr.append(info.getSv());
 		loadStr.append("87");
-		loadStr.append("0024");
+		loadStr.append("001E");
 		loadStr.append("10");
 		loadStr.append("04");
 		loadStr.append(numberToHex(info.getNumber()));
-		loadStr.append("11");
-		loadStr.append("04");
-		loadStr.append(numberToHex(info.getNumber()));
+//		loadStr.append("11");
+//		loadStr.append("04");
+//		loadStr.append(numberToHex(info.getNumber()));
 		loadStr.append("12");
 		loadStr.append("04");
 		loadStr.append(numberToHex(info.getNumber()));

@@ -54,9 +54,9 @@ app.controller("roadedCtr",function($scope,mapServ,$rootScope){
 	$scope.getRoadedInfo = function(){
 		$scope.map.startTime = $("#mapStartTime").val();
 		$scope.map.endTime = $("#mapEndTime").val();
-		if(!$scope.map.frameNum){
+		if(!$scope.map.frameNum&&!$scope.map.equipmentNum){
 //			alert("车架号不允许为空")
-			window.wxc.xcConfirm("车架号不允许为空", window.wxc.xcConfirm.typeEnum.info);
+			window.wxc.xcConfirm("参数不允许为空", window.wxc.xcConfirm.typeEnum.info);
 			return;
 		}
 		if(!$scope.map.startTime||!$scope.map.endTime){
@@ -84,10 +84,14 @@ app.controller("roadedCtr",function($scope,mapServ,$rootScope){
 //						map.addLayer(marker);
 						if(i==0){
 							map.addLayer(marker);
-							marker.bindPopup("起点");
+							marker.bindPopup("<b style='color:green;font-size:18px'>起点</b>"+"<br/>"+
+									"设备编号:"+result[i].equipmentNum+"<br/>"+
+									"定位时间:"+result[i].positionTimeStr);
 						}else if(i==result.length-1){
 							map.addLayer(marker);
-							marker.bindPopup("终点").openPopup();
+							marker.bindPopup("<b style='color:red;font-size:18px'>终点</b>"+"<br/>"+
+									"设备编号:"+result[i].equipmentNum+"<br/>"+
+									"定位时间:"+result[i].positionTimeStr).openPopup();
 						}else{
 							
 						}

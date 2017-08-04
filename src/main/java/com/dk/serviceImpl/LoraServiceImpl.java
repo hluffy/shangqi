@@ -30,7 +30,7 @@ public class LoraServiceImpl implements LoraService{
 		Statement st = null;
 		try {
 //			String sql = "select * from lora order by time desc limit 10";
-			String sql = "select top 10 * from lora order by time desc";
+			String sql = "select top 10 * from lora order by number";
 			String countSql = "select count(*) as sumcount from lora";
 			conn = DBUtil.getConnection();
 			st = conn.createStatement();
@@ -297,8 +297,8 @@ public class LoraServiceImpl implements LoraService{
 //			}else{
 //				sql.append(" limit "+info.getPage()*10+","+10);
 //			}
-			sql.append(" and number not in (select top "+info.getPage()*10+" number from lora where 1 = 1 "+ ssql.toString() +" order by time desc)");
-			sql.append(" order by time desc");
+			sql.append(" and number not in (select top "+info.getPage()*10+" number from lora where 1 = 1 "+ ssql.toString() +" order by number)");
+			sql.append(" order by number");
 			conn = DBUtil.getConnection();
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(countSql.toString());

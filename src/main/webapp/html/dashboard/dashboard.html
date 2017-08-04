@@ -77,7 +77,6 @@
       <div class="row">
         <!-- Left col -->
         <section class="col-lg-4 connectedSortable">
-        
         	<div class="box box-solid bg-light-blue-gradient">
         		<div class="box box-solid">
 		            <div class="box-header">
@@ -89,11 +88,11 @@
 		              <i class="fa fa-map-marker"></i>
 		
 		              <h3 class="box-title">
-		                <B>设备电量信息</B>
+		               <B>定位设备分布信息</B>
 		              </h3>
 		            </div>
 		            <div class="box-body">
-		            	<div id="lowEquipChart" style="width:100%;height:700px" ng-controller="lowEquipPieCtrl"></div>
+		            	<div id="equipPieChart" style="width:100%;height:700px" ng-controller="equipPieCtrl"></div>
 		            </div>
 		         </div>
         	</div>
@@ -375,7 +374,6 @@
 
         </section>
         <section class="col-lg-4 connectedSortable">
-        
         	<div class="box box-solid bg-light-blue-gradient">
         		<div class="box box-solid">
 		            <div class="box-header">
@@ -387,14 +385,16 @@
 		              <i class="fa fa-map-marker"></i>
 		
 		              <h3 class="box-title">
-		               <B>设备绑定信息</B>
+		                <B>设备电量信息</B>
 		              </h3>
 		            </div>
 		            <div class="box-body">
-		            	<div id="equipPieChart" style="width:100%;height:700px" ng-controller="equipPieCtrl"></div>
+		            	<div id="lowEquipChart" style="width:100%;height:700px" ng-controller="lowEquipPieCtrl"></div>
 		            </div>
 		         </div>
         	</div>
+        
+        	
         	</section>
         	<section class="col-lg-4 connectedSortable">
         

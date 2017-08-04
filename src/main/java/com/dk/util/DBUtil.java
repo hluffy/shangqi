@@ -57,9 +57,9 @@ public class DBUtil {
 			ds.setPassword(password);
 			
 			//设置连接池最大连接数
-			ds.setMaxActive(maxActive);
+//			ds.setMaxActive(maxActive);
 			//设置最大等待时间
-			ds.setMaxWait(maxWait);
+//			ds.setMaxWait(maxWait);
 		
 //			ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");  
 //			ds = (BasicDataSource) ctx.getBean("dataSource"); 

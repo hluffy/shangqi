@@ -8,10 +8,10 @@
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="box-header" style="background-color: #ccc">
-						<h3 class="box-title" style="margin-bottom:10px">位置查找</h3>
+<!-- 						<h3 class="box-title" style="margin-bottom:10px">位置查找</h3> -->
 						
 						
-						<form class="form-inline" style="padding-left:14px">
+						<form class="form-inline">
 							<div class="input-group input-group-sm">
 								<input class="form-control" ng-model="map.devicenumber" placeholder=" 设备编号">
 							</div>
@@ -19,7 +19,7 @@
 								<input class="form-control" ng-model="map.vinnumber" placeholder=" VIN号">
 							</div>
 							<div class="input-group input-group-sm">
-								<button style="height:30px;text-align: center;width:72px;" ng-click="showQuery()">{{buttonInfo}}</button>
+								<button style="height:30px;text-align: center;width:80px;" ng-click="showQuery()">{{buttonInfo}}</button>
 							</div>
 							<div class="pull-right">
 								<button ng-click="getPositionInfo()" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -30,7 +30,7 @@
 						<form class="form-inline" ng-hide="isshowshow">
 							<br/>
 							<div class="box-tools">
-								<div class="container">
+								<div class="container" style="padding-left:0px">
 								<div class="input-group input-group-sm">
 									<select style="width: 150px; height: 30px"
 										ng-model="map.defectcar"

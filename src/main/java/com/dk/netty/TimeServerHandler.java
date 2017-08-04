@@ -6,7 +6,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.SocketChannel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -157,6 +163,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
+    	writeStr(cause);
     	//出现异常返回定位失败
         System.out.println("server exceptionCaught..");
         Map<String, ChannelHandlerContext> maps = ChannelServer.getChannels();
@@ -186,5 +193,48 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
 //        ctx.close();
 //        cause.printStackTrace();
     }
+    
+    private static void writeStr(Throwable cause){
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH)+1;
+		String monthStr;
+		if(month<10){
+			monthStr = "0"+month;
+		}else{
+			monthStr = String.valueOf(month);
+		}
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		String fileName = year+"-"+monthStr+"-"+day+"-"+"shangqilog.txt";
+		File file = new File("C:/shangqi/error/"+fileName);
+		PrintWriter pw = null;
+//		StringBuffer fileStr = new StringBuffer();
+		try {
+			pw = new PrintWriter(new FileOutputStream(file,true));
+			pw.println(cause);
+//			fileStr.append(str);
+//			fileStr.append(":");
+//			for (IBeaconSignal info : infos) {
+//				fileStr.append(info.toString());
+//				fileStr.append("--");
+//			}
+//			if(infos.size()==0){
+//				pw.println(fileStr.toString()+"--"+new Timestamp(System.currentTimeMillis()));
+//			}else{
+//				pw.println(fileStr.toString()+new Timestamp(System.currentTimeMillis()));
+//			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			if(pw!=null){
+				pw.close();
+			}
+		}
+		
+	}
+    
+    
 
 }

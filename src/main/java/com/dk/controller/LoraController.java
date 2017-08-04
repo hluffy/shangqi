@@ -46,7 +46,7 @@ public class LoraController {
 		queryInfo.setNumber(info.getNumber());
 		queryInfo.setPage(0);
 		result = loraService.getInfo(queryInfo);
-		if(result.getData()!=null){
+		if(result.getCount()!=0){
 			result.setStates(false);
 			result.setMessage("该设备号已存在");
 			return result;

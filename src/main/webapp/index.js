@@ -246,6 +246,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
         	templateUrl: 'html/employ/addemploy.html',
         	controller: 'employCtrl'
         })
+        .state('userdoc',{
+        	url:'/userdoc',
+        	templateUrl: 'html/user/userdoc.html',
+        	controller: 'userdocCtrl'
+        })
         
 //        .state('login',{
 //        	url:'login',

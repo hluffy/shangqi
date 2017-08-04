@@ -16,5 +16,7 @@ public interface LocalizerService {
 	//更新定位器区域和电量
 	Result updateLocalInfo(LocalizerInfo info);
 	Result lowInfo();
+	
+	Result getInfoForArea();
 
 }

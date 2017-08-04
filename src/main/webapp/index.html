@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="css/pagination.css">
+<!--   <link rel="stylesheet" href="css/doc.css"> -->
   
 <!--   <script src="js/angular-1.5.8.js"></script> -->
   <script src="js/angular.min.js"></script>
@@ -104,6 +105,9 @@
 /*      	width:1146px important;  */
      	overflow-x:auto; 
      } 
+     .laydate_body .laydate_y .laydate_yms ul{
+     	width:110%
+     }
   </style>
 
 </head>
@@ -130,7 +134,7 @@
   
 <!--   <div id="countId" style="position: relative;height: {{countId}}" class="content-wrapper" ui-view=""></div> -->
   
-  <div id="countId" style="height: {{countId}}"  class="content-wrapper" ui-view=""></div>
+  <div id="countId" style="min-height:600px;height: {{countId}}"  class="content-wrapper" ui-view=""></div>
   
   
 <!--   <div my-directive="USER" my-directive-level="none"></div> -->
@@ -226,6 +230,7 @@
 <script src="controller/employCtrl.js"></script>
 <script src="service/employService.js"></script>
 <script src="controller/fileCtrl.js"></script>
+<script src="controller/userdocCtrl.js"></script>
 <script>
 	
 // 	$('#datetimepicker').datetimepicker({  

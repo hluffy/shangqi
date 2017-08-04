@@ -228,6 +228,11 @@ app.directive("localload",function($document,localService){
 											console.log(data);
 //											alert(data.message);
 											window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
+											if(data.states){
+												localService.getInfos().then(function(data){
+													$rootScope.locals = data.data;
+												});
+											}
 										});
 									}
 								}
@@ -328,9 +333,12 @@ app.directive("localupdate",function($rootScope,$document,localService){
 									console.log(data);
 //									alert(data.message);
 									window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.info);
-									localService.getInfos().then(function(data){
-										$rootScope.locals = data.data;
-									});
+									if(data.states){
+										localService.getInfos().then(function(data){
+											$rootScope.locals = data.data;
+										});
+									}
+									
 								});
 							});
 						},
